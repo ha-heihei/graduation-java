@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>用户管理</title>
+</head>
+<body>
+<div class="ax-flex-col ax-padding">
+    <div class="ax-border ax-shadow-border ax-padding" id="header">
+        <div class="ax-grid ax-space ax-split">
+            <ul class="ax-grid-inner">
+                <li class="ax-grid-block ax-col-5">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">用户名</span>
+                        <div class="ax-flex-block">
+                            <input name="userName" placeholder="输入用户名" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-5">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">邮箱</span>
+                        <div class="ax-flex-block">
+                            <input name="email" placeholder="输入邮箱" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-5">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">电话</span>
+                        <div class="ax-flex-block">
+                            <input name="mobile" placeholder="输入电话" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-4">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">性别</span>
+                        <div class="ax-flex-block">
+                            <select class="ax-select" name="gender">
+                                <option value="0">不限</option>
+                                <option value="1">男</option>
+                                <option value="2">女</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-1"></li>
+                <li class="ax-grid-block ax-col-4">
+                    <a href="###" class="ax-btn ax-primary ax-full" id="queryBtn">检索</a>
+                </li>
+
+                <li class="ax-grid-block ax-col-6">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">用户类型</span>
+                        <div class="ax-flex-block">
+                            <select class="ax-select" name="userType">
+                                <option value="0">不限</option>
+                                <option value="1">用户</option>
+                                <option value="2">采集员</option>
+                                <option value="3">管理员</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-1"></li>
+                <li class="ax-grid-block ax-col-6">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">用户状态</span>
+                        <div class="ax-flex-block">
+                            <select class="ax-select" name="userStatus">
+                                <option value="0">不限</option>
+                                <option value="1">未禁用</option>
+                                <option value="2">已禁用</option>
+                            </select>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-1"></li>
+                <li class="ax-grid-block ax-col-6">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">注册日期</span>
+                        <div class="ax-flex-block">
+                            <div class="ax-row">
+                                <div class="ax-col ax-col-12">
+                                    <input name="beginDate" placeholder="起始日期" id="beginDate" type="text">
+                                </div>
+                                <div class="ax-gutter-sm"></div>
+                                <div class="ax-col ax-col-12">
+                                    <input name="endDate" placeholder="截止日期" id="endDate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-3">
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="ax-border ax-shadow-border ax-padding">
+        <table class="ax-table" id="dataTable">
+            <thead>
+                <tr>
+                    <td>用户名</td>
+                    <td>性别</td>
+                    <td>电话</td>
+                    <td>邮箱</td>
+                    <td>用户类型</td>
+                    <td>用户状态</td>
+                    <td>注册时间</td>
+                    <td width="20%">操作</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript">
+    $(function () {
+        // 初始化配置
+        init();
+
+        var dataTable=$('#dataTable').DataTable({
+            sDom: "lfrtip"
+        });
+
+
+        //获取用户列表
+        queryUserList(dataTable);
+
+        // 检索事件绑定
+        $("#queryBtn").click(function () {
+            queryUserList(dataTable);
+        });
+
+
+    });
+
+    // 查询用户列表
+    function queryUserList(dataTable) {
+        var formData=new FormData();
+        var userName=$("#header input[name=userName]").val();
+        var email=$("#header input[name=email]").val();
+        var mobile=$("#header input[name=mobile]").val();
+        var gender=$("#header select[name=gender]").val();
+        var userType=$("#header select[name=userType]").val();
+        var userStatus=$("#header select[name=userStatus]").val();
+        var beginDate=$("#header input[name=beginDate]").val();
+        var endDate=$("#header input[name=endDate]").val();
+        if(userName.length>0){
+            formData.append("userName",userName);
+        }
+        if(email.length>0){
+            formData.append("email",email)
+        }
+        if(mobile.length>0){
+            formData.append("mobile",mobile);
+        }
+        if(gender!=='0'){
+            formData.append("gender",gender);
+        }
+        if(userType!=='0'){
+            formData.append("userType",userType);
+        }
+        if(userStatus!=='0'){
+            formData.append("userStatus",userStatus);
+        }
+        if(beginDate.length>0){
+            formData.append("beginTime",beginDate+" 00:00:00");
+        }
+        if(endDate.length>0){
+            formData.append("endTime",endDate+" 00:00:00");
+        }
+        post("/user/queryPageUserInfoByConditions",formData,function (res) {
+            if(res.success){
+                var records=res.result.records;
+                dataTable.clear();
+                for(var i=0;i<records.length;i++){
+                    var btns='<a href="###" class="ax-btn ax-sm ax-danger banUser">禁用</a>';
+                    var userType='<span class="ax-tag ax-info">管理员</span>';
+                    var userStatus='<span class="ax-tag ax-success">可用</span>';
+                    if(records[i].userType===1){
+                        userType='<span class="ax-tag ax-info">普通用户</span>';
+                    }else if(records[i].userType===2){
+                        userType='<span class="ax-tag ax-info">采集员</span>';
+                    }
+                    if(records[i].userStatus===0){
+                        userStatus='<span class="ax-tag ax-danger">禁用</span>';
+                        btns='<a href="###" class="ax-btn ax-sm ax-success openUser">启用</a>';
+                    }
+                    btns+='<span class="ax-gutter-xs"></span>' +
+                        '<a href="###" class="ax-btn ax-sm  deleteUser">删除</a>';
+                    btns+='<span class="ax-gutter-xs"></span>' +
+                        '<a href="###" class="ax-btn ax-primary ax-sm updateUser">修改</a>';
+                    var row=$('<tr data-val="'+records[i].userId+'">\n' +
+                        '                <td class="ax-align-center-center"><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].userImgUrl+')"></a>'+records[i].userName+'</td>\n' +
+                        '                <td>'+(records[i].gender===1?"男":"女")+'</td>\n' +
+                        '                <td>'+records[i].mobile+'</td>\n' +
+                        '                <td>'+records[i].email+'</td>\n' +
+                        '                <td>'+userType+'</td>\n' +
+                        '                <td>'+userStatus+'</td>\n' +
+                        '                <td>'+records[i].createTime.split(" ")[0]+'</td>\n' +
+                        '                <td>'+btns+'</td>\n' +
+                        '            </tr>');
+                    dataTable.row.add(row);
+                }
+                dataTable.draw();
+                $("table#dataTable tbody>tr").each(function (i) {
+                    // 禁用事件绑定
+                    $(this).find("a.banUser").click(function () {
+                        banUser($(this).parent().parent().attr("data-val"));
+                    });
+
+                    // 启用事件绑定
+                    $(this).find("a.openUser").click(function () {
+                        openUser($(this).parent().parent().attr("data-val"));
+                    });
+
+                    // 删除事件绑定
+                    $(this).find("a.deleteUser").click(function () {
+                        deleteUser($(this).parent().parent().attr("data-val"));
+                    });
+
+                    // 修改用户类型
+                    $(this).find("a.updateUser").click(function () {
+                        updateUser($(this).parent().parent().attr("data-val"))
+                    });
+
+                });
+
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+
+
+    }
+
+    // 修改用户信息
+    function banUser(userId) {
+        var formData=new FormData();
+        formData.append("userId",userId);
+        formData.append("userStatus",0);
+        post("/user/updateUserInfoById",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功",res.msg);
+                $("#queryBtn").click();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 删除用户信息
+    function openUser(userId) {
+        var formData=new FormData();
+        formData.append("userId",userId);
+        formData.append("userStatus",1);
+        post("/user/updateUserInfoById",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功",res.msg);
+                $("#queryBtn").click();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 删除用户信息
+    function deleteUser(userId) {
+        var formData=new FormData();
+        formData.append("userId",[userId]);
+        post("/user/deleteUserByIds",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功",res.msg);
+                $("#queryBtn").click();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 修改用户信息
+    function updateUser(userId) {
+        Swal.fire({
+            input: 'select',
+            title: '更改身份',
+            inputOptions: {
+                1: '普通用户',
+                2: '采集员',
+            },
+            inputPlaceholder: '选择身份...',
+            padding:'28px'
+        }).then(function (rs) {
+            if(rs.value!==''){
+                var formData=new FormData();
+                formData.append("userId",userId);
+                formData.append("userType",rs.value);
+                post("/user/updateUserInfoById",formData,function (res) {
+                    if(res.success){
+                        toast("success","操作成功",res.msg);
+                        $("#queryBtn").click();
+                    }else{
+                        toast("warning","操作失败",res.msg);
+                    }
+                })
+            }else{
+                toast("warning","操作失败","未选择用户类型");
+            }
+
+        });
+
+    }
+
+    // 初始化配置
+    function init() {
+
+        //日期选择器绑定
+        $('#beginDate,#endDate').mobiscroll().calendar({
+            theme: 'ax',
+            lang:'zh',
+            onBeforeShow:function(event, inst){//显示前的点击事件
+                $('#'+this.id).addClass('ax-focus');//input焦点
+                //inst.settings.cssClass='ax-mask';//添加遮罩
+            },
+            onClose: function (event, inst) {//关闭事件
+                $('#'+this.id).removeClass('ax-focus');
+            },
+            display: 'bubble',
+        });
+    }
+
+
+
+</script>
+</body>
+</html>

@@ -55,4 +55,14 @@ public class CommonController {
         return "material/materialbeautify";
     }
 
+    @RequestMapping(value = "/toAdmin")
+    public String toAdmin(){
+        return "admin";
+    }
+
+    @RequestMapping(value = "/toUserList")
+    public String toUserList(){
+        return "admin/userlist";
+    }
+
 }

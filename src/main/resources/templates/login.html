@@ -281,7 +281,11 @@
                     localStorage.setItem("userType", res.result.userType);
                     localStorage.setItem("userName", res.result.userName);
                     localStorage.setItem("userImgUrl", res.result.userImgUrl);
-                    location="/";
+                    if(res.result.userType===3){
+                        location="/toAdmin";
+                    }else{
+                        location="/";
+                    }
                 } else {
                     toast("warning", "操作失败", res.msg);
                 }
