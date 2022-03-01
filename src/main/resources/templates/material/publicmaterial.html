@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>公共素材库</title>
+</head>
+<body>
+<div class="ax-padding ax-sm ax-flex-col">
+    <div class="ax-shadow-primary  ax-border ax-shadow-border ax-padding ax-sm">
+        <div class="ax-grid ax-space ax-split">
+            <ul class="ax-grid-inner" id="header">
+                <li class="ax-grid-block ax-col-4">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">素材名称</span>
+                        <div class="ax-flex-block">
+                            <input name="materialName" placeholder="输入名称" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-4">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">作者名称</span>
+                        <div class="ax-flex-block">
+                            <input name="userName" placeholder="输入名称" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-8">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">排序规则</span>
+                        <div class="ax-flex-block">
+                            <div class="ax-row">
+                                <div class="ax-col ax-col-16">
+                                    <select class="ax-select" name="sortType">
+                                        <option value="0">综合排序</option>
+                                        <option value="1">搜索量</option>
+                                        <option value="2">下载量</option>
+                                        <option value="3">转入量</option>
+                                        <option value="4">点赞量</option>
+                                        <option value="5">上传时间</option>
+                                    </select>
+                                </div>
+                                <span class="ax-gutter-sm"></span>
+                                <div class="ax-col ax-col-8">
+                                    <select class="ax-select" name="sortOrder">
+                                        <option value="0">升序</option>
+                                        <option value="1">降序</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-2">
+                    <a href="###" class="ax-btn ax-primary ax-full" id="queryMaterialsBtn">检索</a>
+                </li>
+                <li class="ax-grid-block ax-col-3" id="uploadMaterial" style="display: none">
+                    <a class="ax-btn ax-ad ax-full" href="###" id="uploadMaterialBtn">上传素材</a>
+                </li>
+                <li class="ax-grid-block ax-col-3">
+                    <a class="ax-btn ax-success ax-full" href="###" id="recommendBtn">相关推荐</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="ax-break-md"></div>
+    <div class="ax-border ax-shadow-border ax-padding">
+        <div class="ax-padding">
+            <div class="ax-grid inner ax-space-xxl ax-split" id="travelPn">
+                <ul class="ax-grid-inner travellist" id="materialList">
+                    <div class="ax-empty">
+                        <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>
+                        <div class="ax-title">没有内容</div>
+                    </div>
+                </ul>
+                <ul class="pagination ax-pagination" style="display: none" id="travelPage"></ul>
+                <div class="ax-pagination">
+                    <div class="ax-group">
+                        <a href="##" class="ax-prev" id="travelPrev"><span class="ax-iconfont ax-icon-left-t"></span></a>
+                        <a href="##" class="ax-next" id="travelNext"><span class="ax-iconfont ax-icon-right-t"></span></a>
+                    </div>
+                </div>
+            </div>
+<!--            <div class="ax-grid ax-space-xxl ax-split">-->
+<!--                <ul class="ax-grid-inner" id="materialList">-->
+<!--                    <div class="ax-empty">-->
+<!--                        <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>-->
+<!--                        <div class="ax-title">没有内容</div>-->
+<!--                    </div>-->
+<!--                </ul>-->
+<!--            </div>-->
+        </div>
+
+    </div>
+</div>
+
+
+<div class="ax-drawer" id="drawerRecommend">
+    <div class="ax-drawer-overlay"></div>
+    <div class="ax-drawer-contain">
+        <a href="###" class="ax-drawer-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-drawer-title">
+            <div class="ax-col ax-align-center">相关推荐</div>
+        </div>
+        <div class="ax-break-line"></div>
+        <div class="ax-drawer-content">
+            <div class="ax-padding">
+                <div class="inner" id="recommendPn">
+
+                    <div class="recommendList">
+
+                    </div>
+
+                    <ul class="pagination ax-pagination" style="display: none" id="recommendPage"></ul>
+                    <div class="ax-pagination">
+                        <div class="ax-group">
+                            <a href="##" class="ax-prev" id="recommendPrev"><span class="ax-iconfont ax-icon-left-t"></span></a>
+                            <a href="##" class="ax-next" id="recommendNext"><span class="ax-iconfont ax-icon-right-t"></span></a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <div class="ax-break-line"></div>
+<!--        <div class="ax-row ax-drawer-operate">-->
+<!--            <a href="###" class="ax-col ax-col-12 ax-color-ignore">取消</a>-->
+<!--            <span class="ax-gutter-line"></span>-->
+<!--            <a href="###" class="ax-col ax-col-12">确定</a>-->
+<!--        </div>-->
+
+    </div>
+</div>
+
+
+
+<!---------------------------------------------------------弹窗布局BEGIN-------------------------------------------------------------------->
+
+<!--素材上传弹窗-->
+<div class="ax-window" data-mask="true"  id="uploadMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材上传</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材描述：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <textarea name="remarks" cols="" rows="" placeholder="写评论"></textarea>
+                                    <span class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材文件：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <div class="ax-file" data-placeholder="点击选择素材" data-text="选择文件">
+                                        <input type="file" name="materialFile">
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="###" class="ax-form-img" id="materialImg"><img src="" alt=""></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">上传更美的素材吧</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="materialUploadBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--转入我的素材库弹窗-->
+<div class="ax-window" data-mask="true"  id="transToMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材转入</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">描述：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <textarea name="remarks" cols="" rows="" placeholder="输入描述" type="text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">更多素材等你挑选</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="transToMaterialOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!--修改素材信息弹窗-->
+<div class="ax-window" data-mask="true"  id="updateMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">修改素材信息</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">描述：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <textarea name="remarks" cols="" rows="" placeholder="输入描述" type="text"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+                </div>
+            </div>
+
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">更新素材信息</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="updateMaterialOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!--确认删除素材弹窗模版-->
+<div class="ax-window" data-mask="true"  id="deleteTipAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">确认删除</div>
+        <div class="ax-window-content">
+            <div class="ax-padding">
+                <p id="deleteMsg">确认删除该素材吗？</p>
+            </div>
+        </div>
+        <div class="ax-padding ax-window-operate ax-align-center">
+            <a href="###" class="ax-btn ax-ignore ax-window-close">取消</a>
+            <a href="###" class="ax-btn ax-primary ax-window-close" id="deleteOKBtn">确定</a>
+        </div>
+        <div class="ax-break"></div>
+    </div>
+</div>
+
+<!----------------------------------------------------------弹窗布局END------------------------------------------------------------------->
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        // 如果是采集员，则显示上传素材按钮
+        if(localStorage.getItem("userType")==="2"){
+            $("#uploadMaterial").css("display","block");
+            $("#recommendBtn").css("display","none");
+        }
+
+        // 素材文件回显事件绑定
+        $("input[name=materialFile]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=materialFile]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#materialImg img").attr('src',url);
+        });
+
+        // 上传素材事件绑定
+        $("#uploadMaterialBtn").click(function () {
+            uploadMaterial();
+        });
+
+        // 相关推荐事件绑定
+        $("#recommendBtn").click(function () {
+            $("#drawerRecommend").addClass("ax-drawer-show");
+            recommendMaterial();
+        });
+
+        $("#queryMaterialsBtn").click(function () {
+            var formData=new FormData();
+            var materialName=$("#header input[name=materialName]").val();
+            var userName=$("#header input[name=userName]").val();
+            if(materialName.length>0){
+                formData.append("materialName",materialName);
+            }
+            if(userName.length>0){
+                formData.append("userName",userName);
+            }
+            formData.append("sortType",$("#header select[name=sortType]").val());
+            formData.append("sortOrder",$("#header select[name=sortOrder]").val());
+            formData.append("userId",localStorage.getItem("userId"));
+            post("/publicMaterial/queryCollectorMaterialsPageList",formData,function (res) {
+                if(res.success){
+                    var records=res.result.records;
+                    $("ul#materialList").html("");
+                    if(records.length<=0){
+                        $("ul#materialList").html('<div class="ax-empty">\n' +
+                            '                        <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>\n' +
+                            '                        <div class="ax-title">没有内容</div>\n' +
+                            '                    </div>');
+                    }
+                    var btns=' <a href="###" class="ax-col ax-col-12 transformBtn"><i class="ax-color-primary">转入</i></a>' +
+                        '<span class="ax-gutter-line"></span>' +
+                        '<a href="###" class="ax-col ax-col-12 downloadBtn"><i class="ax-color-success">下载</i></a>';
+                    if(localStorage.getItem("userType")==="2"){
+                        btns='<a href="###" class="ax-col ax-col-6 transformBtn"><i class="ax-color-primary">转入</i></a>\n' +
+                            '<span class="ax-gutter-line"></span>\n' +
+                            '<a href="###" class="ax-col ax-col-6 downloadBtn"><i class="ax-color-success">下载</i></a>\n' +
+                            '<span class="ax-gutter-line"></span>\n' +
+                            '<a href="###" class="ax-col ax-col-6 updateBtn"><i class="ax-color-warning">修改</i></a>\n' +
+                            '<span class="ax-gutter-line"></span>\n' +
+                            '<a href="###" class="ax-col ax-col-6 deleteBtn"><i class="ax-color-danger">删除</i></a>\n';
+                    }
+                    for(var i=0;i<records.length;i++){
+                        $("ul#materialList").append('<li class="ax-grid-block ax-col-8" data-val="'+records[i].materialId+'">\n' +
+                            '                        <div class="ax-card-block">\n' +
+                            '                            <div class="ax-img">\n' +
+                            '                                <a href="###" class="ax-figure" style="background-image:url('+records[i].materialUrl+');"></a>\n' +
+                            '                            </div>\n' +
+                            '                            <div class="ax-title">\n' +
+                            '                                <a href="###" class="ax-ell-title">'+records[i].materialName+'</a>\n' +
+                            '                            </div>\n' +
+                            '                            <div class="ax-des">\n' +
+                            records[i].remarks+
+                            '                            </div>\n' +
+                            '                            <div class="ax-from">\n' +
+                            '                                <span><i class="ax-iconfont ax-icon-redo"></i> '+records[i].transformNum+'</span>\n' +
+                            '                                <span><i class="ax-iconfont ax-icon-download"></i> '+records[i].downloadNum+'</span>\n' +
+                            '                                <span><i class="ax-iconfont ax-icon-search"></i> '+records[i].searchNum+'</span>\n' +
+                            '                                <span><i class="ax-iconfont ax-icon-heart thumbs"></i> '+records[i].thumbsNum+'</span>' +
+                            '                                <span class="ax-gutter-sm"></span>' +
+                            '                                <span><a href="###" class="ax-avatar ax-xxs" style="background-image: url('+records[i].userImgUrl+')"></a> '+records[i].userName+'</span>' +
+                            '                                <span>'+records[i].createTime.split(" ")[0]+'</span>' +
+                            '                            </div>\n' +
+                            '                            <div class="ax-operate">\n' +
+                            '                                <div class="ax-row">\n' +
+                                                                btns+
+                            '                                </div>\n' +
+                            '                            </div>\n' +
+                            '                    </li>');
+                    }
+
+                    $("ul#materialList li").each(function (i) {
+                        // 转入素材绑定
+                        $(this).find("a.transformBtn").click(function () {
+                            transformMaterial(records[i]);
+                        });
+
+                        // 下载素材绑定
+                        $(this).find("a.downloadBtn").click(function () {
+                            downloadMaterial(records[i]);
+                        });
+
+                        // 修改素材绑定
+                        $(this).find("a.updateBtn").click(function () {
+                            updateMaterial(records[i]);
+                        });
+
+                        // 删除素材绑定
+                        $(this).find("a.deleteBtn").click(function () {
+                            deleteMaterial(records[i]);
+                        });
+
+                        // 点赞量+1绑定
+                        $(this).find("i.thumbs").click(function () {
+                            addThumbs(records[i]);
+                        });
+
+                    });
+
+
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+
+        });
+
+
+        //列表js
+        var optionsPn = {
+            valueNames: [ 'add', 'country','click' ],
+            item: 'ax-info-block',
+            listClass:'travellist',
+            pagination: true,
+            page:4,
+        };
+        var travelListPn = new List('travelPn', optionsPn);
+        $('#travelNext').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position+1]).trigger('click');
+                }
+            })
+        });
+        $('#travelPrev').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position-1]).trigger('click');
+                }
+            })
+        });
+
+
+        //相关推荐分页
+        recommendPage();
+    });
+
+    // 转入素材脚本
+    function transformMaterial(rs) {
+        $("#transToMaterialAlert").addClass("ax-window-show");
+        $("#transToMaterialOKBtn").click(function () {
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            formData.append("materialId",rs.materialId);
+            formData.append("materialUrl",rs.materialUrl);
+            formData.append("materialName",$("#transToMaterialAlert input[name=materialName]").val());
+            formData.append("remarks",$("#transToMaterialAlert textarea[name=remarks]").val());
+            post("/publicMaterial/transformMaterial",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                    $("#queryMaterialsBtn").click();
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+    // 下载素材绑定
+    function downloadMaterial(rs) {
+        DownLoadFile({
+            "url":"/publicMaterial/downloadMaterial",
+            "data":{"materialId":rs.materialId,"materialUrl":rs.materialUrl}
+        })
+    }
+
+    // 修改素材信息绑定
+    function updateMaterial(rs) {
+        $("#updateMaterialAlert input[name=materialName]").val(rs.materialName);
+        $("#updateMaterialAlert textarea[name=remarks]").val(rs.remarks);
+        $("#updateMaterialAlert").addClass("ax-window-show");
+        $("#updateMaterialOKBtn").click(function () {
+            var formData=new FormData();
+            formData.append("materialId",rs.materialId);
+            formData.append("materialName",$("#updateMaterialAlert input[name=materialName]").val());
+            formData.append("remarks",$("#updateMaterialAlert textarea[name=remarks]").val());
+            post("/publicMaterial/updateMaterialById",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                    $("#queryMaterialsBtn").click();
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+    // 删除素材绑定
+    function deleteMaterial(rs) {
+        $("#deleteTipAlert").addClass("ax-window-show");
+        $("#deleteTipAlert #deleteOKBtn").click(function () {
+            var formData=new FormData();
+            formData.append("materialId",rs.materialId);
+            post("/publicMaterial/deleteMaterialById",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                    $("#queryMaterialsBtn").click();
+                }else {
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+    // 点赞量+1绑定
+    function addThumbs(rs) {
+        if($.cookie("thumbs_"+localStorage.getItem("userId"))!=null){
+            toast("warning","操作失败","很喜欢也只能点一次哦(⊙o⊙)");
+            return;
+        }
+        var formData=new FormData();
+        formData.append("materialId",rs.materialId);
+        post("/publicMaterial/addThumbs",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功",res.msg);
+                $.cookie("thumbs_"+localStorage.getItem("userId"),localStorage.getItem("userId"));
+                $("#queryMaterialsBtn").click();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 上传素材脚本
+    function uploadMaterial() {
+        $("#uploadMaterialAlert").addClass("ax-window-show");
+        $("#materialUploadBtn").click(function () {
+            var formData=new FormData();
+            var materialFile=$("#uploadMaterialAlert input[name=materialFile]")[0].files[0];
+            if (typeof (materialFile) != "undefined" && materialFile.size > 0) {
+                formData.append("material",materialFile);
+            }
+            formData.append("userId",localStorage.getItem("userId"));
+            formData.append("materialName",$("#uploadMaterialAlert input[name=materialName]").val());
+            formData.append("remarks",$("#uploadMaterialAlert textarea[name=remarks]").val());
+            post("/publicMaterial/insertMaterial",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+    // 相关推荐分页脚本
+    function recommendPage() {
+        var optionsPn = {
+            valueNames: [ 'add', 'country','click' ],
+            item: 'ax-info-block',
+            listClass:'recommendList',
+            pagination: true,
+            page:1,
+        };
+        var travelListPn = new List('travelPn', optionsPn);
+        $('#recommendNext').on('click', function(){
+            var list = $('#recommendPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position+1]).trigger('click');
+                }
+            })
+        });
+        $('#recommendPrev').on('click', function(){
+            var list = $('#recommendPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position-1]).trigger('click');
+                }
+            })
+        });
+
+    }
+
+    // 相关推荐事件绑定
+    function recommendMaterial() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        var ids=[];
+        $("ul#materialList li").each(function () {
+            ids.push($(this).attr("data-val"));
+        });
+        console.log(ids);
+        formData.append("ids",ids);
+        post("/publicMaterial/recommendMaterial",formData,function (res) {
+            if(res.success){
+                var records=res.result.records;
+                $("#drawerRecommend div.recommendList").html("");
+                if(records.length<=0){
+                    $("div.recommendList").html('<div class="ax-empty">\n' +
+                        '                        <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>\n' +
+                        '                        <div class="ax-title">没有内容</div>\n' +
+                        '                    </div>');
+                }
+                var btns=' <a href="###" class="ax-col ax-col-12 transformBtn"><i class="ax-color-primary">转入</i></a>' +
+                    '<span class="ax-gutter-line"></span>' +
+                    '<a href="###" class="ax-col ax-col-12 downloadBtn"><i class="ax-color-success">下载</i></a>';
+                for(var i=0;i<records.length;i++){
+                    $("div.recommendList").append('<div class="ax-info-block" data-val="'+records[i].materialId+'">\n' +
+                        '                        <div class="ax-card-block">\n' +
+                        '                            <div class="ax-img">\n' +
+                        '                                <a href="###" class="ax-figure" style="background-image:url('+records[i].materialUrl+');"></a>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="ax-title">\n' +
+                        '                                <a href="###" class="ax-ell-title">'+records[i].materialName+'</a>\n' +
+                        '                            </div>\n' +
+                        '                            <div class="ax-des">\n' +
+                        records[i].remarks+
+                        '                            </div>\n' +
+                        '                            <div class="ax-from">\n' +
+                        '                                <span><i class="ax-iconfont ax-icon-redo"></i> '+records[i].transformNum+'</span>\n' +
+                        '                                <span><i class="ax-iconfont ax-icon-download"></i> '+records[i].downloadNum+'</span>\n' +
+                        '                                <span><i class="ax-iconfont ax-icon-search"></i> '+records[i].searchNum+'</span>\n' +
+                        '                                <span><i class="ax-iconfont ax-icon-heart thumbs"></i> '+records[i].thumbsNum+'</span>' +
+                        '                                <span class="ax-gutter-sm"></span>' +
+                        '                                <span><a href="###" class="ax-avatar ax-xxs" style="background-image: url('+records[i].userImgUrl+')"></a> '+records[i].userName+'</span>' +
+                        '                                <span>'+records[i].createTime.split(" ")[0]+'</span>' +
+                        '                            </div>\n' +
+                        '                            <div class="ax-operate">\n' +
+                        '                                <div class="ax-row">\n' +
+                        btns+
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                    </div>');
+                }
+                $("div.recommendList div.ax-info-block").each(function (i) {
+                    // 转入素材绑定
+                    $(this).find("a.transformBtn").click(function () {
+                        transformMaterial(records[i]);
+                    });
+
+                    // 下载素材绑定
+                    $(this).find("a.downloadBtn").click(function () {
+                        downloadMaterial(records[i]);
+                    });
+
+                });
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+</script>
+</body>
+</html>

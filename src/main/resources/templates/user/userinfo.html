@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>用户信息</title>
+</head>
+<body>
+<div class="ax-flex-col ">
+    <div class="ax-shadow-primary ax-border ax-shadow-border ax-sm" style="margin-right: 100px;margin-left: 100px;margin-top: 20px">
+        <div class="ax-row ax-margin ax-xxl ">
+            <div class="ax-col ax-col-12" >
+                <div class="ax-row userInfo">
+
+                </div>
+            </div>
+            <div class="ax-col ax-col-8"></div>
+            <div class="ax-col ax-col-4" >
+                <a href="###" class="ax-btn ax-color-success ax-xl updateUserBtn"><i class="ax-iconfont ax-icon-edit"></i> 编辑</a>
+            </div>
+        </div>
+    </div>
+    <div class="ax-shadow-primary  ax-border ax-shadow-border ax-padding ax-sm" style="margin-right: 100px;margin-left: 100px;margin-top: 14px">
+        <div class="ax-flex-col">
+            <div class="ax-padding-lr">
+                <div class="ax-headline ax-align-left ax-primary">
+                    <div class="ax-body "><span class="ax-title">工作组统计</span></div>
+                    <div class="ax-des" id="groupDes"></div>
+                </div>
+                <div id="groupChart"></div>
+            </div>
+            <div class="ax-padding-lr ">
+                <div class="ax-headline ax-align-left ax-primary">
+                    <div class="ax-body "><span class="ax-title">素材统计</span></div>
+                    <div class="ax-des" id="materialDes"></div>
+                </div>
+                <div id="materialChart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------------------------弹窗布局BEGIN-------------------------------------------------------------------------->
+
+<!--修改素材信息弹窗-->
+<div class="ax-window" data-mask="true"  id="updateUserAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">修改个人信息</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">账号：</span><input
+                                        name="userName" placeholder="输入用户名" style="padding-left: 76px;" type="text"><span
+                                        class="ax-pos-right"><a href="###"
+                                                                class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-md"></div>
+
+                    <div class="ax-form-group" style="">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">性别：</div>
+                            <!--                    <div style="width: 400px">-->
+                            <div class="ax-form-con">
+                                <div class="ax-form-input ">
+
+                                    <div class="ax-row">
+                                        <div class="ax-col ">
+                                            <label class="ax-radio"><input name="gender" value="1" type="radio"
+                                                                           ><span>男</span></label>
+                                        </div>
+                                        <div class="ax-col ">
+                                            <label class="ax-radio"><input name="gender" value="2"
+                                                                           type="radio"><span>女</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--                        </div>-->
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="ax-break-md"></div>
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">手机号：</span><input
+                                        name="mobile" placeholder="输入手机号" style="padding-left: 76px;" type="text"><span
+                                        class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-md"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">邮箱：</span><input
+                                        name="email" placeholder="输入邮箱" style="padding-left: 76px;" type="text"><span
+                                        class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-md"></div>
+
+                    <div class="ax-form-group" style="">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">头像：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input" style="width: 300px">
+                                    <div class="ax-file" id="avatar" data-placeholder="点击选择头像" data-text="选择文件">
+                                        <input type="file" name="avatar">
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="###" class="ax-form-head" id="headImg"></a>
+                        </div>
+                    </div>
+                    <div class="ax-break-md"></div>
+
+                    <div class="ax-break-line"></div>
+                </div>
+            </div>
+
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">更新个人信息</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="updateUserOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!---------------------------------------------------弹窗布局END---------------------------------------------------------------------------->
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $("input[name=avatar]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=avatar]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#headImg").css("background-image","url('"+url+"')");
+        });
+
+        // 获取用户基本信息
+        queryUserBaseInfo();
+
+        // 用户行为信息统计
+        statistics();
+
+    });
+
+    // 用户基本信息
+    function queryUserBaseInfo() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/user/queryOneUserInfoById",formData,function (res) {
+            if(res.success){
+                var rs=res.result;
+                $("div.userInfo").html("").append("<div class='ax-col ax-col-4 ax-margin-left ax-xxl'>\n" +
+                    "                        <a href='###' class='ax-avatar ax-xl ax-round userAvatar' style='background-image: url("+rs.userImgUrl+")'></a>\n" +
+                    "                    </div>\n" +
+                    "                    <div class='ax-col ax-col-16'>\n" +
+                    "                        <div class='ax-flex-block ax-color-title'>\n" +
+                    "                            <span class='userName ax-color-success' style='font-size: large'>"+rs.userName+"</span><span class='ax-gutter-sm'></span>" +
+                    "                            <span class='userGender'><i class='ax-iconfont "+(rs.gender===1?"ax-icon-male":"ax-icon-female")+"'></i></span><span class='ax-gutter-sm'></span>" +
+                    "                            <span class='ax-tag ax-success registerDays'>"+Computation(rs.createTime.split(" ")[0])+"天</span>\n" +
+                    "                        </div>\n" +
+                    "                        <div class='ax-break-md'></div>\n" +
+                    "                        <div class='ax-flex-block'>\n" +
+                    "                            <div class='ax-row01 ax-row'>\n" +
+                    "                                <div class='ax-col ax-col-12'>\n" +
+                    "                                    <span class='userEmail'><i class='ax-iconfont ax-icon-email'></i> "+rs.email+"</span>\n" +
+                    "                                </div>\n" +
+                    "                                <div class='ax-col ax-col-12'>\n" +
+                    "                                    <span class='userPhone'><i class='ax-iconfont ax-icon-phone'></i>"+rs.mobile+"</span>\n" +
+                    "                                </div>\n" +
+                    "                            </div>\n" +
+                    "                        </div>\n" +
+                    "                    </div>\n" +
+                    "                    <div class='ax-col ax-col-4'></div>");
+
+                // 修改信息事件绑定
+                $("a.updateUserBtn").click(function () {
+                    updateUserInfo(rs);
+                });
+            }else {
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 修改个人信息事件绑定
+    function updateUserInfo(rs) {
+        $("#updateUserAlert").addClass("ax-window-show");
+        $("#updateUserAlert input[name=userName]").val(rs.userName);
+        $("#updateUserAlert input[name=mobile]").val(rs.mobile);
+        $("#updateUserAlert input[name=email]").val(rs.email);
+        if(rs.gender===1){
+            $("#updateUserAlert input[name=gender]:eq(0)").prop("checked",true);
+        }else{
+            $("#updateUserAlert input[name=gender]:eq(1)").prop("checked",true);
+        }
+        $("#headImg").css("background-image","url('"+rs.userImgUrl+"')");
+        $("#updateUserOKBtn").click(function () {
+            var formData=new FormData();
+            formData.append("userName",$("#updateUserAlert input[name=userName]").val());
+            formData.append("mobile",$("#updateUserAlert input[name=mobile]").val());
+            formData.append("email",$("#updateUserAlert input[name=email]").val());
+            formData.append("gender",$("#updateUserAlert input[name=gender]:checked").val());
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#updateUserAlert input[name=avatar]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("avatar",fileObj);
+            }
+            post("/user/updateUserInfoById",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                    queryUserBaseInfo();
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+    // 用户行为信息统计
+    function statistics() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/user/statistics",formData,function (res) {
+            if(res.success){
+                var rs=res.result;
+                $("#materialDes").html("").append('<span>素材总数：'+(rs.selfMaterialsNum+rs.groupSelfMaterialNum)+'</span><span class="ax-gutter"></span>' +
+                    '<span>个人素材：'+rs.selfMaterialsNum+'</span> <span class="ax-gutter"></span>' +
+                    '<span>工作组素材：'+rs.groupSelfMaterialNum+'</span>');
+                $("#groupDes").html("").append('<span>工作组总数：'+(rs.selfCreateGroupNum+rs.selfJoinGroupNum)+'</span><span class="ax-gutter"></span>' +
+                    '<span>我创建的：'+rs.selfCreateGroupNum+'</span><span class="ax-gutter"></span>' +
+                    '<sapn>我加入的：'+rs.selfJoinGroupNum+'</sapn>');
+                materialStatistics(rs.materialStatistics,rs.dateList);
+                groupStatistics(rs.groupStatistics,rs.dateList);
+
+            }else {
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 素材统计
+    function materialStatistics(materialMap,dateList) {
+        var options = {
+            title: {
+                text: '近七日素材统计',
+                align: 'left',
+                style: {
+                    fontSize: "16px",
+
+                }
+            },
+            series: [{
+                name: '个人素材',
+                data: materialMap.selfMaterial
+            }, {
+                name: '工作组素材',
+                data: materialMap.selfGroupMaterial
+            }],
+            chart: {
+                height: 300,
+                type: 'area'
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    inverseColors: false,
+                    opacityFrom: 0.45,
+                    opacityTo: 0.05,
+                    stops: [20, 100, 100, 100]
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'category',
+                categories: dateList
+            },
+            tooltip: {
+                x: {
+                    format: 'yyyy-MM-dd'
+                },
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#materialChart"), options);
+        chart.render();
+    }
+
+    // 工作组统计
+    function groupStatistics(groupMap,dateList) {
+        var options = {
+            title: {
+                text: '近七日工作组统计',
+                align: 'left',
+                style: {
+                    fontSize: "16px",
+
+                }
+            },
+            series: [{
+                name: '个人创建工作组',
+                data: groupMap.selfCreateGroup
+            }, {
+                name: '加入工作组',
+                data: groupMap.selfJoinGroup
+            }],
+            chart: {
+                height: 300,
+                type: 'area'
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    inverseColors: false,
+                    opacityFrom: 0.45,
+                    opacityTo: 0.05,
+                    stops: [20, 100, 100, 100]
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'smooth'
+            },
+            xaxis: {
+                type: 'category',
+                categories: dateList
+            },
+            tooltip: {
+                x: {
+                    format: 'yyyy-MM-dd'
+                },
+            },
+        };
+        var chart = new ApexCharts(document.querySelector("#groupChart"), options);
+        chart.render();
+    }
+
+    /**
+     * 算出两个日期相差几天
+     * @return {number}
+     */
+    function Computation(sDate1){
+        var aDate, oDate1, oDate2, iDays;
+        aDate = sDate1.split("-");
+        oDate1 = new Date(aDate[0] + '-' + aDate[1] + '-' + aDate[2]);
+        var sDate2=new Date().toLocaleDateString();
+        aDate = sDate2.split("/");
+        oDate2 = new Date(aDate[0] + '-' + aDate[1] + '-' + aDate[2]);
+        iDays = parseInt(Math.abs(oDate1 - oDate2) / 1000 / 60 / 60 /24);
+        return iDays;
+    }
+
+</script>
+</body>
+</html>

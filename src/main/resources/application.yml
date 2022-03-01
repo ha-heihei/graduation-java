@@ -1,0 +1,30 @@
+spring:
+  mvc:
+    pathmatch:
+      #swagger2配置
+      matching-strategy: ant_path_matcher
+  thymeleaf:
+    cache: false
+  devtools:
+    restart:
+      #需要实时更新的目录
+      additional-paths: resources/**,static/**,templates/**
+  datasource:
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/graduation_project?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    #关闭日志打印则用这个impl：org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-impl:  ${MYBATIS_PLUS_LOG_IMPL:org.apache.ibatis.logging.stdout.StdOutImpl}
+
+
+
+
+
+

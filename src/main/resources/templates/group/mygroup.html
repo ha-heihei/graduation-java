@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>我的工作组</title>
+</head>
+<body style="overflow-y: hidden">
+<div class="ax-row" style="">
+    <div class="ax-col ax-col-6 ">
+        <ul class="ax-menu ax-full" >
+            <li>
+                <a href="###"><span class="ax-name">工作组</span><span class="ax-arrow ax-iconfont ax-icon-right"></span></a>
+                <ul >
+                    <li><a href="###"><span class="ax-name">我创建的</span><span class="ax-arrow ax-iconfont ax-icon-right"></span></a>
+                        <ul id="selfCreateMenu" class="ax-form-group">
+                        </ul>
+                    </li>
+                </ul>
+                <ul >
+                    <li><a href="###"><span class="ax-name">我加入的</span><span class="ax-arrow ax-iconfont ax-icon-right"></span></a>
+                        <ul id="selfJoinMenu" class="ax-form-group">
+
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="ax-col ax-col-12 ">
+        <div class="ax-flex-col" style="height: 677px;overflow-y: auto">
+            <div class="ax-padding ax-border ax-shadow-border ax-margin" style="height: auto">
+                <div class="ax-row">
+                    <div class="ax-col ax-col-2">
+                        <a href="###" class="ax-avatar ax-xxl" id="grouImgUrl"></a>
+                    </div>
+                    <div class="ax-col ax-col-14">
+                        <div class="ax-flex-block ax-color-title" id="groupName" style="font-size: x-large"></div>
+                        <div class="ax-break-md"></div>
+                        <div class="ax-flex-block ax-color-info" id="groupDes"></div>
+                        <div class="ax-break-md"></div>
+                        <label class="groupInfoBody">
+
+                        </label>
+<!--                        <a href="###" class="ax-btn ax-long ax-primary ax-sm" id="showGroupMaterial">工作组素材</a>-->
+<!--                        <a href="###" class="ax-btn ax-long ax-success ax-sm">合成素材</a>-->
+<!--                        <a href="###" class="ax-btn ax-long ax-ad ax-sm">修改信息</a>-->
+                    </div>
+                </div>
+                <div class="ax-break-md "></div>
+                <div class="ax-break-line "></div>
+                <div class="ax-break-md "></div>
+                <div class="ax-row">
+                    <div class="ax-col ax-col-14">
+                        <span style="margin-right: 4px"><i class="ax-iconfont ax-icon-people"></i> <b id="peopleNum"></b></span>
+                        <span style="margin-right: 4px">
+                            <a class="ax-avatar ax-round ax-xs" id="userCreateImg"></a>
+                            <b id="userCreateName"></b>
+                        </span>
+                        <span id="createTime"></span>
+                    </div>
+                    <div class="ax-col ax-col-10 groupBottomBtns">
+
+                    </div>
+                </div>
+            </div>
+            <div class="ax-padding-lr ax-padding-top ax-border ax-shadow-border ax-margin" >
+                <span class="ax-color-title ax-margin-tb" style="font-size: large">工作组成员</span>
+                <div class="ax-break-line"></div>
+                <div class="ax-comment" id="groupUserList">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ax-col ax-col-6">
+        <div class="ax-padding ax-border ax-shadow-border ax-margin-tb ax-margin-right">
+            <span class="ax-color-title" style="font-size: large">素材列表</span>
+            <div class="ax-break-line"></div>
+            <div class="inner" id="travelPn">
+                <div class="travellist">
+
+                </div>
+
+                <ul class="pagination ax-pagination" style="display: none" id="travelPage"></ul>
+                <div class="ax-pagination">
+                    <div class="ax-group">
+                        <a href="##" class="ax-prev" id="travelPrev"><</a><a href="##" class="ax-next" id="travelNext">></a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<!-----------------------------------------------------弹窗布局------------------------------------------------------------------------>
+<!--素材上传弹窗-->
+<div class="ax-window" data-mask="true"  id="uploadMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材上传</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">个人素材：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <ul id="imageList">
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材文件：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <div class="ax-file" data-placeholder="点击选择头像" data-text="选择文件">
+                                        <input type="file" name="materialFile">
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="###" class="ax-form-head" id="headImg"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">个人素材库、素材文件二选一</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="materialUploadBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--修改工作组信息弹窗-->
+<div class="ax-window" data-mask="true"  id="updateGroupAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">修改工作组</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="groupName" placeholder="输入名称" type="text"></div>
+                            </div>
+                            <span class="ax-form-txt ax-color-primary ax-iconfont ax-icon-check-o-fill"></span>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">描述：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="groupDescription" placeholder="输入描述" type="text"></div>
+                            </div>
+                            <span class="ax-form-txt ax-color-primary ax-iconfont ax-icon-check-o-fill"></span>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">头像：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-file" data-placeholder="点击选择头像" data-text="选择文件">
+                                    <input type="file" name="groupImgFile">
+                                </div>
+                            </div>
+                            <a href="###" class="ax-form-head" id="groupHeadImg"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">更新工作组信息</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="updateGroupOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!--确认删除成员弹窗模版-->
+<div class="ax-window" data-mask="true"  id="deleteTipAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">确认删除</div>
+        <div class="ax-window-content">
+            <div class="ax-padding">
+                <p id="deleteMsg"></p>
+            </div>
+        </div>
+        <div class="ax-padding ax-window-operate ax-align-center">
+            <a href="###" class="ax-btn ax-ignore ax-window-close">取消</a>
+            <a href="###" class="ax-btn ax-primary ax-window-close" id="deleteOKBtn">确定</a>
+        </div>
+        <div class="ax-break"></div>
+    </div>
+</div>
+
+<!--确认删除工作组弹窗模版-->
+<div class="ax-window" data-mask="true"  id="deleteGroupAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">确认删除</div>
+        <div class="ax-window-content">
+            <div class="ax-padding">
+                <p id="deleteGroupMsg"></p>
+            </div>
+        </div>
+        <div class="ax-padding ax-window-operate ax-align-center">
+            <a href="###" class="ax-btn ax-ignore ax-window-close">取消</a>
+            <a href="###" class="ax-btn ax-primary ax-window-close" id="deleteGroupOKBtn">确定</a>
+        </div>
+        <div class="ax-break"></div>
+    </div>
+</div>
+
+<!--转入我的素材库弹窗-->
+<div class="ax-window" data-mask="true"  id="transToMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材转入</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialTansToName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">描述：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialRemarks" placeholder="输入描述" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">更多素材等你挑选</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="transToMaterialOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<!--确认删除工作组弹窗模版-->
+<div class="ax-window" data-mask="true"  id="deleteMaterialAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">确认删除</div>
+        <div class="ax-window-content">
+            <div class="ax-padding">
+                <p id="deleteMaterialMsg"></p>
+            </div>
+        </div>
+        <div class="ax-padding ax-window-operate ax-align-center">
+            <a href="###" class="ax-btn ax-ignore ax-window-close">取消</a>
+            <a href="###" class="ax-btn ax-primary ax-window-close" id="deleteMaterialOKBtn">确定</a>
+        </div>
+        <div class="ax-break"></div>
+    </div>
+</div>
+
+<!--邀请其他用户进入工作组弹窗模版-->
+<div class="ax-window" data-mask="true" data-size="full"  id="inviteUserAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">邀请新用户</div>
+        <div class="ax-window-content">
+            <div class="ax-flex-col ax-padding ax-sm">
+                <div class="ax-shadow-primary  ax-border ax-shadow-border ax-padding ax-sm">
+                    <div class="ax-grid ax-space ax-split">
+                        <ul class="ax-grid-inner" id="header">
+                            <li class="ax-grid-block ax-col-5">
+                                <div class="ax-row ax-input-group">
+                                    <span class="ax-title ax-btn">用户名</span>
+                                    <div class="ax-flex-block">
+                                        <input name="userName" placeholder="输入名称" type="text">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="ax-grid-block ax-col-5">
+                                <div class="ax-row ax-input-group">
+                                    <span class="ax-title ax-btn">手机号</span>
+                                    <div class="ax-flex-block">
+                                        <input name="mobile" placeholder="输入手机号" type="text">
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="ax-grid-block ax-col-4">
+                                <a href="###" class="ax-btn ax-primary ax-full" id="queryInviteUserBtn">检索</a>
+                            </li>
+                            <li class="ax-grid-block ax-col-4"></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="ax-break-xxs"></div>
+                <div class="ax-padding ax-border ax-shadow-border">
+                    <table id="inviteUserList" class="ax-table">
+                        <thead>
+                            <tr><th>用户名</th><th>性别</th><th>手机号</th><th>邮箱</th><th>注册时间</th><th>操作</th></tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="ax-break"></div>
+    </div>
+</div>
+<!------------------------------------------------------------弹窗布局END------------------------------------------------------------------------->
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/paginathing/paginathing.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".ax-menu").axMenu({cookie:true});
+
+        $("input[name=materialFile]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=materialFile]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#headImg").css("background-image","url('"+url+"')");
+        });
+        $("input[name=groupImgFile]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=groupImgFile]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#groupHeadImg").css("background-image","url('"+url+"')");
+        });
+
+
+        //我创建的工作组
+        var selfCreateFrom=new FormData();
+        selfCreateFrom.append("userId",localStorage.getItem("userId"));
+        post("/group/querySelfCreateGroupPageList",selfCreateFrom,function (res) {
+            var records=res.result.records;
+            for(var i=0;i<records.length;i++){
+                $("#selfCreateMenu").append(
+                    "<li id='selfCreateli"+i+"'><a href='###'><span class='ax-name'>"+records[i].groupName+"</span></a></li>"
+                )
+            }
+            $("#selfCreateMenu li").each(function (i) {
+                $("#selfCreateli"+i).axPopup({
+                    title:records[i].groupName,
+                    content:"<a class='ax-avatar ax-xs ax-round' style='background-image: url("+records[i].groupImgUrl+")'></a>" +
+                        "<span class='ax-gutter-xs'></span><span class='ax-color-des'>"+records[i].groupDescription+"</span>",
+                    placement:'right',
+                    trigger:'hover',
+                    width:300,
+                    closeable:true,
+                    animation:'pop',
+                    arrow:true,
+                    multi:false,
+                });
+                $(this).click(function () {
+                    var formData=new FormData();
+                    formData.append("groupId",records[i].groupId);
+                    post("/group/queryOneGroupDetail",formData,function (res) {
+                        var rs=res.result;
+                        $("#grouImgUrl").css("background-image","url('"+rs.groupImgUrl+"')");
+                        $("#groupName").text(rs.groupName);
+                        $("#groupDes").text(rs.groupDescription);
+                        $("#createTime").text(rs.createTime.split(" ")[0]);
+                        $("#userCreateName").text(rs.userName);
+                        $("#userCreateImg").css("background-image","url('"+rs.userImgUrl+"')");
+                        $("#peopleNum").text(rs.groupUsers.length);
+                        $("label.groupInfoBody").html("").append("<a href=### class='ax-btn ax-long ax-primary ax-sm' id='showGroupMaterial'>工作组素材</a>" +
+                            "                        <a href='###' class='ax-btn ax-long ax-success ax-sm'>合成素材</a>" +
+                            "                        <a href='###' class='ax-btn ax-long ax-ad ax-sm' id='updateGroupBtn'>修改信息</a>");
+                        $("div.groupBottomBtns").html("").append("<a class='ax-btn ax-long ax-primary ax-sm ' id='uploadMaterial'>上传素材</a> " +
+                            "                        <a class='ax-btn ax-long ax-success ax-sm' id='inviteUser'>邀请用户</a> " +
+                            "                        <a class='ax-btn ax-long ax-danger ax-sm' id='quitGroup'>解散工作组</a>");
+                        $("#showGroupMaterial").click(function () {
+                            queryGroupMaterials(rs.groupId,1);
+                        });
+                        queryGroupMaterials(rs.groupId,1);
+
+                        $("a#quitGroup").click(function () {
+                            $("#deleteGroupMsg").text("确认解散该工作组吗");
+                            $("#deleteGroupAlert").addClass("ax-window-show");
+                            $("#deleteGroupOKBtn").click(function () {
+                                var formData=new FormData();
+                                formData.append("groupId",rs.groupId);
+                                post("/group/deleteGroupById",formData,function (res) {
+                                    if(res.success){
+                                        toast("success","操作成功",res.msg);
+                                    }else{
+                                        toast("warning","操作失败",res.msg);
+                                    }
+                                })
+                            });
+                        });
+
+                        //邀请用户脚本
+                        inviteUser(rs.groupId);
+
+                        //素材上传脚本
+                        uploadMaterial(rs.groupId);
+
+                        //修改工作组信息脚本
+                        updateGroupInfo(rs);
+                    });
+                    //显示工作组内所有成员
+                    queryGroupUserPageList(records[i].groupId,1);
+                });
+            })
+        });
+
+        //我加入的工作组
+        post("/group/querySelfJoinGroupPageList",selfCreateFrom,function (res) {
+            var records=res.result.records;
+            for(var i=0;i<records.length;i++){
+                $("#selfJoinMenu").append(
+                    "<li id='selfJoinli"+i+"'><a href='###'><span class='ax-name'>"+records[i].groupName+"</span></a></li>"
+                )
+            }
+            $("#selfJoinMenu li").each(function (i) {
+                $("#selfJoinli"+i).axPopup({
+                    title:records[i].groupName,
+                    content:"<a class='ax-avatar ax-xs ax-round' style='background-image: url("+records[i].groupImgUrl+")'></a>" +
+                        "<span class='ax-gutter-xs'></span><span class='ax-color-des'>"+records[i].groupDescription+"</span>",
+                    placement:'right',
+                    trigger:'hover',
+                    width:300,
+                    closeable:true,
+                    animation:'pop',
+                    arrow:true,
+                    multi:false,
+                });
+                $(this).click(function () {
+                    var formData=new FormData();
+                    formData.append("groupId",records[i].groupId);
+                    post("/group/queryOneGroupDetail",formData,function (res) {
+                        var rs=res.result;
+                        $("#grouImgUrl").css("background-image","url('"+rs.groupImgUrl+"')");
+                        $("#groupName").text(rs.groupName);
+                        $("#groupDes").text(rs.groupDescription);
+                        $("#createTime").text(rs.createTime.split(" ")[0]);
+                        $("#userCreateName").text(rs.userName);
+                        $("#userCreateImg").css("background-image","url('"+rs.userImgUrl+"')");
+                        $("#peopleNum").text(rs.groupUsers.length);
+                        $("label.groupInfoBody").html("").append("<a href=### class='ax-btn ax-long ax-primary ax-sm' id='showGroupMaterial'>工作组素材</a>" +
+                            "                        <a href='###' class='ax-btn ax-long ax-success ax-sm'>合成素材</a>");
+                        $("div.groupBottomBtns").html("").append("<a class='ax-btn ax-long ax-primary ax-sm ' id='uploadMaterial'>上传素材</a> " +
+                            "                        <a class='ax-btn ax-long ax-success ax-sm' id='inviteUser'>邀请用户</a> " +
+                            "                        <a class='ax-btn ax-long ax-danger ax-sm' id='quitGroup'>退出工作组</a>");
+                        $("#showGroupMaterial").click(function () {
+                            queryGroupMaterials(rs.groupId,2);
+                        });
+                        queryGroupMaterials(rs.groupId,2);
+                        $("a#quitGroup").click(function () {
+                            $("#deleteGroupMsg").text("确认退出该工作组吗");
+                            $("#deleteGroupAlert").addClass("ax-window-show");
+                            $("#deleteGroupOKBtn").click(function () {
+                                var formData=new FormData();
+                                formData.append("groupId",rs.groupId);
+                                formData.append("userId",rs.userId);
+                                post("/group/logoutGroup",formData,function (res) {
+                                    if(res.success){
+                                        toast("success","操作成功",res.msg);
+                                    }else{
+                                        toast("warning","操作失败",res.msg);
+                                    }
+                                })
+                            });
+                        });
+
+                        //用户邀请功能弹窗，包括显示不在此工作组内用户，点击邀请
+                        inviteUser(rs.groupId);
+
+                        //素材上传脚本
+                        uploadMaterial(rs.groupId);
+                    });
+                    //显示工作组内所有成员
+                    queryGroupUserPageList(records[i].groupId,2);
+                });
+            });
+        });
+
+        //素材分页
+        var optionsPn = {
+            valueNames: [ 'add', 'country','click' ],
+            item: 'ax-info-block',
+            listClass:'travellist',
+            pagination: true,
+            page:3,
+        };
+        var travelListPn = new List('travelPn', optionsPn);
+        $('#travelNext').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position+1]).trigger('click');
+                }
+            })
+        });
+        $('#travelPrev').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position-1]).trigger('click');
+                }
+            })
+        });
+
+    });
+
+    //显示工作组内用户列表
+    function queryGroupUserPageList(groupId,type) {
+        var formData=new FormData();
+        formData.append("groupId",groupId);
+        post("/group/queryGroupUserPageList",formData,function (res) {
+           if(res.success){
+               $("#groupUserList").html("");
+               var records=res.result.records;
+               for(var i=0;i<records.length;i++){
+                   var btns="<a href='###' class='ax-btn ax-long ax-primary ax-xs showUserDetail'>详细信息</a> " +
+                       "<a href='###' class='ax-btn ax-line ax-xs ax-long ax-danger deleteUser'>删除</a>";
+                   if(type===2){
+                       btns="<a href='###' class='ax-btn ax-long ax-primary ax-xs showUserDetail'>详细信息</a>";
+                   }
+                   $("#groupUserList").append("<div class='ax-item ax-my'>" +
+                       "                        <a href='###' class='ax-avatar' style='background-image: url("+records[i].userImgUrl+")'></a>" +
+                       "                        <div class='ax-text'>" +
+                       "                            <div class='ax-row01 ax-row'>" +
+                       "                                <div class='ax-col'>" +
+                       "                                    <a href='###' class='ax-name'>"+records[i].userName+"</a>" +
+                       "                                </div>" +
+                       "                            </div>" +
+                       "                            <div class='ax-break-xxs'></div>" +btns+
+                       "                        </div>" +
+                       "                    </div>" +
+                       "                    <div class='ax-break-line'></div>");
+
+               }
+               //显示一个成员的详细信息
+               $("#groupUserList div.ax-item.ax-my").each(function (i) {
+                    $(this).find("a.showUserDetail").axPopup({
+                        content: "<p>用户名："+records[i].userName+"</p>" +
+                            "<p>性别："+(records[i].gender===1?"男":"女")+"</p>" +
+                            "<p>手机号："+records[i].mobile+"</p>" +
+                            "<p>邮箱："+records[i].email+"</p>",
+                        placement:'top',
+                        width:300,
+                        closeable:true,
+                    });
+                    $(this).find("a.deleteUser").click(function () {
+                        var msg="确认要移除该成员吗？";
+                        if(localStorage.getItem("userId")===records[i].userId){
+                            toast("info","操作失败","您是群主，不可移除，如要解散工作组，请点击‘退出工作组’按钮");
+                        }else{
+                            $("#deleteMsg").text(msg);
+                            $("#deleteTipAlert").addClass("ax-window-show");
+                            $("#deleteOKBtn").click(function () {
+                                var formData=new FormData();
+                                formData.append("userId",records[i].userId);
+                                formData.append("groupId",records[i].groupId);
+                                post("/group/logoutGroup",formData,function (res) {
+                                    if(res.success){
+                                        toast("success","操作成功",res.msg);
+                                    }else {
+                                        toast("warning","操作失败",res.msg);
+                                    }
+                                })
+                            });
+                        }
+
+                    })
+               });
+
+               //所有工作组成员绑定查看素材点击事件
+               $("#groupUserList>div.ax-item.ax-my").each(function (i) {
+                    $(this).find("a.ax-avatar").click(function () {
+                        queryGroupSelfMaterials(records[i].groupId,records[i].userId,type);
+                    });
+               })
+
+           }else{
+               toast("warning","操作失败",res.msg);
+           }
+        });
+    }
+
+
+
+    //查询一个工作组内一个用户上传的素材
+    function queryGroupSelfMaterials(groupId,userId,type) {
+        var formData=new FormData();
+        formData.append("userId",userId);
+        formData.append("groupId",groupId);
+        post("/group/queryGroupSelfMaterials",formData,function (res) {
+            if(res.success){
+                showMaterialList(res,type);
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    //查询一个工作组内所有的素材
+    function queryGroupMaterials(groupId,type) {
+        var formData=new FormData();
+        formData.append("groupId",groupId);
+        post("/group/queryGroupMaterials",formData,function (res) {
+          if(res.success){
+            showMaterialList(res,type);
+          }else{
+              toast("warning","操作失败",res.msg);
+          }
+        });
+    }
+
+    //展示素材列表
+    function showMaterialList(res,type) {
+        $("div.travellist").html("");
+        var reords=res.result.records;
+        for(var i=0;i<reords.length;i++){
+            var btns="<a href='###' class='ax-btn ax-line ax-primary ax-xxs transToSelf'>转入</a> " +
+                "<a href='###' class='ax-btn ax-line ax-ad ax-xxs downLoadMaterial'>下载</a> " +
+                "<a href='###' class='ax-btn ax-line ax-xxs ax-danger deleteMaterial'>删除</a>";
+            if(type===2){
+                btns="<a href='###' class='ax-btn ax-line ax-primary ax-xxs transToSelf'>转入</a>"+
+                    "<a href='###' class='ax-btn ax-line ax-ad ax-xxs downLoadMaterial'>下载</a>";
+                if(localStorage.getItem("userId")===reords[i].userId){
+                    btns+="<a href='###' class='ax-btn ax-line ax-xxs ax-danger deleteMaterial'>删除</a>";
+                }
+            }
+            var materialUrls=JSON.parse(reords[i].materialUrls);
+            $("div.travellist").append(" <div class='ax-info-block'>" +
+                "                        <div class='ax-row'>" +
+                "                            <div class='ax-col ax-col-2'>" +
+                "                                <a href='###' class='ax-avatar ax-xxl' style='background-image: url("+materialUrls.originUrl+")'></a>" +
+                "                            </div>" +
+                "                            <div class='ax-col ax-col-4'>" +
+                "                                <div class='ax-flex-block ax-color-title materialName ax-ell' style='font-size: x-large'>"+(reords[i].materialName.length===0?"未命名":reords[i].materialName)+"</div>" +
+                "                                <div class='ax-break-md'></div>" +
+                "                                <div class='ax-flex-block ax-color-info uploadUserInfo'>" +
+                reords[i].userName+
+                "                                    <br>" +
+                reords[i].createTime.split(" ")[0]+
+                "                                </div>" +
+                "                                <div class='ax-break-md'></div>" +
+                "                                <div class='ax-flex-block'>" +
+                btns+
+                "                                </div>" +
+                "                            </div>" +
+                "                        </div>" +
+                "                        <div class='ax-break-md '></div>" +
+                "                        <div class='ax-break-line '></div>" +
+                "                        <div class='ax-break-md '></div>" +
+                "                    </div>");
+        }
+        $("div.travellist div.ax-info-block").each(function (i) {
+            $(this).find("a.transToSelf").click(function () {
+                $("#transToMaterialAlert").addClass("ax-window-show");
+                $("#transToMaterialOKBtn").click(function () {
+                    var formData=new FormData();
+                    formData.append("userId",localStorage.getItem("userId"));
+                    formData.append("materialUrls",reords[i].materialUrls);
+                    formData.append("materialName",$("#transToMaterialAlert input[name=materialTansToName]").val());
+                    formData.append("remarks",$("#transToMaterialAlert input[name=materialRemarks]").val());
+                    post("/material/insertMaterial",formData,function (res) {
+                        if(res.success){
+                            toast("success","操作成功",res.msg);
+                        }else{
+                            toast("warning","操作失败",res.msg);
+                        }
+                    })
+                });
+            });
+
+            $(this).find("a.downLoadMaterial").click(function () {
+                var materialUrls=JSON.parse(reords[i].materialUrls);
+                DownLoadFile({
+                    url:"/material/downLoadMaterial",
+                    data:{materialName:materialUrls.originUrl}
+                });
+            });
+
+            $(this).find("a.deleteMaterial").click(function () {
+                $("#deleteMaterialMsg").text("确认移除该素材吗？");
+                $("#deleteMaterialAlert").addClass("ax-window-show");
+                $("#deleteMaterialOKBtn").click(function () {
+                    var formData=new FormData();
+                    formData.append("groupId",reords[i].groupId);
+                    formData.append("ids",[reords[i].materialId]);
+                    post("/material/deleteGroupMaterialsByIds",formData,function (res) {
+                        if(res.success){
+                            toast("success","操作成功",res.msg);
+                        }else{
+                            toast("warning","操作失败",res.msg);
+                        }
+                    })
+                });
+            });
+        })
+    }
+
+
+    //素材上传
+    function uploadMaterial(groupId) {
+        $("#uploadMaterial").click(function () {
+            $("#uploadMaterialAlert").addClass("ax-window-show");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            post("/material/querySelfMaterialPageListByConditions",formData,function (res) {
+                if(res.success){
+                    $("#imageList").html("");
+                    var records=res.result.records;
+                    for(var i=0;i<records.length;i++){
+                        var materialUrls=JSON.parse(records[i].materialUrls);
+                        $("#imageList").append("<li data-val='"+materialUrls.originUrl+"'>" +
+                            "                       <img src='"+materialUrls.originUrl+"' />" +
+                            "                       <p>"+records[i].materialName+"</p>" +
+                            "                    </li>");
+                    }
+                    $('#imageList').mobiscroll().image({
+                        theme: 'ax',
+                        lang:'zh',
+                        onInit:function(event, inst){
+                            $('#'+this.id+'_dummy').after('<i class="mbsc-ax-arrow"></i>');
+                        },
+                        onBeforeShow:function(event, inst){//显示前的点击事件
+                            $('#'+this.id+'_dummy').addClass('ax-focus');//input焦点
+                            //inst.settings.cssClass='ax-mask';//添加遮罩
+                        },
+                        onClose: function (event, inst) {//关闭事件
+                            $('#'+this.id+'_dummy').removeClass('ax-focus');
+                        },
+                        // display: 'bubble',
+                        placeholder: '请选择...',
+                        labels: ['个人素材'],
+                        enhance: true,
+                    });
+                    $("#materialUploadBtn").click(function () {
+                        var materialName=$("#uploadMaterialAlert input[name=materialName]").val();
+                        if(materialName.length===0){
+                            toast("warning","操作失败","素材名称未填写");
+                            return;
+                        }
+                        var materialUrls={"originUrl":$("#imageList_dummy").val()};
+                        var materialFile=$("#uploadMaterialAlert input[name=materialFile]")[0].files[0];
+                        var formData=new FormData();
+                        formData.append("userId",localStorage.getItem("userId"));
+                        formData.append("groupId",groupId);
+                        formData.append("materialName",materialName);
+                        $("ul#imageList li").each(function (i) {
+                            if($(this).attr("data-val")===$("#imageList_dummy").val()){
+                                formData.append("materialId",records[i].materialId);
+                            }
+                        });
+                        if (typeof (materialFile) != "undefined" && materialFile.size > 0) {
+                            formData.append("materialFile",materialFile);
+                        }
+                        if($("#imageList_dummy").val().length>0){
+                            formData.append("materialUrls",materialUrls);
+                        }
+                        post("/group/uploadGroupMaterial",formData,function (res) {
+                            if(res.success){
+                                toast("success","操作成功",res.msg);
+                            }else{
+                                toast("warning","操作失败",res.msg);
+                            }
+                        })
+                    });
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+
+    //修改工作组信息
+    function updateGroupInfo(rs) {
+        $("#updateGroupBtn").click(function () {
+            $("#updateGroupAlert").addClass("ax-window-show")
+                .find("input[name=groupName]").val(rs.groupName);
+            $("#updateGroupAlert").find("input[name=groupDescription]").val(rs.groupDescription);
+            $("#updateGroupOKBtn").click(function () {
+                var formData=new FormData();
+                var groupName=$("#updateGroupAlert input[name=groupName]").val();
+                var groupDes=$("#updateGroupAlert input[name=groupDescription]").val();
+                var groupImgFile=$("#updateGroupAlert input[name=groupImgFile]")[0].files[0];
+                if (typeof (groupImgFile) != "undefined" && groupImgFile.size > 0) {
+                    formData.append("avatar",groupImgFile);
+                }
+                formData.append("groupName",groupName);
+                formData.append("groupDescription",groupDes);
+                formData.append("groupId",rs.groupId);
+                post("/group/updateSelfGroupInfoById",formData,function (res) {
+                    if(res.success){
+                        toast("success","操作成功",res.msg);
+                    }else{
+                        toast("warning","操作失败",res.msg);
+                    }
+                })
+            });
+        });
+    }
+
+    //邀请用户
+    //用户邀请功能弹窗，包括显示不在此工作组内用户，点击邀请
+    function inviteUser(groupId) {
+        $("#inviteUser").click(function () {
+            $("table#inviteUserList tbody").html("");
+            $("#inviteUserAlert").addClass("ax-window-show");
+            $("#queryInviteUserBtn").click(function () {
+                var formData=new FormData();
+                var userName=$("#inviteUserAlert input[name=userName]").val();
+                var mobile=$("#inviteUserAlert input[name=mobile]").val();
+                if(userName.length>0){
+                    formData.append("userName",userName);
+                }
+                if(mobile.length>0){
+                    formData.append("mobile",mobile);
+                }
+                formData.append("groupId",groupId);
+                post("/group/queryNotInGroupUserList",formData,function (res) {
+                    if(res.success){
+                        var records=res.result.records;
+                        for(var i=0;i<records.length;i++){
+                            $("table#inviteUserList tbody").append('<tr >\n' +
+                                '                                <td>' +
+                                '<a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].userImgUrl+')"></a><span class="ax-gutter-xs"></span>'
+                                            +records[i].userName+
+                                '                                </td>\n' +
+                                '                                <td>'+(records[i].gender===1?"男":"女")+'</td>\n' +
+                                '                                <td>'+records[i].mobile+'</td>\n' +
+                                '                                <td>'+records[i].email+'</td>\n' +
+                                '                                <td>'+records[i].createTime+'</td>\n' +
+                                '                                <td><a href="###" class="ax-btn ax-primary inviteUserBtn">邀请</a></td>\n' +
+                                '                            </tr>');
+                        }
+                        $("table#inviteUserList tbody tr").each(function (i) {
+                            $(this).find("a.inviteUserBtn").click(function () {
+                                var formData=new FormData();
+                                formData.append("originatorId",localStorage.getItem("userId"));
+                                formData.append("receiverId",records[i].userId);
+                                formData.append("groupId",groupId);
+                                post("/groupMessage/inviteUserToGroup",formData,function (res) {
+                                    if(res.success){
+                                        toast("success","操作成功","邀请信息已发送");
+                                        $("#queryInviteUserBtn").click();
+                                    }else{
+                                        toast("warning","操作失败",res.msg);
+                                    }
+                                })
+                            });
+                        });
+                    }else {
+                        toast("warning","操作失败",res.msg);
+                    }
+                })
+            });
+        });
+    }
+
+
+    function DownLoadFile(options) {
+        var config = $.extend(true, { method: 'post' }, options);
+        var $iframe = $('<iframe id="down-file-iframe" />');
+        var $form = $('<form target="down-file-iframe" method="' + config.method + '" />');
+        $form.attr('action', config.url);
+        for (var key in config.data) {
+            $form.append('<input type="hidden" name="' + key + '" value="' + config.data[key] + '" />');
+        }
+        $iframe.append($form);
+        $(document.body).append($iframe);
+        $form[0].submit();
+        console.log($form.serialize());
+        $iframe.remove();
+    }
+
+    
+</script>
+
+</body>
+</html>

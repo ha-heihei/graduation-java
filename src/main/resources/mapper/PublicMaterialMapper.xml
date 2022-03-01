@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.mapper.PublicMaterialMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lh.entity.PublicMaterial">
+        <id column="material_id" property="materialId" />
+        <result column="material_name" property="materialName" />
+        <result column="material_url" property="materialUrl" />
+        <result column="remarks" property="remarks" />
+        <result column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <result column="download_num" property="downloadNum" />
+        <result column="transform_num" property="transformNum" />
+        <result column="search_num" property="searchNum" />
+        <result column="thumbs_num" property="thumbsNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        material_id, material_name, material_url, remarks, user_id, create_time, download_num, transform_num, search_num, thumbs_num
+    </sql>
+    <select id="queryCollectorMaterialsPageList" resultType="com.lh.entity.PublicMaterial">
+        select * from public_material pm join user u on pm.user_id=u.user_id
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>

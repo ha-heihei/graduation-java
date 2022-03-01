@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.mapper.GroupMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lh.entity.Group">
+        <id column="group_id" property="groupId" />
+        <result column="group_name" property="groupName" />
+        <result column="user_id" property="userId" />
+        <result column="group_img_url" property="groupImgUrl" />
+        <result column="group_description" property="groupDescription" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        group_id, group_name, user_id, group_img_url, group_description, create_time
+    </sql>
+
+    <select id="querySelfGroupPageListByConditions" resultType="com.lh.entity.Group">
+        select g.group_id,g.group_name,g.user_id,g.group_img_url,g.group_description,gu.create_time,
+            u.user_name,u.user_img_url
+            from work_group g join
+            (select * from group_user where user_id=#{userId}) gu
+            on gu.group_id=g.group_id join user u
+            on g.user_id=u.user_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="queryGroupSelfMaterials" resultType="com.lh.entity.GroupMaterial">
+        select * from
+            (select * from group_material where user_id=#{userId} and group_id=#{groupId}) gm
+            join material m on m.material_id=gm.material_id
+            join work_group wg on wg.group_id=gm.group_id
+            join user u on u.user_id=gm.user_id
+            order by gm.create_time desc
+    </select>
+    <select id="queryGroupMaterials" resultType="com.lh.entity.GroupMaterial">
+        select * from group_material gm join material m on m.material_id=gm.material_id
+            join work_group wg on wg.group_id=gm.group_id
+            join user u on u.user_id=gm.user_id
+            where gm.group_id=#{groupId} order by gm.create_time desc
+    </select>
+    <select id="queryGroupUserPageList" resultType="com.lh.entity.GroupUser">
+        select * from
+            (select * from group_user where group_id=#{groupId}) gu
+            join user u on u.user_id=gu.user_id order by gu.create_time desc
+    </select>
+    <select id="queryGroupInfoPageListByConditions" resultType="com.lh.entity.Group">
+        select * from work_group wg join user u on u.user_id=wg.user_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="querySelfCreateGroupPageList" resultType="com.lh.entity.Group">
+        select * from work_group wg join user u on u.user_id=wg.user_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="querySelfJoinGroupPageList" resultType="com.lh.entity.Group">
+         select g.group_id,g.group_name,g.user_id,g.group_img_url,g.group_description,gu.create_time,
+            u.user_name,u.user_img_url
+            from (select * from work_group where user_id!=#{userId}) g join
+            (select * from group_user where user_id=#{userId}) gu
+            on gu.group_id=g.group_id join user u
+            on g.user_id=u.user_id
+            ${ew.customSqlSegment}
+    </select>
+    <select id="queryNotInGroupUserList" resultType="com.lh.entity.User">
+        select * from (
+                select * from user where user_id not in
+                (
+                    select user_id from group_user where group_id=#{groupId}
+                    union
+                    select receiver_id as user_id from group_message where group_id=#{groupId} and message_status=1
+                )
+            ) as t
+            ${ew.customSqlSegment}
+            order by create_time desc
+    </select>
+
+
+</mapper>

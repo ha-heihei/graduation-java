@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>后台管理</title>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+</head>
+<body style="overflow: hidden">
+<div class="ax-flex-row ax-admin"  >
+    <!--nav-->
+    <nav class="ax-flex-col">
+        <a href="##" class="ax-close-nav-all"><span class="ax-iconfont ax-icon-left"></span></a>
+        <div class="ax-nav-header">
+            <a href="##" class="ax-logo"><img src="/images/ax-logo-white.png"/></a>
+            <a href="##" class="ax-close-nav ax-iconfont ax-icon-menu-fold"></a>
+        </div>
+        <div class="ax-flex-block ax-nav-main">
+            <ul class="ax-menu ax-menu-dark" id="menu-basic">
+                <li>
+                    <a href="##"><span class="ax-legend ax-iconfont ax-icon-settings-alt"></span><span class="ax-name">工作组管理</span><span
+                            class="ax-arrow ax-iconfont ax-icon-right"></span></a>
+                    <ul>
+                        <li><a href="/toMyGroup" target="iframe"><span class="ax-name">我的工作组</span></a></li>
+                        <li><a href="/toJoinGroup" target="iframe"><span class="ax-name">加入工作组</span></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="ax-legend ax-iconfont ax-icon-message-o"></span><span
+                            class="ax-name">素材管理</span><span class="ax-arrow ax-iconfont ax-icon-right"></span></a>
+                    <ul>
+                        <li><a href="/toMyMaterial" target="iframe"><span class="ax-name">我的素材</span></a></li>
+                        <li><a href="/toPublicMaterial" target="iframe"><span class="ax-name">公共素材库</span></a></li>
+                        <li><a href="/toMaterialBeautify" target="iframe"><span class="ax-name">素材美化</span></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="ax-legend ax-iconfont ax-icon-global"></span><span
+                            class="ax-name">个人中心</span><span class="ax-arrow ax-iconfont ax-icon-right"></span></a>
+                    <ul>
+                        <li><a href="/toUserInfo" target="iframe"><span class="ax-name">信息修改</span></a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><span class="ax-legend ax-iconfont ax-icon-power"></span><span
+                            class="ax-name">退出系统</span></a>
+                </li>
+            </ul>
+            <div class="ax-mask"></div><!--收缩后的遮罩层，点击可重新展开菜单-->
+        </div>
+    </nav>    <!--end-->
+    <div class="ax-flex-block ax-body">
+        <div class="ax-flex-col">
+            <!--header-->
+            <header class="ax-flex-row">
+                <div class="ax-flex-block"></div>
+                <div class="ax-header-search"><input type="text" name="" placeholder="关键字..."/>
+                    <a href="##" class="ax-iconfont ax-icon-search"></a>
+                </div>
+                <div class="ax-header-icons">
+                    <a href="##" class="ax-iconfont ax-icon-bell-fill ax-open-aside" id="showMsgList">
+                    </a>
+                </div>
+                <div class="ax-header-user" id="user">
+                    <a href="##" id="avatar" class="ax-avatar ax-round ax-xs"
+                       style=""></a>
+                    <a id="userName" href="##"></a>
+                </div>
+<!--                <a href="##" class="ax-open-aside ax-iconfont ax-icon-left-double"></a>-->
+            </header>
+            <!--main-->
+            <main  class="ax-flex-block" >
+                <iframe id="iframe" name="iframe" src="/toBG" style="outline: none;overflow: hidden"
+                        width="100%" height="100%" frameborder="0" scrolling="auto"></iframe>
+            </main>
+
+        </div>
+    </div>
+    <!--sider-->
+    <aside class="ax-flex-col" style="width: 320px">
+
+        <div class="ax-flex-row ax-aside-header">
+            <div class="ax-flex-block"><span class="ax-title">消息列表</span></div>
+            <a href="###" class="ax-close-aside ax-iconfont ax-icon-close"></a>
+        </div>
+
+        <div class="ax-flex-block ax-aside-main ax-scroll inner" id="travelPn">
+            <div class="ax-padding travellist">
+
+            </div>
+            <ul class="pagination ax-pagination" style="display: none" id="travelPage"></ul>
+            <div class="ax-pagination">
+                <div class="ax-group">
+                    <a href="##" class="ax-prev" id="travelPrev"><i class="ax-iconfont ax-icon-left"></i></a>
+                    <a href="##" class="ax-next" id="travelNext"><i class="ax-iconfont ax-icon-right"></i></a>
+                </div>
+            </div>
+
+        </div>
+    </aside>
+</div>
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/paginathing/paginathing.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script type='text/javascript'>
+    $(document).ready(function () {
+
+        $('#menu-basic').axMenu({cookie: true});
+        if (platformIs === 'pc') {
+            $(".ax-nav-main,main").axScroll({horizrailenabled: false});
+        }//只在笔记本和桌面电脑使用美化滚动而且禁止水平滚动
+        $('#user').axPopup({
+            content: '<a href="###" class="ax-info-block">我的好友</a><div class="ax-break-line"></div><a href="###" class="ax-info-block">系统消息</a><div class="ax-break-line"></div><a href="###" class="ax-info-block">个人资料</a><div class="ax-break-line"></div><a href="###" class="ax-info-block">退出</a>',
+            placement: 'bottom',
+            padding: false,
+            trigger: 'hover',
+        });
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/user/queryOneUserInfoById",formData,function (res) {
+           if(res.success){
+               rs=res.result;
+               $("#userName").text(rs.userName);
+               $("#avatar").css("background-image","url('"+rs.userImgUrl+"')")
+           }else{
+               toast("warning","操作失败",res.msg);
+           }
+        });
+
+        //查询自己的消息数量
+        querySelfMessageNum();
+
+        //消息弹窗绑定
+        $("#showMsgList").click(function () {
+            $("#showMsgList").html("");
+            showMsgList();
+        });
+
+        //素材分页
+        var optionsPn = {
+            valueNames: [ 'add', 'country','click' ],
+            item: 'ax-info-block',
+            listClass:'travellist',
+            pagination: true,
+            page:3,
+        };
+        var travelListPn = new List('travelPn', optionsPn);
+        $('#travelNext').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position+1]).trigger('click');
+                }
+            })
+        });
+        $('#travelPrev').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position-1]).trigger('click');
+                }
+            })
+        });
+
+    });
+
+    //修改消息状态
+    function updateMessageStatus(messageId,status) {
+        var formData=new FormData();
+        formData.append("messageId",messageId);
+        formData.append("messageStatus",status);
+        post("/groupMessage/updateMessageStatus",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功","您已成功加入该工作组");
+                showMsgList();
+            }else {
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+
+    //展示消息列表
+    function showMsgList() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/groupMessage/querySelfMessage",formData,function (res) {
+            $("div.travellist").html("");
+            var reords=res.result;
+            for(var i=0;i<reords.length;i++){
+                var btns="<a href='###' class='ax-btn ax-line ax-primary ax-xxs agreeJoin'>同意</a> " +
+                    "<a href='###' class='ax-btn ax-line ax-danger ax-xxs rejectJoin'>拒绝</a> ";
+                var originator=reords[i].originator;
+                $("div.travellist").append(" <div class='ax-info-block'>" +
+                    "                        <div class='ax-row'>" +
+                    "                            <div class='ax-col ax-col-2'>" +
+                    "                                <a href='###' class='ax-avatar ax-xxl ax-round' style='background-image: url("+originator.userImgUrl+")'></a>" +
+                    "                            </div>" +
+                    "                            <div class='ax-col ax-col-4'>" +
+                    "                                <div class='ax-flex-block ax-color-title materialName' style='font-size: x-large'>"+originator.userName+"</div>" +
+                    "                                <div class='ax-break-md'></div>" +
+                    "                                <div class='ax-flex-block uploadUserInfo'>" +
+                    "                                    <span class='ax-color-danger' style='font-size:16px;font-weight: bolder'>"+reords[i].remarks+"</span>"+
+                    "                                    <br>" +
+                    "                                    <a href='###' class='ax-avatar ax-round ax-xs' style='background-image: url("+reords[i].groupImgUrl+")'></a><span class='ax-gutter-xxs'></span>" +
+                    "                                    <span class='ax-ell'>"+reords[i].groupName+"</span>"+
+                    "                                </div>" +
+                    "                                <div class='ax-break-md'></div>" +
+                    "                                <div class='ax-flex-block'>" +
+                    btns+
+                    "                                </div>" +
+                    "                            </div>" +
+                    "                        </div>" +
+                    "                        <div class='ax-break-md '></div>" +
+                    "                        <div class='ax-break-line '></div>" +
+                    "                        <div class='ax-break-md '></div>" +
+                    "                    </div>");
+            }
+            $("div.travellist div.ax-info-block").each(function (i) {
+                $(this).find("a.agreeJoin").click(function () {
+                    updateMessageStatus(reords[i].messageId,2);
+                });
+                $(this).find("a.rejectJoin").click(function () {
+                    updateMessageStatus(reords[i].messageId,3);
+                });
+            })
+        })
+    }
+
+
+    //查看我的消息数量
+    function querySelfMessageNum() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/groupMessage/querySelfMessageCount",formData,function (res) {
+            if(res.success){
+                if(res.result>0){
+                    $("#showMsgList").append('<span class="ax-badge ax-badge-primary">'+res.result+'</span>');
+                }
+            }else{
+                toast("warning","操作失败","消息获取失败");
+            }
+        })
+    }
+
+</script>
+<script src="/js/ax-admin01.js?v=1.1" type="text/javascript"></script>
+</body>
+</html>

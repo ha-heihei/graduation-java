@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.mapper.GroupMessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lh.entity.GroupMessage">
+        <id column="message_id" property="messageId" />
+        <result column="originator_id" property="originatorId" />
+        <result column="receiver_id" property="receiverId" />
+        <result column="group_id" property="groupId" />
+        <result column="remarks" property="remarks" />
+        <result column="message_status" property="messageStatus" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        message_id, originator_id, receiver_id, group_id, remarks, message_status
+    </sql>
+    <select id="querySelfMessage" resultType="com.lh.entity.GroupMessage">
+        select * from group_message gm
+            join work_group wg on gm.group_id=wg.group_id
+            join user u on wg.user_id=u.user_id
+            ${ew.customSqlSegment}
+    </select>
+
+</mapper>

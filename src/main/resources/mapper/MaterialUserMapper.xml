@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lh.mapper.MaterialUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lh.entity.MaterialUser">
+        <id column="material_id" property="materialId" />
+        <id column="user_id" property="userId" />
+        <result column="create_time" property="createTime" />
+        <result column="material_name" property="materialName" />
+        <result column="remarks" property="remarks" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        material_id, user_id, create_time,material_name,remarks
+    </sql>
+
+</mapper>

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>我的素材</title>
+</head>
+<body>
+<div class="ax-flex-col ax-padding ax-sm">
+    <div class="ax-shadow-primary  ax-border ax-shadow-border ax-padding ax-sm">
+        <div class="ax-grid ax-space ax-split">
+            <ul class="ax-grid-inner" id="header">
+                <li class="ax-grid-block ax-col-5">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">素材名称</span>
+                        <div class="ax-flex-block">
+                            <input name="materialName" placeholder="输入名称" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-8">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">创建日期</span>
+                        <div class="ax-flex-block">
+                            <div class="ax-row">
+                                <div class="ax-col ax-col-12">
+                                    <input name="beginDate" placeholder="起始日期" id="beginDate" type="text">
+                                </div>
+                                <div class="ax-gutter-sm"></div>
+                                <div class="ax-col ax-col-12">
+                                    <input name="endDate" placeholder="截止日期" id="endDate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-4">
+                    <a href="###" class="ax-btn ax-primary ax-full" id="queryMaterialsBtn">检索</a>
+                </li>
+                <li class="ax-grid-block ax-col-3"></li>
+                <li class="ax-grid-block ax-col-4">
+                    <a class="ax-btn ax-ad ax-full" href="###" id="uploadMaterialBtn">上传素材</a>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="ax-break-md"></div>
+    <div class="ax-border ax-shadow-border ax-padding">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>素材名称</th>
+                    <th>素材</th>
+                    <th>创建时间</th>
+                    <th>备注</th>
+                    <th>所属工作组</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!---------------------------------------------------弹窗布局Begin---------------------------------------------------------------------->
+<!--素材上传弹窗-->
+<div class="ax-window" data-mask="true"  id="uploadMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材上传</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材文件：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <div class="ax-file" data-placeholder="点击选择文件" data-text="选择文件">
+                                        <input type="file" name="materialFile">
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="###" class="ax-form-head" id="headImg"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">上传更美的素材吧</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="materialUploadBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--素材信息修改弹窗-->
+<div class="ax-window" data-mask="true"  id="updateMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材上传</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材描述：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <textarea name="materialDescription" placeholder="输入描述" cols="" rows=""></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">上传更美的素材吧</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="materialUpdateBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--确认删除成员弹窗模版-->
+<div class="ax-window" data-mask="true"  id="deleteTipAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">确认删除</div>
+        <div class="ax-window-content">
+            <div class="ax-padding">
+                <p id="deleteMsg">确认删除该素材吗？</p>
+            </div>
+        </div>
+        <div class="ax-padding ax-window-operate ax-align-center">
+            <a href="###" class="ax-btn ax-ignore ax-window-close">取消</a>
+            <a href="###" class="ax-btn ax-primary ax-window-close" id="deleteOKBtn">确定</a>
+        </div>
+        <div class="ax-break"></div>
+    </div>
+</div>
+
+
+<!----------------------------------------------------弹窗布局End------------------------------------------------------------------------------>
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        //日期选择器
+        $('#beginDate,#endDate').mobiscroll().calendar({
+            theme: 'ax',
+            lang:'zh',
+            onBeforeShow:function(event, inst){//显示前的点击事件
+                $('#'+this.id).addClass('ax-focus');//input焦点
+                //inst.settings.cssClass='ax-mask';//添加遮罩
+            },
+            onClose: function (event, inst) {//关闭事件
+                $('#'+this.id).removeClass('ax-focus');
+            },
+            display: 'bubble',
+        });
+        $("input[name=materialFile]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=materialFile]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#headImg").css("background-image","url('"+url+"')");
+        });
+
+        //素材上传功能绑定
+        $("#uploadMaterialBtn").click(function () {
+            $("#uploadMaterialAlert").addClass("ax-window-show");
+            $("#materialUploadBtn").click(function () {
+                var materialName=$("#uploadMaterialAlert input[name=materialName]").val();
+                if(materialName.length===0){
+                    toast("warning","操作失败","素材名称未填写");
+                    return;
+                }
+                var materialFile=$("#uploadMaterialAlert input[name=materialFile]")[0].files[0];
+                if (typeof (materialFile) == "undefined" || materialFile.size <= 0) {
+                    toast("warning","操作失败","未上传素材");
+                    return;
+                }
+                var formData=new FormData();
+                formData.append("userId",localStorage.getItem("userId"));
+                formData.append("materialName",materialName);
+                formData.append("material",materialFile);
+                post("/material/insertMaterial",formData,function (res) {
+                    if(res.success){
+                        toast("success","操作成功","上传成功");
+                        $("#queryMaterialsBtn").click();
+                    }else{
+                        toast("warning","操作失败",res.msg);
+                    }
+                })
+            });
+        });
+
+        //数据表引用
+        var dataTable=$('#dataTable').DataTable({
+            sDom: "lfrtip",
+        });
+        $("#queryMaterialsBtn").click(function () {
+            var formData=new FormData();
+            var materialName=$("#header input[name=materialName]").val();
+            var beginDate=$("#header input[name=beginDate]").val();
+            var endDate=$("#header input[name=endDate]").val();
+            formData.append("userId",localStorage.getItem("userId"));
+            if(materialName.length>0){
+                formData.append("materialName",materialName);
+            }
+            if(beginDate.length>0){
+                formData.append("beginTime",beginDate.replaceAll("/","-")+" 00:00:00");
+            }
+            if(endDate.length>0){
+                formData.append("endTime",endDate.replaceAll("/","-")+" 00:00:00");
+            }
+            post("/material/querySelfMaterialPageListByConditions",formData,function (res) {
+                if(res.success){
+                    var records=res.result.records;
+                    dataTable.clear();
+                    for(var i=0;i<records.length;i++){
+                        var materialUrls=JSON.parse(records[i].materialUrls);
+                        var groupList=records[i].groupList;
+                        var tags="";
+                        var btns='<a href="###" class="ax-btn ax-sm ax-ad updateMaterial">修改</a>' +
+                            '<span class="ax-gutter-xxs"></span> ' +
+                            '<a href="###" class="ax-btn ax-sm ax-danger deleteMaterial">删除</a>';
+                        if(groupList.length===0){
+                            tags='<span class="ax-tag ax-info">-</span>';
+                        }
+                        for(var j=0;j<groupList.length;j++){
+                            tags+='<span class="ax-tag ax-info">'+groupList[j].groupName+'</span>';
+                        }
+                        var row=$('<tr>\n' +
+                            '                <td style="display: none">'+records[i].materialId+'</td>\n' +
+                            '                <td>'+records[i].materialName+'</td>\n' +
+                            '                <td><a href="###" class="ax-avatar ax-xxl" style="background-image: url('+materialUrls.originUrl+')"></a></td>\n' +
+                            '                <td>'+records[i].createTime+'</td>\n' +
+                            '                <td>'+records[i].remarks+'</td>\n' +
+                            '                <td>'+tags+'</td>\n' +
+                            '                <td>'+btns+'</td>\n' +
+                            '            </tr>');
+                        dataTable.row.add(row);
+                    }
+                    dataTable.draw();
+                    // dataTable.data().each(function (v,i) {
+                    //     console.log(v);
+                    //     //修改素材信息事件绑定
+                    //     $("table#dataTable tbody>tr:eq("+i+")").find("a.updateMaterial").click(function () {
+                    //         updateMaterial(v);
+                    //     });
+                    //
+                    //     //删除素材事件绑定
+                    //     $("table#dataTable tbody>tr:eq("+i+")").find("a.deleteMaterial").click(function () {
+                    //         deleteMaterial(v[0]);
+                    //     })
+                    //
+                    // });
+                    $("table#dataTable tbody>tr").each(function (i) {
+                        //修改素材信息事件绑定
+                        $(this).find("a.updateMaterial").click(function () {
+                            updateMaterial(records[i]);
+                        });
+
+                        //删除素材事件绑定
+                        $(this).find("a.deleteMaterial").click(function () {
+                            deleteMaterial(records[i].materialId);
+                        })
+
+                    });
+
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+    });
+    
+    
+    //修改素材信息
+    function updateMaterial(rs) {
+        $("#updateMaterialAlert textarea[name=materialDescription]").val(rs.remarks);
+        // $("#updateMaterialAlert textarea[name=materialDescription]").val(rs[4]);
+        $("#updateMaterialAlert input[name=materialName]").val(rs.materialName);
+        // $("#updateMaterialAlert input[name=materialName]").val(rs[1]);
+        $("#updateMaterialAlert").addClass("ax-window-show");
+        $("#materialUpdateBtn").click(function () {
+            var formData=new FormData();
+            var materialName=$("#updateMaterialAlert input[name=materialName]").val();
+            var materialDes=$("#updateMaterialAlert textarea[name=materialDescription]").val();
+            formData.append("materialId",rs.materialId);
+            // formData.append("materialId",rs[0]);
+            formData.append("materialName",materialName);
+            formData.append("remarks",materialDes);
+            formData.append("userId",localStorage.getItem("userId"));
+            post("/material/updateMaterialById",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                    $("#queryMaterialsBtn").click();
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+    
+    //删除素材信息
+    function deleteMaterial(materialId) {
+        $("#deleteTipAlert").addClass("ax-window-show");
+        $("#deleteOKBtn").click(function () {
+            var formData=new FormData();
+            formData.append("materialId",materialId);
+            formData.append("userId",localStorage.getItem("userId"));
+            post("/material/deleteMaterialById",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                    $("#queryMaterialsBtn").click();
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    }
+
+</script>
+</body>
+</html>
