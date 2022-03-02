@@ -237,6 +237,12 @@ public class GroupController {
         return CommonResult.success(groupService.queryAllGroupByConditions(group));
     }
 
+    @ApiOperation("管理员查询工作组内素材")
+    @PostMapping(value = "/queryAllGroupMaterial")
+    public CommonResult queryAllGroupMaterial(GroupMaterial groupMaterial){
+        return CommonResult.success(groupService.queryAllGroupMaterial(groupMaterial));
+    }
+
 
 }
 

@@ -96,5 +96,22 @@ public class GroupMaterial extends BaseEntity {
     @TableField(exist = false)
     private String groupDescription;
 
+    @ApiModelProperty("所属工作组")
+    @TableField(exist = false)
+    private List<String> groupList;
+
+
+    @ApiModelProperty("起始时间")
+    @TableField(exist = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime beginTime;
+
+    @ApiModelProperty("截止时间")
+    @TableField(exist = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endTime;
+
 
 }

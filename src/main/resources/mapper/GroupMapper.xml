@@ -85,6 +85,14 @@
         ${ew.customSqlSegment}
         order by create_time desc
     </select>
+    <select id="queryAllGroupMaterial" resultType="com.lh.entity.GroupMaterial">
+        select gm.*,u.user_name,u.user_img_url,m.material_urls,m.material_name
+            from group_material gm
+            join material m on gm.material_id=m.material_id
+            join user u on u.user_id=gm.user_id
+            ${ew.customSqlSegment}
+            order by gm.create_time desc
+    </select>
 
 
 </mapper>

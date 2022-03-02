@@ -233,4 +233,27 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
                 .ge(Objects.nonNull(group.getBeginUserNum()), "materialNum", group.getBeginUserNum());
         return groupMapper.queryAllGroupByConditions(queryWrapper);
     }
+
+    @Override
+    public List<GroupMaterial> queryAllGroupMaterial(GroupMaterial groupMaterial) {
+        QueryWrapper<GroupMaterial> queryWrapper = new QueryWrapper<GroupMaterial>()
+                .like(StringUtils.isNotBlank(groupMaterial.getMaterialName()), "m.material_name", groupMaterial.getMaterialName())
+                .like(StringUtils.isNotBlank(groupMaterial.getUserName()), "u.user_name", groupMaterial.getUserName())
+                .eq(Objects.nonNull(groupMaterial.getGroupMaterialType()), "gm.group_material_type", groupMaterial.getGroupMaterialType())
+                .le(Objects.nonNull(groupMaterial.getEndTime()), "gm.create_time", groupMaterial.getEndTime())
+                .ge(Objects.nonNull(groupMaterial.getBeginTime()), "gm.create_time", groupMaterial.getBeginTime());
+        List<GroupMaterial> groupMaterials = groupMapper.queryAllGroupMaterial(queryWrapper);
+        for(GroupMaterial bean:groupMaterials){
+            List<GroupMaterial> materials = groupMaterialMapper.selectList(new QueryWrapper<GroupMaterial>().eq("material_id", bean.getMaterialId()));
+            ArrayList<String> list = new ArrayList<>();
+            for(GroupMaterial material:materials){
+                Group group = groupMapper.selectOne(new QueryWrapper<Group>().eq("group_id", material.getGroupId()));
+                if(group!=null){
+                    list.add(group.getGroupName());
+                }
+            }
+            bean.setGroupList(list);
+        }
+        return groupMaterials;
+    }
 }

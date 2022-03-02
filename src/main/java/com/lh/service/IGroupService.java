@@ -50,4 +50,6 @@ public interface IGroupService extends IService<Group> {
     Page<User> queryNotInGroupUserList(Group group);
 
     List<Group> queryAllGroupByConditions(Group group);
+
+    List<GroupMaterial> queryAllGroupMaterial(GroupMaterial groupMaterial);
 }

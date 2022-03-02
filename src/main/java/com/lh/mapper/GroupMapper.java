@@ -56,4 +56,6 @@ public interface GroupMapper extends BaseMapper<Group> {
 
     List<Group> queryAllGroupByConditions(@Param(Constants.WRAPPER)QueryWrapper<Group> wrapper);
 
+    List<GroupMaterial> queryAllGroupMaterial(@Param(Constants.WRAPPER)QueryWrapper<GroupMaterial> wrapper);
+
 }
