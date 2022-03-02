@@ -89,4 +89,9 @@ public class CommonController {
     public String toAdminGroupMaterial(){
         return "admin/groupmaterial";
     }
+
+    @RequestMapping(value = "/toAdminUserInfo")
+    public String toAdminUserInfo(){
+        return "admin/userinfo";
+    }
 }
