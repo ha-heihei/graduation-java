@@ -6,6 +6,7 @@ import com.lh.common.CommonResult;
 import com.lh.entity.GroupMessage;
 import com.lh.service.IGroupMessageService;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -77,6 +78,12 @@ public class GroupMessageController {
             return CommonResult.fail("未包含用户ID");
         }
         return CommonResult.success(groupMessageService.querySelfMessageCount(message));
+    }
+
+    @ApiOperation("管理员查询所有的消息")
+    @PostMapping(value = "/queryAllMsgByConditions")
+    public CommonResult queryAllMsgByConditions(GroupMessage message){
+        return CommonResult.success(groupMessageService.queryAllMsgByConditions(message));
     }
 
 

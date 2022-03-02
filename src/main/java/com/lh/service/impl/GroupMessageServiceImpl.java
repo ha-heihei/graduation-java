@@ -1,6 +1,7 @@
 package com.lh.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lh.entity.Group;
 import com.lh.entity.GroupMessage;
@@ -15,7 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,8 +34,7 @@ import java.util.Objects;
  * @since 2022-01-19
  */
 @Service
-public class
-GroupMessageServiceImpl extends ServiceImpl<GroupMessageMapper, GroupMessage> implements IGroupMessageService {
+public class GroupMessageServiceImpl extends ServiceImpl<GroupMessageMapper, GroupMessage> implements IGroupMessageService {
 
     @Resource
     private GroupMessageMapper messageMapper;
@@ -115,4 +120,37 @@ GroupMessageServiceImpl extends ServiceImpl<GroupMessageMapper, GroupMessage> im
         }
         return messageMapper.insert(message)==1;
     }
+
+    @Override
+    public List<GroupMessage> queryAllMsgByConditions(GroupMessage message) {
+        QueryWrapper<GroupMessage> queryWrapper = new QueryWrapper<GroupMessage>()
+                .like(StringUtils.isNotBlank(message.getOriginatorName()), "ou.userName", message.getOriginatorName())
+                .like(StringUtils.isNotBlank(message.getReceiverName()), "ru.userName", message.getReceiverName())
+                .like(StringUtils.isNotBlank(message.getGroupName()), "g.groupName", message.getGroupName())
+                .eq(StringUtils.isNotBlank(message.getMessageType()), "gm.remarks", message.getMessageType());
+        if(Objects.nonNull(message.getEndTime())){
+            queryWrapper.le(Objects.nonNull(message.getEndTime()), "gm.message_id", message.getEndTime().toInstant(ZoneOffset.of("+8")).toEpochMilli());
+
+        }
+        if(Objects.nonNull(message.getBeginTime())){
+            queryWrapper.ge(Objects.nonNull(message.getBeginTime()), "gm.message_id", message.getEndTime().toInstant(ZoneOffset.of("+8")).toEpochMilli());
+        }
+        List<GroupMessage> groupMessages = messageMapper.queryAllMsgByConditions(queryWrapper);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for(GroupMessage bean:groupMessages){
+            Date date = new Date(Long.parseLong(bean.getMessageId()));
+            bean.setGroupMsgTime(dateFormat.format(date));
+        }
+        return groupMessages;
+    }
+
+    public static void main(String[] args) {
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String s = now.format(formatter);
+        System.out.println(s);
+        System.out.println(now.toInstant(ZoneOffset.of("+8")).toEpochMilli());
+        System.out.println(LocalDateTime.ofEpochSecond(now.toInstant(ZoneOffset.of("+8")).toEpochMilli(), 0, ZoneOffset.ofHours(8)));
+    }
 }
+

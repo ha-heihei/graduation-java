@@ -22,6 +22,6 @@ public interface GroupMessageMapper extends BaseMapper<GroupMessage> {
 
     List<GroupMessage> querySelfMessage(@Param(Constants.WRAPPER)QueryWrapper<GroupMessage> wrapper);
 
-
+    List<GroupMessage> queryAllMsgByConditions(@Param(Constants.WRAPPER)QueryWrapper<GroupMessage> wrapper);
 
 }

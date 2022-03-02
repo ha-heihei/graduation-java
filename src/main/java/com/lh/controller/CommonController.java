@@ -65,4 +65,8 @@ public class CommonController {
         return "admin/userlist";
     }
 
+    @RequestMapping(value = "/toGroupMsg")
+    public String toGroupMsg(){
+        return "admin/groupmsg";
+    }
 }

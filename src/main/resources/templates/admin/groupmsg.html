@@ -28,36 +28,36 @@
             <ul class="ax-grid-inner">
                 <li class="ax-grid-block ax-col-5">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">用户名</span>
+                        <span class="ax-title ax-btn">发起人</span>
                         <div class="ax-flex-block">
-                            <input name="userName" placeholder="输入用户名" type="text">
+                            <input name="originatorName" placeholder="输入发起人名称" type="text">
                         </div>
                     </div>
                 </li>
                 <li class="ax-grid-block ax-col-5">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">邮箱</span>
+                        <span class="ax-title ax-btn">接收人</span>
                         <div class="ax-flex-block">
-                            <input name="email" placeholder="输入邮箱" type="text">
+                            <input name="receiverName" placeholder="输入接受人名称" type="text">
                         </div>
                     </div>
                 </li>
                 <li class="ax-grid-block ax-col-5">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">电话</span>
+                        <span class="ax-title ax-btn">工作组名称</span>
                         <div class="ax-flex-block">
-                            <input name="mobile" placeholder="输入电话" type="text">
+                            <input name="groupName" placeholder="输入工作组名称" type="text">
                         </div>
                     </div>
                 </li>
                 <li class="ax-grid-block ax-col-4">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">性别</span>
+                        <span class="ax-title ax-btn">消息类型</span>
                         <div class="ax-flex-block">
-                            <select class="ax-select" name="gender">
+                            <select class="ax-select" name="msgType">
                                 <option value="0">不限</option>
-                                <option value="1">男</option>
-                                <option value="2">女</option>
+                                <option value="受邀加入">受邀加入</option>
+                                <option value="请求加入">请求加入</option>
                             </select>
                         </div>
                     </div>
@@ -67,36 +67,10 @@
                     <a href="###" class="ax-btn ax-primary ax-full" id="queryBtn">检索</a>
                 </li>
 
-                <li class="ax-grid-block ax-col-6">
-                    <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">用户类型</span>
-                        <div class="ax-flex-block">
-                            <select class="ax-select" name="userType">
-                                <option value="0">不限</option>
-                                <option value="1">用户</option>
-                                <option value="2">采集员</option>
-                                <option value="3">管理员</option>
-                            </select>
-                        </div>
-                    </div>
-                </li>
                 <li class="ax-grid-block ax-col-1"></li>
                 <li class="ax-grid-block ax-col-6">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">用户状态</span>
-                        <div class="ax-flex-block">
-                            <select class="ax-select" name="userStatus">
-                                <option value="0">不限</option>
-                                <option value="1">未禁用</option>
-                                <option value="2">已禁用</option>
-                            </select>
-                        </div>
-                    </div>
-                </li>
-                <li class="ax-grid-block ax-col-1"></li>
-                <li class="ax-grid-block ax-col-6">
-                    <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">注册日期</span>
+                        <span class="ax-title ax-btn">发起日期</span>
                         <div class="ax-flex-block">
                             <div class="ax-row">
                                 <div class="ax-col ax-col-12">
@@ -110,7 +84,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="ax-grid-block ax-col-3">
+                <li class="ax-grid-block ax-col-16">
                 </li>
             </ul>
         </div>
@@ -120,13 +94,11 @@
         <table class="ax-table" id="dataTable">
             <thead>
             <tr>
-                <td>用户名</td>
-                <td>性别</td>
-                <td>电话</td>
-                <td>邮箱</td>
-                <td>用户类型</td>
-                <td>用户状态</td>
-                <td>注册时间</td>
+                <td>发起人</td>
+                <td>接收人</td>
+                <td>工作组</td>
+                <td>消息类型</td>
+                <td>发起时间</td>
                 <td>操作</td>
             </tr>
             </thead>
@@ -151,8 +123,113 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script type="text/javascript">
     $(function () {
-        // TODO 完成工作组消息以及工作组管理模块
-    })
+        // 初始化配置
+        init();
+
+        var dataTable=$('#dataTable').DataTable({
+            sDom: "lfrtip"
+        });
+
+        // 工作组消息
+        queryAllMsgByConditions(dataTable);
+
+        // 工作组消息事件绑定
+        $("#queryBtn").click(function () {
+            queryAllMsgByConditions(dataTable);
+        });
+    });
+
+    // 查询工作组消息
+    function queryAllMsgByConditions(dataTable) {
+        var formData=new FormData();
+        var originatorName=$("#header input[name=originatorName]").val();
+        var receiverName=$("#header input[name=receiverName]").val();
+        var groupName=$("#header input[name=groupName]").val();
+        var msgType=$("#header select[name=msgType]").val();
+        var beginDate=$("#header input[name=beginDate]").val();
+        var endDate=$("#header input[name=endDate]").val();
+        if(originatorName.length>0){
+            formData.append("originatorName",originatorName);
+        }
+        if(receiverName.length>0){
+            formData.append("receiverName",receiverName)
+        }
+        if(groupName.length>0){
+            formData.append("groupName",groupName);
+        }
+        if(msgType!=='0'){
+            formData.append("messageType",msgType);
+        }
+        if(beginDate.length>0){
+            formData.append("beginTime",beginDate+" 00:00:00");
+        }
+        if(endDate.length>0){
+            formData.append("endTime",endDate+" 00:00:00");
+        }
+        post("/groupMessage/queryAllMsgByConditions",formData,function (res) {
+            if(res.success){
+                var records=res.result;
+                dataTable.clear();
+                for(var i=0;i<records.length;i++){
+                    var btns='<a href="###" class="ax-btn ax-sm ax-danger deleteMsg">移除</a>';
+                    var row=$('<tr data-val="'+records[i].messageId+'">' +
+                        '                <td ><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].originatorImgUrl+')"></a>'+records[i].originatorName+'</td>' +
+                        '                <td ><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].receiverImgUrl+')"></a>'+records[i].receiverName+'</td>' +
+                        '                <td ><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].groupImgUrl+')"></a>'+records[i].groupName+'</td>' +
+                        '                <td><span class="ax-tag ax-success">'+records[i].remarks+'</span></td>' +
+                        '                <td>'+records[i].groupMsgTime.split(" ")[0]+'</td>' +
+                        '                <td>'+btns+'</td>' +
+                        '            </tr>');
+                    dataTable.row.add(row);
+                }
+                dataTable.draw();
+                $("table#dataTable tbody>tr").each(function (i) {
+                    // 删除事件绑定
+                    $(this).find("a.deleteMsg").click(function () {
+                        deleteMsg($(this).parent().parent().attr("data-val"));
+                    });
+
+                });
+
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+
+    }
+
+    // 移除消息
+    function deleteMsg(msgId) {
+        var formData=new FormData();
+        formData.append("messageId",msgId);
+        formData.append("messageStatus","3");
+        post("/groupMessage/updateMessageStatus",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功",res.msg);
+                $("#queryBtn").click();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 初始化配置
+    function init() {
+
+        //日期选择器绑定
+        $('#beginDate,#endDate').mobiscroll().calendar({
+            theme: 'ax',
+            lang:'zh',
+            onBeforeShow:function(event, inst){//显示前的点击事件
+                $('#'+this.id).addClass('ax-focus');//input焦点
+                //inst.settings.cssClass='ax-mask';//添加遮罩
+            },
+            onClose: function (event, inst) {//关闭事件
+                $('#'+this.id).removeClass('ax-focus');
+            },
+            display: 'bubble',
+        });
+    }
 </script>
 </body>
 </html>

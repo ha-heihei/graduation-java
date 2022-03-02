@@ -56,6 +56,9 @@ public class GroupMessage extends BaseEntity {
     @TableField("message_status")
     private Integer messageStatus;
 
+    @ApiModelProperty("消息类型")
+    @TableField(exist = false)
+    private String messageType;
 
 
 
@@ -64,9 +67,25 @@ public class GroupMessage extends BaseEntity {
     @TableField(exist = false)
     private User originator;
 
-    @ApiModelProperty("邀请者信息")
+    @ApiModelProperty("受邀者信息")
     @TableField(exist = false)
     private User receiver;
+
+    @ApiModelProperty("邀请者名称")
+    @TableField(exist = false)
+    private String originatorName;
+
+    @ApiModelProperty("受邀者名称")
+    @TableField(exist = false)
+    private String receiverName;
+
+    @ApiModelProperty("邀请者头像")
+    @TableField(exist = false)
+    private String originatorImgUrl;
+
+    @ApiModelProperty("受邀者头像")
+    @TableField(exist = false)
+    private String receiverImgUrl;
 
 
 
@@ -106,6 +125,23 @@ public class GroupMessage extends BaseEntity {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
+
+
+    @ApiModelProperty("起始时间")
+    @TableField(exist = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime beginTime;
+
+    @ApiModelProperty("截止时间")
+    @TableField(exist = false)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endTime;
+
+    @ApiModelProperty("工作组消息查询时间")
+    @TableField(exist = false)
+    private String groupMsgTime;
 
 
 }

@@ -22,5 +22,13 @@
             join user u on wg.user_id=u.user_id
             ${ew.customSqlSegment}
     </select>
+    <select id="queryAllMsgByConditions" resultType="com.lh.entity.GroupMessage">
+        select gm.*,g.group_name,g.group_img_url,ou.user_name originatorName,ou.user_img_url originatorImgUrl,
+            ru.user_name receiverName,ru.user_img_url receiverImgUrl
+            from group_message gm join user ou on ou.user_id=gm.originator_id
+            join user ru on ru.user_id=gm.receiver_id
+            join work_group g on g.group_id=gm.group_id
+            ${ew.customSqlSegment}
+    </select>
 
 </mapper>

@@ -24,4 +24,6 @@ public interface IGroupMessageService extends IService<GroupMessage> {
     Boolean updateMessageStatus(GroupMessage message);
 
     Boolean requestJoinGroup(GroupMessage message);
+
+    List<GroupMessage> queryAllMsgByConditions(GroupMessage message);
 }
