@@ -13,6 +13,7 @@ import com.lh.service.IGroupService;
 import com.lh.service.IMaterialService;
 import com.lh.utils.OSSUtils;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -228,6 +229,14 @@ public class GroupController {
         }
         return CommonResult.success(groupService.queryNotInGroupUserList(group));
     }
+
+
+    @ApiOperation("管理员查询所有的工作组")
+    @PostMapping(value = "/queryAllGroupByConditions")
+    public CommonResult queryAllGroupByConditions(Group group){
+        return CommonResult.success(groupService.queryAllGroupByConditions(group));
+    }
+
 
 }
 

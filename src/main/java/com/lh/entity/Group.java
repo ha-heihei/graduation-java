@@ -113,5 +113,25 @@ public class Group extends BaseEntity {
     @TableField(exist = false)
     private String joinMsg;
 
+    @ApiModelProperty("工作组人数")
+    @TableField(exist = false)
+    private Integer userNum;
+
+    @ApiModelProperty("工作组起始人数")
+    @TableField(exist = false)
+    private Integer beginUserNum;
+
+    @ApiModelProperty("工作组截止人数")
+    @TableField(exist = false)
+    private Integer endUserNum;
+
+    @ApiModelProperty("工作组起始素材数")
+    @TableField(exist = false)
+    private Integer beginMaterialNum;
+
+    @ApiModelProperty("工作组截止素材数")
+    @TableField(exist = false)
+    private Integer endMaterialNum;
+
 
 }

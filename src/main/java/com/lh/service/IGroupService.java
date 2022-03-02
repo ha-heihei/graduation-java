@@ -7,6 +7,8 @@ import com.lh.entity.GroupMaterial;
 import com.lh.entity.GroupUser;
 import com.lh.entity.User;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -46,4 +48,6 @@ public interface IGroupService extends IService<Group> {
     Group queryOneGroupDetail(Group group);
 
     Page<User> queryNotInGroupUserList(Group group);
+
+    List<Group> queryAllGroupByConditions(Group group);
 }

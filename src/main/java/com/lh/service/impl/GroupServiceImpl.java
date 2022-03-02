@@ -219,4 +219,18 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
                         .like(StringUtils.isNotBlank(group.getUserName()),"user_name",group.getUserName())
                         .eq(StringUtils.isNotBlank(group.getMobile()),"mobile",group.getMobile()));
     }
+
+    @Override
+    public List<Group> queryAllGroupByConditions(Group group) {
+        QueryWrapper<Group> queryWrapper = new QueryWrapper<Group>()
+                .like(StringUtils.isNotBlank(group.getGroupName()), "g.group_name", group.getGroupName())
+                .like(StringUtils.isNotBlank(group.getUserName()), "u.user_name", group.getUserName())
+                .le(Objects.nonNull(group.getEndTime()), "create_time", group.getEndTime())
+                .ge(Objects.nonNull(group.getBeginTime()), "create_time", group.getBeginTime())
+                .le(Objects.nonNull(group.getEndUserNum()), "userNum", group.getEndUserNum())
+                .ge(Objects.nonNull(group.getBeginUserNum()), "userNum", group.getBeginUserNum())
+                .le(Objects.nonNull(group.getEndMaterialNum()), "materialNum", group.getEndUserNum())
+                .ge(Objects.nonNull(group.getBeginUserNum()), "materialNum", group.getBeginUserNum());
+        return groupMapper.queryAllGroupByConditions(queryWrapper);
+    }
 }

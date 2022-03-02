@@ -74,6 +74,17 @@
             ${ew.customSqlSegment}
             order by create_time desc
     </select>
+    <select id="queryAllGroupByConditions" resultType="com.lh.entity.Group">
+        select * from (
+            select g.*,count(distinct gu.user_id) userNum,count(distinct gm.material_id) materialNum,u.user_name,u.user_img_url
+            from work_group g left join user u on u.user_id=g.user_id
+            left join group_user gu on g.group_id=gu.group_id
+            left join group_material gm on gm.group_id=g.group_id
+            group by g.group_id
+        ) t
+        ${ew.customSqlSegment}
+        order by create_time desc
+    </select>
 
 
 </mapper>

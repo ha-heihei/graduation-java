@@ -1,6 +1,7 @@
 package com.lh.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.entity.Group;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -9,6 +10,9 @@ import com.lh.entity.GroupUser;
 import com.lh.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
 
 /**
  * <p>
@@ -50,5 +54,6 @@ public interface GroupMapper extends BaseMapper<Group> {
                                        @Param("groupId")String groupId,
                                        @Param("ew")QueryWrapper<User> wrapper);
 
+    List<Group> queryAllGroupByConditions(@Param(Constants.WRAPPER)QueryWrapper<Group> wrapper);
 
 }
