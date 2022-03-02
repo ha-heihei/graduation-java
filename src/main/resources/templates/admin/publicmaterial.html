@@ -2,9 +2,210 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
     <title>公共素材库管理</title>
 </head>
 <body>
+<div class="ax-flex-col ax-padding">
+    <div class="ax-shadow-primary  ax-border ax-shadow-border ax-padding ax-sm">
+        <div class="ax-grid ax-space ax-split">
+            <ul class="ax-grid-inner" id="header">
+                <li class="ax-grid-block ax-col-4">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">素材名称</span>
+                        <div class="ax-flex-block">
+                            <input name="materialName" placeholder="输入名称" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-4">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">作者名称</span>
+                        <div class="ax-flex-block">
+                            <input name="userName" placeholder="输入名称" type="text">
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-9">
+                    <div class="ax-row ax-input-group">
+                        <span class="ax-title ax-btn">上传日期</span>
+                        <div class="ax-flex-block">
+                            <div class="ax-row">
+                                <div class="ax-col ax-col-12">
+                                    <input name="beginDate" placeholder="起始日期" id="beginDate" type="text">
+                                </div>
+                                <div class="ax-gutter-sm"></div>
+                                <div class="ax-col ax-col-12">
+                                    <input name="endDate" placeholder="截止日期" id="endDate" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="ax-grid-block ax-col-4">
+                </li>
+                <li class="ax-grid-block ax-col-3">
+                    <a href="###" class="ax-btn ax-primary ax-full" id="queryMaterialsBtn">检索</a>
+<!--                    <a class="ax-btn ax-success ax-full" href="###" id="recommendBtn">相关推荐</a>-->
+                </li>
+            </ul>
+        </div>
+
+    </div>
+    <div class="ax-border ax-shadow-border ax-padding">
+        <table class="ax-table" id="dataTable">
+            <thead>
+            <tr>
+                <td>素材名称</td>
+                <td>素材</td>
+                <td width="20%">备注</td>
+                <td>上传者</td>
+                <td>上传时间</td>
+                <td width="8%">下载量</td>
+                <td width="8%">转入量</td>
+                <td width="8%">点赞量</td>
+                <td width="8%">搜索量</td>
+                <td >操作</td>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript">
+    $(function () {
+        // 初始化配置
+        init();
+
+        var dataTable=$('#dataTable').DataTable({
+            sDom: "lfrtip"
+        });
+
+        queryAllPublicMaterial(dataTable);
+
+        $("#queryBtn").click(function () {
+            queryAllPublicMaterial(dataTable);
+        })
+
+    });
+
+    // 查询公共素材库
+    function queryAllPublicMaterial(dataTable) {
+        var formData=new FormData();
+        var userName=$("#header input[name=userName]").val();
+        var materialName=$("#header input[name=materialName]").val();
+        var beginDate=$("#header input[name=beginDate]").val();
+        var endDate=$("#header input[name=endDate]").val();
+        if(userName.length>0){
+            formData.append("userName",userName);
+        }
+        if(materialName.length>0){
+            formData.append("materialName",materialName)
+        }
+        if(beginDate.length>0){
+            formData.append("beginTime",beginDate+" 00:00:00");
+        }
+        if(endDate.length>0){
+            formData.append("endTime",endDate+" 00:00:00");
+        }
+        post("/material/queryAllPublicMaterial",formData,function (res) {
+            if(res.success){
+                var records=res.result;
+                dataTable.clear();
+                for(var i=0;i<records.length;i++){
+                    var btns='<a href="###" class="ax-btn ax-sm ax-danger deleteMaterial">删除</a>';
+                    var row=$('<tr data-material="'+records[i].materialId+'" data-user="'+records[i].userId+'">\n' +
+                        '                <td>'+records[i].materialName+'</td>\n' +
+                        '                <td ><a href="###" class="ax-avatar ax-xxl" style="background-image: url('+records[i].materialUrl+')"></a></td>\n' +
+                        '                <td><span class="ax-ell-2">'+records[i].remarks+'</span></td>\n' +
+                        '                <td class="ax-align-center"><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].userImgUrl+')"></a>'+records[i].userName+'</td>\n' +
+                        '                <td>'+records[i].createTime.split(" ")[0]+'</td>\n' +
+                        '                <td>'+records[i].downloadNum+'</td>\n' +
+                        '                <td>'+records[i].transformNum+'</td>\n' +
+                        '                <td>'+records[i].thumbsNum+'</td>\n' +
+                        '                <td>'+records[i].searchNum+'</td>\n' +
+                        '                <td>'+btns+'</td>\n' +
+                        '            </tr>');
+                    dataTable.row.add(row);
+                }
+                dataTable.draw();
+                $("table#dataTable tbody>tr").each(function (i) {
+
+                    // 删除事件绑定
+                    $(this).find("a.deleteMaterial").click(function () {
+                        deleteMaterial($(this).parent().parent().attr("data-material"));
+                    });
+
+
+                });
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 删除素材
+    function deleteMaterial(materialId) {
+        var formData=new FormData();
+        formData.append("materialId",materialId);
+        post("/publicMaterial/deleteMaterialById",formData,function (res) {
+            if(res.success){
+                toast("success","操作成功",res.msg);
+                $("#queryBtn").click();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 初始化配置
+    function init() {
+
+        //日期选择器绑定
+        $('#beginDate,#endDate').mobiscroll().calendar({
+            theme: 'ax',
+            lang:'zh',
+            onBeforeShow:function(event, inst){//显示前的点击事件
+                $('#'+this.id).addClass('ax-focus');//input焦点
+                //inst.settings.cssClass='ax-mask';//添加遮罩
+            },
+            onClose: function (event, inst) {//关闭事件
+                $('#'+this.id).removeClass('ax-focus');
+            },
+            display: 'bubble',
+        });
+    }
+</script>
 
 </body>
 </html>

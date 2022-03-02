@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDTO;
 import com.lh.entity.Material;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lh.entity.MaterialUser;
+import com.lh.entity.PublicMaterial;
 import com.lh.entity.User;
 
 import java.util.List;
@@ -32,5 +33,7 @@ public interface IMaterialService extends IService<Material> {
     Boolean transferMaterials(MaterialUser materialUser);
 
     List<Material> queryAllUserMaterial(Material material);
+
+    List<PublicMaterial> queryAllPublicMaterial(Material material);
 
 }

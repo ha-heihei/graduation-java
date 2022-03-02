@@ -238,6 +238,11 @@ public class MaterialController {
         return CommonResult.success(materialService.queryAllUserMaterial(material));
     }
 
+    @ApiOperation("管理员获取公共素材库")
+    @PostMapping(value = "/queryAllPublicMaterial")
+    public CommonResult queryAllPublicMaterial(Material material){
+        return CommonResult.success(materialService.queryAllPublicMaterial(material));
+    }
 
 }
 

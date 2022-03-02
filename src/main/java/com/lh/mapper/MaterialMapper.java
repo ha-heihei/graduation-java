@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.entity.Group;
 import com.lh.entity.Material;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.lh.entity.PublicMaterial;
 import com.lh.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,4 +33,5 @@ public interface MaterialMapper extends BaseMapper<Material> {
 
     List<Material> queryAllUserMaterial(@Param(Constants.WRAPPER)QueryWrapper<Material> wrapper);
 
+    List<PublicMaterial> queryAllPublicMaterial(@Param(Constants.WRAPPER)QueryWrapper<PublicMaterial> wrapper);
 }

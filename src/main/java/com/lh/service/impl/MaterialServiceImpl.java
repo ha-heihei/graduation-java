@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.entity.Material;
 import com.lh.entity.MaterialUser;
+import com.lh.entity.PublicMaterial;
 import com.lh.entity.User;
 import com.lh.mapper.MaterialMapper;
 import com.lh.mapper.MaterialUserMapper;
@@ -131,6 +132,16 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
                 .le(Objects.nonNull(material.getEndTime()), "mu.create_time", material.getEndTime())
                 .ge(Objects.nonNull(material.getBeginTime()), "mu.create_time", material.getBeginTime());
         return materialMapper.queryAllUserMaterial(queryWrapper);
+    }
+
+    @Override
+    public List<PublicMaterial> queryAllPublicMaterial(Material material) {
+        QueryWrapper<PublicMaterial> queryWrapper = new QueryWrapper<PublicMaterial>()
+                .like(StringUtils.isNotBlank(material.getUserName()), "u.user_name", material.getUserName())
+                .like(StringUtils.isNotBlank(material.getMaterialName()), "pm.material_name", material.getMaterialName())
+                .le(Objects.nonNull(material.getEndTime()), "pm.create_time", material.getEndTime())
+                .ge(Objects.nonNull(material.getBeginTime()), "pm.create_time", material.getBeginTime());
+        return materialMapper.queryAllPublicMaterial(queryWrapper);
     }
 
 

@@ -41,6 +41,12 @@
             ${ew.customSqlSegment}
             order by mu.create_time desc
     </select>
+    <select id="queryAllPublicMaterial" resultType="com.lh.entity.PublicMaterial">
+        select pm.*,u.user_name,u.user_img_url from public_material pm join user u
+            on u.user_id=pm.user_id
+            ${ew.customSqlSegment}
+            order by pm.create_time desc
+    </select>
 
 
 </mapper>
