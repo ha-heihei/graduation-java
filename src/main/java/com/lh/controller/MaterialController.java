@@ -232,6 +232,12 @@ public class MaterialController {
     }
 
 
+    @ApiOperation("管理员获取所有用户素材")
+    @PostMapping(value = "/queryAllUserMaterial")
+    public CommonResult queryAllUserMaterial(Material material){
+        return CommonResult.success(materialService.queryAllUserMaterial(material));
+    }
+
 
 }
 

@@ -19,7 +19,7 @@
     <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
     <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
     <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
-    <title>工作组管理</title>
+    <title>用户素材管理</title>
 </head>
 <body>
 <div class="ax-flex-col ax-padding">
@@ -28,61 +28,23 @@
             <ul class="ax-grid-inner">
                 <li class="ax-grid-block ax-col-5">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">工作组名称</span>
+                        <span class="ax-title ax-btn">素材名称</span>
                         <div class="ax-flex-block">
-                            <input name="groupName" placeholder="输入工作组名称" type="text">
+                            <input name="materialName" placeholder="输入素材名称" type="text">
                         </div>
                     </div>
                 </li>
                 <li class="ax-grid-block ax-col-5">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">创建者</span>
+                        <span class="ax-title ax-btn">所属者</span>
                         <div class="ax-flex-block">
-                            <input name="userName" placeholder="输入创建者名称" type="text">
+                            <input name="userName" placeholder="输入所属者名称" type="text">
                         </div>
                     </div>
                 </li>
                 <li class="ax-grid-block ax-col-9">
                     <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">群人数</span>
-                        <div class="ax-flex-block">
-                            <div class="ax-row">
-                                <div class="ax-col ax-col-12">
-                                    <input name="beginUserNum" placeholder="起始人数" type="number">
-                                </div>
-                                <div class="ax-gutter-sm"></div>
-                                <div class="ax-col ax-col-12">
-                                    <input name="endUserNum" placeholder="截止人数" type="number">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="ax-grid-block ax-col-1"></li>
-                <li class="ax-grid-block ax-col-4">
-                    <a href="###" class="ax-btn ax-primary ax-full" id="queryBtn">检索</a>
-                </li>
-
-                <li class="ax-grid-block ax-col-6">
-                    <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">素材数</span>
-                        <div class="ax-flex-block">
-                            <div class="ax-row">
-                                <div class="ax-col ax-col-12">
-                                    <input name="beginMaterialNum" placeholder="起始数量" type="number">
-                                </div>
-                                <div class="ax-gutter-sm"></div>
-                                <div class="ax-col ax-col-12">
-                                    <input name="endMaterialNum" placeholder="截止数量" type="number">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
-                <li class="ax-grid-block ax-col-1"></li>
-                <li class="ax-grid-block ax-col-6">
-                    <div class="ax-row ax-input-group">
-                        <span class="ax-title ax-btn">注册日期</span>
+                        <span class="ax-title ax-btn">上传日期</span>
                         <div class="ax-flex-block">
                             <div class="ax-row">
                                 <div class="ax-col ax-col-12">
@@ -96,7 +58,9 @@
                         </div>
                     </div>
                 </li>
-                <li class="ax-grid-block ax-col-11">
+                <li class="ax-grid-block ax-col-1"></li>
+                <li class="ax-grid-block ax-col-4">
+                    <a href="###" class="ax-btn ax-primary ax-full" id="queryBtn">检索</a>
                 </li>
             </ul>
         </div>
@@ -106,12 +70,11 @@
         <table class="ax-table" id="dataTable">
             <thead>
             <tr>
-                <td>工作组名称</td>
-                <td width="20%">描述</td>
-                <td>创建者</td>
-                <td>创建时间</td>
-                <td>用户数量(人)</td>
-                <td>素材数量(个)</td>
+                <td>素材名称</td>
+                <td>素材</td>
+                <td width="20%">备注</td>
+                <td>上传者</td>
+                <td>上传时间</td>
                 <td >操作</td>
             </tr>
             </thead>
@@ -121,6 +84,7 @@
         </table>
     </div>
 </div>
+
 
 <script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
@@ -141,43 +105,28 @@
             sDom: "lfrtip"
         });
 
-        // 查询工作组
-        queryAllGroupByConditions(dataTable);
+        // 查询用户素材
+        queryAllUserMaterial(dataTable);
 
-        // 查询工作组事件绑定
+        // 查询用户素材绑定
         $("#queryBtn").click(function () {
-            queryAllGroupByConditions(dataTable);
+            queryAllUserMaterial(dataTable);
         });
+
     });
 
-    // 查询工作组
-    function queryAllGroupByConditions(dataTable) {
+    // 查询用户素材
+    function queryAllUserMaterial(dataTable) {
         var formData=new FormData();
         var userName=$("#header input[name=userName]").val();
-        var groupName=$("#header input[name=groupName]").val();
-        var beginUserNum=$("#header input[name=beginUserNum]").val();
-        var endUserNum=$("#header input[name=endUserNum]").val();
-        var beginMaterialNum=$("#header input[name=beginMaterialNum]").val();
-        var endMaterialNum=$("#header input[name=endMaterialNum]").val();
+        var materialName=$("#header input[name=materialName]").val();
         var beginDate=$("#header input[name=beginDate]").val();
         var endDate=$("#header input[name=endDate]").val();
         if(userName.length>0){
             formData.append("userName",userName);
         }
-        if(groupName.length>0){
-            formData.append("groupName",groupName)
-        }
-        if(beginUserNum.length>0){
-            formData.append("beginUserNum",beginUserNum);
-        }
-        if(endUserNum.length>0){
-            formData.append("endUserNum",endUserNum);
-        }
-        if(beginMaterialNum.length>0){
-            formData.append("beginMaterialNum",beginMaterialNum);
-        }
-        if(endMaterialNum.length>0){
-            formData.append("endMaterialNum",endMaterialNum);
+        if(materialName.length>0){
+            formData.append("materialName",materialName)
         }
         if(beginDate.length>0){
             formData.append("beginTime",beginDate+" 00:00:00");
@@ -185,19 +134,19 @@
         if(endDate.length>0){
             formData.append("endTime",endDate+" 00:00:00");
         }
-        post("/group/queryAllGroupByConditions",formData,function (res) {
+        post("/material/queryAllUserMaterial",formData,function (res) {
             if(res.success){
                 var records=res.result;
                 dataTable.clear();
                 for(var i=0;i<records.length;i++){
-                    var btns='<a href="###" class="ax-btn ax-sm ax-danger deleteGroup">删除</a>';
-                    var row=$('<tr data-val="'+records[i].groupId+'">\n' +
-                        '                <td class="ax-align-center-center"><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].groupImgUrl+')"></a>'+records[i].groupName+'</td>\n' +
-                        '                <td><span class="ax-ell-2">'+records[i].groupDescription+'</span></td>\n' +
-                        '                <td class="ax-align-center-center"><a href="###" class="ax-avatar ax-xs ax-round" style="background-image: url('+records[i].userImgUrl+')"></a>'+records[i].userName+'</td>\n' +
+                    var btns='<a href="###" class="ax-btn ax-sm ax-danger deleteMaterial">删除</a>';
+                    var materialUrls=JSON.parse(records[i].materialUrls);
+                    var row=$('<tr data-material="'+records[i].materialId+'" data-user="'+records[i].userId+'">\n' +
+                        '                <td>'+records[i].materialName+'</td>\n' +
+                        '                <td ><a href="###" class="ax-avatar ax-xxl" style="background-image: url('+materialUrls.originUrl+')"></a></td>\n' +
+                        '                <td><span class="ax-ell-2">'+records[i].remarks+'</span></td>\n' +
+                        '                <td><a href="###" class="ax-avatar ax-sm ax-round" style="background-image: url('+records[i].userImgUrl+')"></a>'+records[i].userName+'</td>\n' +
                         '                <td>'+records[i].createTime.split(" ")[0]+'</td>\n' +
-                        '                <td>'+records[i].userNum+'</td>\n' +
-                        '                <td>'+records[i].materialNum+'</td>\n' +
                         '                <td>'+btns+'</td>\n' +
                         '            </tr>');
                     dataTable.row.add(row);
@@ -206,8 +155,9 @@
                 $("table#dataTable tbody>tr").each(function (i) {
 
                     // 删除事件绑定
-                    $(this).find("a.deleteGroup").click(function () {
-                        deleteGroup($(this).parent().parent().attr("data-val"));
+                    $(this).find("a.deleteMaterial").click(function () {
+                        deleteMaterial($(this).parent().parent().attr("data-material"),
+                            $(this).parent().parent().attr("data-user"));
                     });
 
 
@@ -218,11 +168,12 @@
         })
     }
 
-    // 删除工作组
-    function deleteGroup(groupId) {
+    // 删除素材
+    function deleteMaterial(materialId,userId) {
         var formData=new FormData();
-        formData.append("groupId",groupId);
-        post("/group/deleteGroupById",formData,function (res) {
+        formData.append("userId",userId);
+        formData.append("materialId",materialId);
+        post("/material/deleteMaterialById",formData,function (res) {
             if(res.success){
                 toast("success","操作成功",res.msg);
                 $("#queryBtn").click();
@@ -231,7 +182,8 @@
             }
         })
     }
-
+    
+    
     // 初始化配置
     function init() {
 
@@ -249,6 +201,7 @@
             display: 'bubble',
         });
     }
+
 </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.lh.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lh.entity.Group;
 import com.lh.entity.Material;
@@ -28,5 +29,7 @@ public interface MaterialMapper extends BaseMapper<Material> {
 
     List<Group> querySelfMaterialWhereGroup(@Param("userId")String userId,
                                             @Param("materialId")String materialId);
+
+    List<Material> queryAllUserMaterial(@Param(Constants.WRAPPER)QueryWrapper<Material> wrapper);
 
 }

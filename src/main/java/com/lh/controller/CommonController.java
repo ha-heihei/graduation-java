@@ -74,4 +74,9 @@ public class CommonController {
     public String toGroupList(){
         return "admin/grouplist";
     }
+
+    @RequestMapping(value = "/toUserMaterial")
+    public String toUserMaterial(){
+        return "admin/usermaterial";
+    }
 }

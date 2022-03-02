@@ -34,6 +34,13 @@
             select group_id from group_material where material_id=#{materialId} and user_id=#{userId}
         )
     </select>
+    <select id="queryAllUserMaterial" resultType="com.lh.entity.Material">
+        select mu.*,u.user_name,u.user_img_url,m.material_urls from material_user mu
+            join user u on mu.user_id=u.user_id
+            join material m on m.material_id=mu.material_id
+            ${ew.customSqlSegment}
+            order by mu.create_time desc
+    </select>
 
 
 </mapper>

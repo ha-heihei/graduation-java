@@ -123,5 +123,15 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         return materialUserMapper.insert(materialUser)==1;
     }
 
+    @Override
+    public List<Material> queryAllUserMaterial(Material material) {
+        QueryWrapper<Material> queryWrapper = new QueryWrapper<Material>()
+                .like(StringUtils.isNotBlank(material.getMaterialName()), "mu.material_name", material.getMaterialName())
+                .like(StringUtils.isNotBlank(material.getUserName()), "u.user_name", material.getUserName())
+                .le(Objects.nonNull(material.getEndTime()), "mu.create_time", material.getEndTime())
+                .ge(Objects.nonNull(material.getBeginTime()), "mu.create_time", material.getBeginTime());
+        return materialMapper.queryAllUserMaterial(queryWrapper);
+    }
+
 
 }

@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lh.entity.MaterialUser;
 import com.lh.entity.User;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -28,5 +30,7 @@ public interface IMaterialService extends IService<Material> {
     Page<Material> queryCollectorMaterialPageList(User user);
 
     Boolean transferMaterials(MaterialUser materialUser);
+
+    List<Material> queryAllUserMaterial(Material material);
 
 }
