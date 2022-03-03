@@ -11,6 +11,7 @@ import com.lh.utils.OSSUtils;
 import com.lh.utils.RandomValidateCodeUtils;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,9 @@ public class UserController {
 
     @Resource
     private IUserService userService;
+
+    @Resource
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 插入用户信息,映射bean不可以加requestBody注解
@@ -121,6 +125,9 @@ public class UserController {
             user.setUserImgUrl(OSSUtils.uploadFile(avatar.getInputStream()));
         }else{
             user.setUserImgUrl(null);
+        }
+        if(StringUtils.isNotBlank(user.getUserPwd())){
+            user.setUserPwd(passwordEncoder.encode(user.getUserPwd()));
         }
         user.setUpdateTime(LocalDateTime.now());
         return userService.updateById(user)?CommonResult.success("更新成功"):CommonResult.success("更新失败");

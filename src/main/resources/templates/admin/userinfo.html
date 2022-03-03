@@ -20,9 +20,159 @@
     <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
     <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
     <title>信息修改</title>
+    <style>
+        .demo-login {
+            width: 520px;
+            position: fixed;
+            left: 50%;
+            top: 35%;
+            transform: translate(-50%, -50%);
+        }
+
+        .demo-login > div {
+            margin: 0 80px;
+        }
+
+        @media screen and (max-width: 900px) {
+            .demo-login {
+                width: 100%;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                position: inherit;
+                left: 0;
+                top: 0;
+                transform: translate(0, 0);
+            }
+
+            .demo-login > div {
+                margin: 0;
+            }
+        }
+
+        body {
+            margin: 0;
+            background-image: url('/images/user-bg.jpg');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+    </style>
 </head>
 <body>
+<div class="ax-margin ax-xxl demo-login">
+    <div class="ax-break"></div>
+    <div class="ax-break ax-hide-tel"></div>
 
+    <div class="ax-form-group">
+        <div class="ax-flex-row">
+            <div class="ax-form-con">
+                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">账号：</span><input
+                        name="userName" placeholder="输入用户名" style="padding-left: 76px;" type="text"><span
+                        class="ax-pos-right"><a href="###"
+                                                class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ax-break-md"></div>
+
+    <div class="ax-form-group">
+        <div class="ax-flex-row">
+            <div class="ax-form-con">
+                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">密码：</span><input
+                        name="userPwd" placeholder="输入密码" style="padding-left: 76px;" type="password"><span
+                        class="ax-pos-right"><a href="###"
+                                                class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ax-break-md"></div>
+
+    <div class="ax-form-group" style="margin-left: -30px">
+        <div class="ax-flex-row">
+            <div class="ax-form-label">性别：</div>
+            <!--                    <div style="width: 400px">-->
+            <div class="ax-form-con">
+                <div class="ax-form-input ">
+
+                    <div class="ax-row">
+                        <div class="ax-col ">
+                            <label class="ax-radio"><input name="gender" value="1"
+                                                           type="radio"><span>男</span></label>
+                        </div>
+                        <div class="ax-col ">
+                            <label class="ax-radio"><input name="gender" value="2"
+                                                           type="radio"><span>女</span></label>
+                        </div>
+                    </div>
+                </div>
+                <!--                        </div>-->
+            </div>
+        </div>
+
+    </div>
+
+    <div class="ax-break-md"></div>
+    <div class="ax-form-group">
+        <div class="ax-flex-row">
+            <div class="ax-form-con">
+                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">手机号：</span><input
+                        name="mobile" placeholder="输入手机号" style="padding-left: 76px;" type="text"><span
+                        class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ax-break-md"></div>
+
+    <div class="ax-form-group">
+        <div class="ax-flex-row">
+            <div class="ax-form-con">
+                <div class="ax-form-input"><span class="ax-pos-left" style="width: 76px;">邮箱：</span><input
+                        name="email" placeholder="输入邮箱" style="padding-left: 76px;" type="text"><span
+                        class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ax-break-md"></div>
+
+    <div class="ax-form-group" style="margin-left: -30px">
+        <div class="ax-flex-row">
+            <div class="ax-form-label">头像：</div>
+            <div class="ax-form-con">
+                <div class="ax-form-input" style="width: 300px">
+                    <div class="ax-file" id="avatar" data-placeholder="点击选择头像" data-text="选择文件">
+                        <input type="file" name="avatar">
+                    </div>
+                </div>
+            </div>
+            <a href="###" class="ax-form-head" id="headImg"></a>
+        </div>
+    </div>
+    <div class="ax-break-md"></div>
+    <div class="ax-form-group">
+        <div class="ax-flex-row">
+            <div class="ax-flex-block">
+                <div class="ax-form-input">
+                    <button type="button" id="updateBtn" class="ax-btn ax-primary ax-full">修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ax-break"></div>
+    <div class="ax-break ax-hide-tel"></div>
+    <div class="ax-break ax-hide-tel"></div>
+
+</div>
 
 
 
@@ -38,8 +188,51 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script type="text/javascript">
     $(function () {
-        // TODO 完成用户信息模块1
-    })
+
+        // 初始化用户信息
+        queryOneUserInfo();
+
+        // 修改信息绑定
+        $("#updateBtn").click(function () {
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            formData.append("userName",$("input[name=userName]").val());
+            formData.append("userPwd",$("input[name=userPwd]").val());
+            formData.append("mobile",$("input[name=mobile]").val());
+            formData.append("email",$("input[name=email]").val());
+            formData.append("gender",$("input[name=gender]:checked").val());
+            var fileObj=$("input[name=avatar]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("avatar",fileObj);
+            }
+            post("/user/updateUserInfoById",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功","账户已成功修改");
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        });
+    });
+
+    function queryOneUserInfo() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/user/queryOneUserInfoById",formData,function (res) {
+            if(res.success){
+                var rs=res.result;
+                $("input[name=userName]").val(rs.userName);
+                $("input[name=gender]:eq("+(rs.gender-1)+")").attr("checked","checked");
+                $("input[name=mobile]").val(rs.mobile);
+                $("input[name=email]").val(rs.email);
+                $("#headImg").css("background-image","url("+rs.userImgUrl+")");
+
+            }else {
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
 </script>
 </body>
 </html>
