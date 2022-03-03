@@ -22,7 +22,85 @@
     <title>素材合成</title>
 </head>
 <body>
-1
+<div class="ax-row">
+    <div class="ax-col ax-col-5 ax-border ax-shadow-border" id="leftUI" style="height: 674px;">
+        <div class="ax-headline ax-align-left ax-primary ax-sm">
+            <div class="ax-body "><span class="ax-title">背景图列表</span></div>
+            <div class="ax-des" id="backDes"></div>
+        </div>
+        <div class="inner" id="backList">
+
+            <div class="ax-grid ax-padding">
+                <ul class="ax-grid-inner">
+                    <li class="ax-grid-block ax-col-24">
+                        <div class="ax-row ax-input-group">
+                            <span class="ax-title ax-btn">关键字</span>
+                            <div class="ax-flex-block">
+                                <input class="keyword" placeholder="多词模糊筛选" type="text">
+                                <span class="ax-pos-right"><a href="##" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="travelList">
+
+            </div>
+
+        </div>
+    </div>
+    <div class="ax-col ax-col-16 ax-border ax-shadow-border" style="height: 674px;">
+        <div class="ax-flex-col">
+            <div class="ax-flex-block-6" >
+
+            </div>
+            <div class="ax-break-line"></div>
+            <div style="height: 60px">
+                <div class="ax-break-sm"></div>
+                <div class="ax-row">
+                    <div class="ax-col ax-col-8 "></div>
+                    <div class="ax-col  ">
+                        <a href="###" class="ax-btn ax-info ax-gradient ax-shadow">上传背景图</a>
+                    </div>
+                    <div class="ax-col  ">
+                        <a href="###" class="ax-btn ax-primary ax-gradient ax-shadow">开始合成</a>
+                    </div>
+                    <div class="ax-col ax-col-8 "></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ax-col ax-col-5 ax-border ax-shadow-border" id="rightUI" style="height: 674px;">
+        <div class="ax-headline ax-align-left ax-primary ax-sm">
+            <div class="ax-body "><span class="ax-title">素材列表</span></div>
+            <div class="ax-des" id="materialDes"></div>
+        </div>
+        <div class="inner" id="materialList">
+
+            <div class="ax-grid ax-padding">
+                <ul class="ax-grid-inner">
+                    <li class="ax-grid-block ax-col-24">
+                        <div class="ax-row ax-input-group">
+                            <span class="ax-title ax-btn">关键字</span>
+                            <div class="ax-flex-block">
+                                <input class="keyword" placeholder="多词模糊筛选" type="text">
+                                <span class="ax-pos-right"><a href="##" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="travelList">
+
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 <script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
@@ -38,7 +116,143 @@
 <script type="text/javascript">
     $(function () {
 
-    })
+        // 页面初始化配置
+        initConfig();
+
+        // 查询自己的素材-背景图
+        querySelfMaterial();
+
+        // 查询工作组内素材
+        queryGroupMaterials();
+
+
+
+    });
+
+    // 查询工作组内素材
+    function queryGroupMaterials() {
+        var formData=new FormData();
+        formData.append("groupId",localStorage.getItem("groupId"));
+        post("/group/queryGroupMaterials",formData,function (res) {
+            if(res.success){
+                var records=res.result.records;
+                $("#materialList div.travelList").html("");
+                for(var i=0;i<records.length;i++){
+                    var materialUrls=JSON.parse(records[i].materialUrls);
+                    $("#materialList div.travelList").append('<div class="ax-info-block ">\n' +
+                        '                    <div class="ax-item-block">\n' +
+                        '                        <div class="ax-row">\n' +
+                        '                            <a href="###" class="ax-img" style="background-image:url('+materialUrls.originUrl+')"></a>\n' +
+                        '                            <div class="ax-col">\n' +
+                        '                                <div class="ax-flex-col">\n' +
+                        '                                    <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">'+records[i].materialName+'</a></div>\n' +
+                        '                                    <div class="ax-des ax-ell-2-des ax-flex-block-2">' +
+                        '                                       <a href="###" class="ax-avatar ax-xxs ax-round" style="background-image:url('+records[i].userImgUrl+')"></a>'+records[i].userName+'</div>\n' +
+                        '                                    <div class="ax-keywords ax-flex-block-2 ax-align-bottom-left">\n' +
+                        records[i].createTime.split(" ")[0]+
+                        '                                    </div>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="ax-break-line"></div>\n' +
+                        '                </div>');
+                }
+
+
+
+                // 初始化配置
+                initConfig();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    // 查询自己的素材
+    function querySelfMaterial() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/material/querySelfMaterialPageListByConditions",formData,function (res) {
+            if(res.success){
+                var records=res.result.records;
+                $("#backList div.travelList").html("");
+                for(var i=0;i<records.length;i++){
+                    var materialUrls=JSON.parse(records[i].materialUrls);
+                    $("#backList div.travelList").append('<div class="ax-info-block-back ">\n' +
+                        '                    <div class="ax-item-block">\n' +
+                        '                        <div class="ax-row">\n' +
+                        '                            <a href="###" class="ax-img" style="background-image:url('+materialUrls.originUrl+')"></a>\n' +
+                        '                            <div class="ax-col">\n' +
+                        '                                <div class="ax-flex-col">\n' +
+                        '                                    <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">'+records[i].materialName+'</a></div>\n' +
+                        '                                    <div class="ax-des ax-ell-2-des ax-flex-block-2">'+records[i].remarks+'</div>\n' +
+                        '                                    <div class="ax-keywords ax-flex-block-2 ax-align-bottom-left">\n' +
+                        records[i].createTime.split(" ")[0]+
+                        '                                    </div>\n' +
+                        '                                </div>\n' +
+                        '                            </div>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                    <div class="ax-break-line"></div>\n' +
+                        '                </div>');
+                }
+
+
+                // 初始化配置
+                initConfig();
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+
+
+
+    // 页面初始化配置
+    function initConfig() {
+        // 滚动条美化
+        $("#leftUI,#rightUI").axScroll();
+
+        // 左侧背景图列表配置
+        var optionsBack = {
+            valueNames: [ 'ax-ell-title','ax-des' ],
+            item: 'ax-info-block',
+            listClass:'travelList',
+            fuzzySearch: {
+                searchClass:'keyword',
+                location: 0,
+                distance: 100,
+                threshold: 0.4,
+                multiSearch: true
+            }
+        };
+        var travelListBack = new List('backList', optionsBack);
+        $('#backList .ax-val-none').click(function() {
+            travelListBack.fuzzySearch();
+            return false;
+        });
+
+        // 右侧素材列表配置
+        var options = {
+            valueNames: [ 'ax-ell-title','ax-des' ],
+            item: 'ax-info-block',
+            listClass:'travelList',
+            fuzzySearch: {
+                searchClass:'keyword',
+                location: 0,
+                distance: 100,
+                threshold: 0.4,
+                multiSearch: true
+            }
+        };
+        var travelList = new List('materialList', options);
+        $('#materialList .ax-val-none').click(function() {
+            travelList.fuzzySearch();
+            return false;
+        });
+    }
 </script>
 </body>
 </html>

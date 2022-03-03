@@ -459,6 +459,7 @@
                     multi:false,
                 });
                 $(this).click(function () {
+                    localStorage.setItem("groupId",records[i].groupId);
                     var formData=new FormData();
                     formData.append("groupId",records[i].groupId);
                     post("/group/queryOneGroupDetail",formData,function (res) {
@@ -471,7 +472,7 @@
                         $("#userCreateImg").css("background-image","url('"+rs.userImgUrl+"')");
                         $("#peopleNum").text(rs.groupUsers.length);
                         $("label.groupInfoBody").html("").append("<a href=### class='ax-btn ax-long ax-primary ax-sm' id='showGroupMaterial'>工作组素材</a>" +
-                            "                        <a href='###' class='ax-btn ax-long ax-success ax-sm'>合成素材</a>" +
+                            "                        <a href='/toMergeMaterial' class='ax-btn ax-long ax-success ax-sm'>合成素材</a>" +
                             "                        <a href='###' class='ax-btn ax-long ax-ad ax-sm' id='updateGroupBtn'>修改信息</a>");
                         $("div.groupBottomBtns").html("").append("<a class='ax-btn ax-long ax-primary ax-sm ' id='uploadMaterial'>上传素材</a> " +
                             "                        <a class='ax-btn ax-long ax-success ax-sm' id='inviteUser'>邀请用户</a> " +
@@ -534,6 +535,7 @@
                     multi:false,
                 });
                 $(this).click(function () {
+                    localStorage.setItem("groupId",records[i].groupId);
                     var formData=new FormData();
                     formData.append("groupId",records[i].groupId);
                     post("/group/queryOneGroupDetail",formData,function (res) {
@@ -546,7 +548,7 @@
                         $("#userCreateImg").css("background-image","url('"+rs.userImgUrl+"')");
                         $("#peopleNum").text(rs.groupUsers.length);
                         $("label.groupInfoBody").html("").append("<a href=### class='ax-btn ax-long ax-primary ax-sm' id='showGroupMaterial'>工作组素材</a>" +
-                            "                        <a href='###' class='ax-btn ax-long ax-success ax-sm'>合成素材</a>");
+                            "                        <a href='/toMergeMaterial' class='ax-btn ax-long ax-success ax-sm'>合成素材</a>");
                         $("div.groupBottomBtns").html("").append("<a class='ax-btn ax-long ax-primary ax-sm ' id='uploadMaterial'>上传素材</a> " +
                             "                        <a class='ax-btn ax-long ax-success ax-sm' id='inviteUser'>邀请用户</a> " +
                             "                        <a class='ax-btn ax-long ax-danger ax-sm' id='quitGroup'>退出工作组</a>");

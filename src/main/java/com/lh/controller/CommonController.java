@@ -94,4 +94,9 @@ public class CommonController {
     public String toAdminUserInfo(){
         return "admin/userinfo";
     }
+
+    @RequestMapping(value = "/toMergeMaterial")
+    public String toMergeMaterial(){
+        return "group/mergematerial";
+    }
 }
