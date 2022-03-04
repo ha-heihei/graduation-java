@@ -1,5 +1,6 @@
 package com.lh.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.lh.common.CommonResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -69,4 +70,13 @@ public interface ImageService {
     CommonResult contrastEnhance(@RequestPart("imgUrl")String imgUrl);
 
 
+    /**
+     * 素材合成Api，imgUrlList子项包括offset[x,y],foregroundImg,maskImg
+     * @param imgUrlList
+     * @param backImgUrl
+     * @return
+     */
+    @PostMapping(value = "/materialFusion",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    CommonResult materialFusion(@RequestPart("imgUrlList")String imgUrlList,
+                                @RequestPart("backImgUrl")String backImgUrl);
 }

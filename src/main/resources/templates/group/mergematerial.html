@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
     <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
@@ -20,8 +21,43 @@
     <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
     <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
     <title>素材合成</title>
+    <style>
+        #backCanvas {
+            z-index: 10;
+        }
+
+        .ioc {
+            cursor: pointer;
+            width: 100px;
+            margin: 0 20px;
+        }
+
+        .set-box {
+            position: absolute;
+            top: 300px;
+            left: 200px;
+        }
+
+        .set-img {
+            user-select: none;
+            /*width: 100px;*/
+            top: 0;
+            left: 0;
+        }
+
+        .set-close {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
+<div id="maskLayer" style="z-index: -999;background: rgba(0,0,0,.6);position: fixed;height: 100%;width: 100%" class="ax-align-center-center">
+    <span class="ax-loading" style="width:60px;height:60px;"><i></i></span>
+</div>
 <div class="ax-row">
     <div class="ax-col ax-col-5 ax-border ax-shadow-border" id="leftUI" style="height: 674px;">
         <div class="ax-headline ax-align-left ax-primary ax-sm">
@@ -53,8 +89,8 @@
     </div>
     <div class="ax-col ax-col-16 ax-border ax-shadow-border" style="height: 674px;">
         <div class="ax-flex-col">
-            <div class="ax-flex-block-6" >
-
+            <div class="ax-flex-block-6 ax-align-center-center" id="backCanvas" style="background: #f5f5f5">
+                <img  id="backImg">
             </div>
             <div class="ax-break-line"></div>
             <div style="height: 60px">
@@ -62,10 +98,10 @@
                 <div class="ax-row">
                     <div class="ax-col ax-col-8 "></div>
                     <div class="ax-col  ">
-                        <a href="###" class="ax-btn ax-info ax-gradient ax-shadow">上传背景图</a>
+                        <a href="###" class="ax-btn ax-info ax-gradient ax-shadow" id="uploadBackMaterialBtn">上传背景图</a>
                     </div>
                     <div class="ax-col  ">
-                        <a href="###" class="ax-btn ax-primary ax-gradient ax-shadow">开始合成</a>
+                        <a href="###" class="ax-btn ax-primary ax-gradient ax-shadow" id="transformBtn">开始合成</a>
                     </div>
                     <div class="ax-col ax-col-8 "></div>
                 </div>
@@ -102,6 +138,111 @@
     </div>
 </div>
 
+<!--------------------------------------------------------弹窗模版BEGIN--------------------------------------------------------------------->
+<!--素材上传弹窗-->
+<div class="ax-window" data-mask="true"  style="z-index: 999" id="uploadMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材上传</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材备注：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><textarea name="remarks" placeholder="输入备注" type="text"></textarea></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材文件：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <div class="ax-file" data-placeholder="点击选择头像" data-text="选择文件">
+                                        <input type="file" name="materialFile">
+                                    </div>
+                                </div>
+                            </div>
+                            <a href="###" class="ax-form-head" id="headImg"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">上传背景图到素材库</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="materialUploadBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--转入我的素材库弹窗-->
+<div class="ax-window" data-mask="true"  style="z-index: 999" id="transformMaterialAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材合成</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">素材合成</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="transformOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
+<!--------------------------------------------------------弹窗模版END--------------------------------------------------------------------->
 
 <script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
 <script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
@@ -113,8 +254,20 @@
 <script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
 <script src="/js/utils.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="/js/touch.min.js"></script>
+<script src="/js/myTouchImg.js"></script>
 <script type="text/javascript">
     $(function () {
+
+        $("input[name=materialFile]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=materialFile]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#headImg").css("background-image","url('"+url+"')");
+        });
 
         // 页面初始化配置
         initConfig();
@@ -125,7 +278,11 @@
         // 查询工作组内素材
         queryGroupMaterials();
 
+        // 上传背景图
+        uploadBackMaterial();
 
+        // 合成素材
+        transformMaterial();
 
     });
 
@@ -142,7 +299,7 @@
                     $("#materialList div.travelList").append('<div class="ax-info-block ">\n' +
                         '                    <div class="ax-item-block">\n' +
                         '                        <div class="ax-row">\n' +
-                        '                            <a href="###" class="ax-img" style="background-image:url('+materialUrls.originUrl+')"></a>\n' +
+                        '                            <a href="###" class="ax-img ioc" style="background-image:url('+materialUrls.originUrl+')"></a>\n' +
                         '                            <div class="ax-col">\n' +
                         '                                <div class="ax-flex-col">\n' +
                         '                                    <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">'+records[i].materialName+'</a></div>\n' +
@@ -159,6 +316,50 @@
                         '                </div>');
                 }
 
+                //贴纸功能
+                $('.ioc').click(function () {
+                    var backImg=$("#backImg").attr("src");
+                    if(backImg.length<=0){
+                        toast("info","操作提示","还未选择背景图");
+                        return;
+                    }
+                    var imgUrl=$(this).css("background-image").replace('url(','').replace(')','');
+                    imgUrl=imgUrl.replace("\"","").replace("\"","");
+                    var img = new Image();
+                    img.src=imgUrl;
+                    img.onload = function(){
+                        // 后台上传图片的真实宽高（像素）
+                        var realWidth = this.width;
+                        var realHeight = this.height;
+                        var backImgWidth=$('#backImg').outerWidth(true);
+                        var backImgHeight=$('#backImg').outerHeight(true);
+                        if(realHeight>backImgHeight||realWidth>backImgWidth){
+                            toast("info","操作失败","素材大小超过背景图大小");
+                            return;
+                        }
+
+                        var html = ['<div class="set-box">',
+                            '   <img src="' + imgUrl + '" class="set-img" draggable="false" ondragstart="return false;">',
+                            '   <img src="/images/close-icon2.png" class="set-close">',
+                            '</div>'].join("");
+
+                        $('#backCanvas').append(html);
+                        myTouchjs($('.set-box').last());
+                        this.onload=null;
+                    };
+
+                });
+
+                //删除贴纸
+                $("#backCanvas").on('click', '.set-close', function (e) {
+                    $(this).parent().remove();
+                });
+
+                //将操作的贴纸置于最上层
+                $("#backCanvas").on('mousedown touchstart', '.set-box', function (e) {
+                    $(this).css({"z-index": '1'});
+                    $(this).siblings().css({"z-index": '0'});
+                });
 
 
                 // 初始化配置
@@ -179,7 +380,7 @@
                 $("#backList div.travelList").html("");
                 for(var i=0;i<records.length;i++){
                     var materialUrls=JSON.parse(records[i].materialUrls);
-                    $("#backList div.travelList").append('<div class="ax-info-block-back ">\n' +
+                    $("#backList div.travelList").append('<div class="ax-info-block ">\n' +
                         '                    <div class="ax-item-block">\n' +
                         '                        <div class="ax-row">\n' +
                         '                            <a href="###" class="ax-img" style="background-image:url('+materialUrls.originUrl+')"></a>\n' +
@@ -198,6 +399,30 @@
                         '                </div>');
                 }
 
+                $("#backList div.travelList div.ax-info-block").each(function (i) {
+                    $(this).find("a.ax-img").click(function () {
+                        var imgUrl=$(this).css("background-image").replace('url(','').replace(')','');
+                        imgUrl=imgUrl.replace("\"","").replace("\"","");
+                        var img = new Image();
+                        img.src=imgUrl;
+                        img.onload = function(){
+                            // 后台上传图片的真实宽高（像素）
+                            var realWidth = this.width;
+                            var realHeight = this.height;
+                            var backCanvasWidth=$('#backCanvas').outerWidth(true);
+                            var backCanvasHeight=$('#backCanvas').outerHeight(true);
+                            if(realHeight>backCanvasHeight||realWidth>backCanvasWidth){
+                                toast("info","操作失败","背景图大小超过画布大小");
+                                this.onload=null;
+                                return;
+                            }
+                            $("#backImg").attr("src",imgUrl).css({'width':realWidth+ 'px','height':realHeight+'px' });
+                            this.onload=null;
+                        };
+
+
+                    });
+                });
 
                 // 初始化配置
                 initConfig();
@@ -207,11 +432,98 @@
         })
     }
 
+    // 开始合成图片
+    function transformMaterial() {
+        $("#transformBtn").click(function () {
+            var backImgPosition=$("#backImg").offset();
+            var imgUrlList=[];
+            var isOK=true;
+            $("#backCanvas div.set-box").each(function (i) {
+                var positionEle=$(this).offset();
+                var t_x=positionEle.left-backImgPosition.left;
+                var t_y=positionEle.top-backImgPosition.top;
+                if(t_x<0||t_y<0){
+                    toast("info","操作提示","素材位置超出背景图");
+                    isOK=false;
+                    return false;
+                }
+                imgUrlList.push({
+                    offsetX:Math.round(t_x),
+                    offsetY:Math.round(t_y),
+                    imgUrl:$(this).find("img.set-img").attr("src")
+                })
+            });
+            if(isOK){
+                $("#transformMaterialAlert").addClass("ax-window-show");
+                $("#transformOKBtn").click(function () {
+                    var materialName=$("#transformMaterialAlert input[name=materialName]").val();
+                    if(materialName.length<=0){
+                        toast("warning","操作失败","素材名不能为空");
+                        return;
+                    }
+                    $("#maskLayer").css("z-index",999);
+                    var data={
+                        userId:localStorage.getItem("userId"),
+                        groupId:localStorage.getItem("groupId"),
+                        imgUrlList:imgUrlList,
+                        backImgUrl:$("#backImg").attr("src"),
+                        materialName:materialName
+                    };
+                    $.ajax({
+                        type : "POST",
+                        url : "/material/materialFusion",
+                        data : JSON.stringify(data),
+                        contentType : "application/json;charset=utf-8",
+                        dataType : "json",
+                        success:function(res) {
+                            $("#maskLayer").css("z-index",-999);
+                            if(res.success){
+                                toast("success","操作成功",res.msg);
+                                queryGroupMaterials();
+                            }else{
+                                toast("warning","操作失败",res.msg);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+    }
 
+    // 上传背景图素材
+    function uploadBackMaterial() {
+        $("#uploadBackMaterialBtn").click(function () {
+            $("#uploadMaterialAlert").addClass("ax-window-show");
+            $("#materialUploadBtn").click(function () {
+                var materialName=$("#uploadMaterialAlert input[name=materialName]").val();
+                if(materialName.length===0){
+                    toast("warning","操作失败","素材名称未填写");
+                    return;
+                }
+                var materialFile=$("#uploadMaterialAlert input[name=materialFile]")[0].files[0];
+                var formData=new FormData();
+                formData.append("userId",localStorage.getItem("userId"));
+                formData.append("materialName",materialName);
+                formData.append("remarks",$("#uploadMaterialAlert textarea[name=remarks]").val());
+                if (typeof (materialFile) != "undefined" && materialFile.size > 0) {
+                    formData.append("material",materialFile);
+                }
+                post("/material/insertMaterial",formData,function (res) {
+                    if(res.success){
+                        toast("success","操作成功",res.msg);
+                        querySelfMaterial();
+                    }else{
+                        toast("warning","操作失败",res.msg);
+                    }
+                })
+            });
+        });
+    }
 
 
     // 页面初始化配置
     function initConfig() {
+
         // 滚动条美化
         $("#leftUI,#rightUI").axScroll();
 

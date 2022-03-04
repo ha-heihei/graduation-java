@@ -4,10 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.lh.entity.Material;
-import com.lh.entity.MaterialUser;
-import com.lh.entity.PublicMaterial;
-import com.lh.entity.User;
+import com.lh.entity.*;
+import com.lh.mapper.GroupMaterialMapper;
 import com.lh.mapper.MaterialMapper;
 import com.lh.mapper.MaterialUserMapper;
 import com.lh.mapper.UserMapper;
@@ -41,6 +39,9 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
 
     @Resource
     private MaterialUserMapper materialUserMapper;
+
+    @Resource
+    private GroupMaterialMapper groupMaterialMapper;
 
     @Transactional
     @Override
@@ -142,6 +143,22 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
                 .le(Objects.nonNull(material.getEndTime()), "pm.create_time", material.getEndTime())
                 .ge(Objects.nonNull(material.getBeginTime()), "pm.create_time", material.getBeginTime());
         return materialMapper.queryAllPublicMaterial(queryWrapper);
+    }
+
+    @Transactional
+    @Override
+    public Boolean materialFusion(Material material) {
+        GroupMaterial groupMaterial = new GroupMaterial();
+        material.setMaterialId(String.valueOf(System.currentTimeMillis()));
+        material.setCreateTime(LocalDateTime.now());
+        // 工作组素材添加
+        groupMaterial.setGroupId(material.getGroupId());
+        groupMaterial.setMaterialId(material.getMaterialId());
+        groupMaterial.setMaterialName(material.getMaterialName());
+        groupMaterial.setGroupMaterialType(2);
+        groupMaterial.setCreateTime(material.getCreateTime());
+        groupMaterial.setUserId(material.getUserId());
+        return groupMaterialMapper.insert(groupMaterial)==1&&materialMapper.insert(material)==1;
     }
 
 

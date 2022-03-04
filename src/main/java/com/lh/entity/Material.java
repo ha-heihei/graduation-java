@@ -87,7 +87,17 @@ public class Material extends BaseEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endTime;
 
+    @ApiModelProperty("工作组id")
+    @TableField(exist = false)
+    private String groupId;
 
+    @ApiModelProperty("合成素材-素材列表")
+    @TableField(exist = false)
+    private List<MaterialImg> imgUrlList;
+
+    @ApiModelProperty("合成素材-背景图")
+    @TableField(exist = false)
+    private String backImgUrl;
 
 
 

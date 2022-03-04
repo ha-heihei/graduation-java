@@ -36,4 +36,6 @@ public interface IMaterialService extends IService<Material> {
 
     List<PublicMaterial> queryAllPublicMaterial(Material material);
 
+    Boolean materialFusion(Material material);
+
 }

@@ -1,11 +1,13 @@
 package com.lh.controller;
 
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.lh.common.CommonResult;
 import com.lh.entity.Material;
+import com.lh.entity.MaterialImg;
 import com.lh.entity.MaterialUser;
 import com.lh.entity.User;
 import com.lh.service.IMaterialService;
@@ -20,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -163,7 +165,6 @@ public class MaterialController {
             return CommonResult.fail("背景分割失败");
         }
         JSONObject object= new JSONObject((Map<String,Object>)bodySeg.getResult());
-        System.out.println("object = " + object);
 
         CommonResult result = imageService.backFill(object.getString("foregroundUrl"),
                 object.getString("maskUrl"), color);
@@ -242,6 +243,42 @@ public class MaterialController {
     @PostMapping(value = "/queryAllPublicMaterial")
     public CommonResult queryAllPublicMaterial(Material material){
         return CommonResult.success(materialService.queryAllPublicMaterial(material));
+    }
+
+
+    @ApiOperation("素材合成")
+    @PostMapping(value = "/materialFusion")
+    public CommonResult materialFusion(@RequestBody Material material){
+        if(material==null|| Objects.isNull(material.getImgUrlList())||
+                StringUtils.isBlank(material.getBackImgUrl())||StringUtils.isBlank(material.getUserId())||
+                StringUtils.isBlank(material.getGroupId())||StringUtils.isBlank(material.getMaterialName())){
+            return CommonResult.fail("素材列表、背景图、用户ID、工作组ID、素材名称不全");
+        }
+        JSONArray images = new JSONArray();
+        for(MaterialImg materialImg:material.getImgUrlList()){
+            CommonResult bodySeg = imageService.bodySeg(materialImg.getImgUrl());
+            if(!bodySeg.getSuccess()){
+                return CommonResult.fail("背景分割失败");
+            }
+            JSONObject object= new JSONObject((Map<String,Object>)bodySeg.getResult());
+            object.put("maskImg",object.get("maskUrl"));
+            object.put("foregroundImg",object.get("foregroundUrl"));
+            object.remove("maskUrl");
+            object.remove("foregroundUrl");
+            ArrayList<Integer> offset = new ArrayList<>();
+            offset.add(materialImg.getOffsetX());
+            offset.add(materialImg.getOffsetY());
+            object.put("offset",offset);
+            images.add(object);
+        }
+        CommonResult fusionResult = imageService.materialFusion(images.toJSONString(), material.getBackImgUrl());
+        if(!fusionResult.getSuccess()){
+            return CommonResult.fail("素材合成失败");
+        }
+        JSONObject materialUrls= new JSONObject();
+        materialUrls.put("originUrl",fusionResult.getResult());
+        material.setMaterialUrls(materialUrls.toJSONString());
+        return materialService.materialFusion(material)?fusionResult:CommonResult.fail("素材合成失败");
     }
 
 }
