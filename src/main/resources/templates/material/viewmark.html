@@ -68,15 +68,89 @@
         <div class="ax-col ax-col-18 ax-margin-right ax-xs" style="height: 100%" id="mapContainer">
         </div>
         <div class="ax-col ax-col-6 ax-border ax-shadow-border"  style="height: 580px">
-
         </div>
     </div>
 </div>
 
+<!--------------------------------------------------------弹窗模版BEGIN--------------------------------------------------------------------->
+<!--打卡素材上传弹窗-->
+<div class="ax-window"  data-mask="true" id="uploadMaterialAlert">
+    <div class="ax-window-overlay"></div>
+    <div class="ax-window-contain">
+        <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+        <div class="ax-window-title">景点打卡</div>
+        <div class="ax-break-line"></div>
+        <div class="ax-window-content">
+            <div class="ax-emulate">
+                <div class="ax-form-group">
+                    <div class="ax-flex-row">
+                        <div class="ax-form-con">
+                            <div class="ax-form-input">
+                                <span class="ax-pos-left">打卡标题：</span>
+                                <input name="viewName" placeholder="输入打卡标题"  type="text">
+                                <span class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="ax-break-md"></div>
 
+                <div class="ax-form-group">
+                    <div class="ax-flex-row">
+                        <div class="ax-form-con">
+                            <div class="ax-form-input">
+                                <span class="ax-pos-left">备注：</span>
+                                <textarea name="remarks" cols="" rows="" placeholder="写备注"></textarea>
+                                <span class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="ax-break-md"></div>
 
+                <div class="ax-form-group">
+                    <div class="ax-flex-row">
+                        <div class="ax-form-con">
+                            <div class="ax-form-input">
+                                <div class="ax-file" data-placeholder="点击选择头文件" data-text="选择文件">
+                                    <input type="file" name="viewImg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ax-break-md"></div>
+
+                <div class="ax-form-group">
+                    <div class="ax-flex-row">
+                        <div class="ax-form-con">
+                            <div class="ax-form-input">
+                                <a href="###" class="ax-avatar ax-xxl" id="viewImg" ></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ax-break-line"></div>
+        <div class="ax-padding ax-window-operate">
+            <div class="ax-row">
+                <div class="ax-col">
+                    <div class="ax-explain">分享美好的时光吧</div>
+                </div>
+                <div class="ax-btns">
+                    <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                    <a href="###" class="ax-btn ax-primary ax-window-close" id="materialUploadBtn">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--------------------------------------------------------弹窗模版END--------------------------------------------------------------------->
 
 <script type="text/javascript" src="https://api.map.baidu.com/api?v=1.0&type=webgl&ak=wxndwIEGSdxss8hnYWIEE7wvlfAeknLU"></script>
 <script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
@@ -95,15 +169,97 @@
     $(function () {
         // 初始化配置
         init();
-    });
-
-
-    // 初始化配置
-    function init() {
+        // 初始化地图
         var map = new BMapGL.Map("mapContainer");          // 创建地图实例
         var point = new BMapGL.Point(116.404, 39.915);  // 创建点坐标
         map.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
+
+        // 打卡事件绑定
+        $("#uploadBtn").click(function () {
+            $("#uploadMaterialAlert").addClass("ax-window-show");
+            $("#materialUploadBtn").click(function () {
+
+                viewMarkUpload();
+            });
+        });
+
+    });
+
+    // 打卡上传事件
+    function viewMarkUpload() {
+        $("#maskLayer").css("z-index",999);
+        // 地址解析服务
+        var geocoder = new BMapGL.Geocoder();
+
+        // 定位服务
+        var geolocation = new BMapGL.Geolocation({
+            enableHighAccuracy: true, //是否使用高精度定位，默认:true
+            timeout: 10000, //超过10秒后停止定位，默认：无穷大
+            maximumAge: 0, //定位结果缓存0毫秒，默认：0
+            convert: true, //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+            showButton: true, //显示定位按钮，默认：true
+            buttonPosition: 'LB', //定位按钮停靠位置，默认：'LB'，左下角
+            showMarker: false, //定位成功后在定位到的位置显示点标记，默认：true
+            showCircle: true, //定位成功后用圆圈表示定位精度范围，默认：true
+            panToLocation: false, //定位成功后将定位到的位置作为地图中心点，默认：true
+            zoomToAccuracy: true //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        });
+
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() === BMAP_STATUS_SUCCESS){
+                // var mk = new BMapGL.Marker(r.point);
+                // map.addOverlay(mk);
+                // map.panTo(r.point);
+                geocoder.getLocation(new BMapGL.Point(r.point.lng, r.point.lat), function(result){
+                    if (result){
+                        console.log(r.point.lng, r.point.lat);
+                        var addComp = result.addressComponents;
+                        var formData=new FormData();
+                        formData.append("province",addComp.province);
+                        formData.append("city",addComp.city);
+                        formData.append("district",addComp.district);
+                        formData.append("lng",r.point.lng);
+                        formData.append("lat",r.point.lat);
+                        formData.append("userId",localStorage.getItem("userId"));
+                        var viewImg=$("#uploadMaterialAlert input[name=viewImg]")[0].files[0];
+                        if (typeof (viewImg) != "undefined" && viewImg.size > 0) {
+                            formData.append("viewImg",viewImg);
+                        }
+                        formData.append("viewName",$("#uploadMaterialAlert input[name=viewName]").val());
+                        formData.append("viewRemarks",$("#uploadMaterialAlert textarea[name=remarks]").val());
+                        post("/viewMark/insertViewMarkInfo",formData,function (res) {
+                            $("#maskLayer").css("z-index",-999);
+                            if(res.success){
+                                toast("success","操作成功",res.msg);
+                                $("#queryBtn").click();
+                            }else{
+                                toast("warning","操作失败",res.msg);
+                            }
+                        })
+                    }else{
+                        toast("warning","操作失败","地址解析失败")
+                    }
+                });
+            }
+            else {
+                toast("warning","操作失败","定位失败")
+            }
+        });
+
+    }
+
+    // 初始化配置
+    function init() {
+        $("input[name=viewImg]").change(function(){
+            // 获取文件对象
+            var f = $("input[name=viewImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#viewImg").css("background-image","url('"+url+"')");
+        });
 
         //日期选择器绑定
         $('#beginDate,#endDate').mobiscroll().calendar({
