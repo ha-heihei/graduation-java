@@ -99,4 +99,9 @@ public class CommonController {
     public String toMergeMaterial(){
         return "group/mergematerial";
     }
+
+    @RequestMapping(value = "/toViewMark")
+    public String toViewMark(){
+        return "material/viewmark";
+    }
 }

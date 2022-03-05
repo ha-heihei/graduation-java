@@ -29,7 +29,7 @@ public class CodeGenerator {
                 .globalConfig(builder -> {
                     builder.author("lihao") // 设置作者
                             .enableSwagger() // 开启 swagger 模式
-                            .fileOverride() // 覆盖已生成文件
+//                            .fileOverride() // 覆盖已生成文件
                             .disableOpenDir()
                             .outputDir("E:\\IDEA\\workspace\\graduation\\src\\main\\java"); // 指定输出目录
                 })
@@ -38,7 +38,7 @@ public class CodeGenerator {
                             .pathInfo(Collections.singletonMap(OutputFile.mapperXml, "E:\\IDEA\\workspace\\graduation\\src\\main\\resources\\mapper")); // 设置mapperXml生成路径
                 })
                 .strategyConfig(builder -> {
-                    builder.addInclude("public_material")
+                    builder.addInclude("view_mark")
 //                            .addInclude("group","user","group_user","group_material","material","material_user")
                     .entityBuilder()
                     .enableLombok()
