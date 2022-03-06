@@ -146,10 +146,10 @@
             formData.append("groupMaterialType",groupMaterialType)
         }
         if(beginDate.length>0){
-            formData.append("beginTime",beginDate+" 00:00:00");
+            formData.append("beginTime",beginDate.replaceAll("/","-")+" 00:00:00");
         }
         if(endDate.length>0){
-            formData.append("endTime",endDate+" 00:00:00");
+            formData.append("endTime",endDate.replaceAll("/","-")+" 00:00:00");
         }
         post("/group/queryAllGroupMaterial",formData,function (res) {
             if(res.success){

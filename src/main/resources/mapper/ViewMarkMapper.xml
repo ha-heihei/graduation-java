@@ -23,7 +23,7 @@
         view_id, view_name, view_remarks, lat, lng, province, city, district, view_img_url, user_id, create_time, scan_num
     </sql>
     <select id="queryViewMarkByArea" resultType="com.lh.entity.ViewMark">
-        select v.*,u.user_name,u.user_img_url from
+        select v.*,u.user_name,u.user_img_url,DATEDIFF(now(),v.create_time) fateDays from
             view_mark v join user u on u.user_id=v.user_id
             ${ew.customSqlSegment}
             order by v.create_time desc

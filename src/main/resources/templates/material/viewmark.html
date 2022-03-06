@@ -13,6 +13,7 @@
     <meta content="telephone=no" name="format-detection"/>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/fancybox/css/jquery.fancybox.css" rel="stylesheet" type="text/css" >
     <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
     <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
     <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
@@ -57,7 +58,10 @@
                 <li class="ax-grid-block ax-col-2">
                     <a href="###" class="ax-btn ax-primary ax-full" id="queryBtn">检索</a>
                 </li>
-                <li class="ax-grid-block ax-col-7"></li>
+                <li class="ax-grid-block ax-col-2">
+                    <a href="###" class="ax-btn ax-full" id="nearbyBtn">附近</a>
+                </li>
+                <li class="ax-grid-block ax-col-5"></li>
                 <li class="ax-grid-block ax-col-2">
                     <a class="ax-btn ax-success ax-full" href="###" id="uploadBtn">打卡</a>
                 </li>
@@ -67,7 +71,10 @@
     <div class="ax-row ax-margin-top ax-sm">
         <div class="ax-col ax-col-18 ax-margin-right ax-xs" style="height: 100%" id="mapContainer">
         </div>
-        <div class="ax-col ax-col-6 ax-border ax-shadow-border"  style="height: 580px">
+        <div class="ax-col ax-col-6 ax-border ax-padding ax-sm ax-shadow-border" style="height: 580px">
+            <div class="ax-comment" id="viewList">
+
+            </div>
         </div>
     </div>
 </div>
@@ -165,8 +172,10 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script src="/js/touch.min.js"></script>
 <script src="/js/myTouchImg.js"></script>
+<script src="https://src.axui.cn/src/plugins/fancybox/js/jquery.fancybox.min.js" type="text/javascript"></script>
 <script type="text/javascript">
     $(function () {
+
         // 初始化配置
         init();
         // 初始化地图
@@ -175,16 +184,211 @@
         map.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 
+        // 初始定位显示附近图片
+        queryMarkNearby(2,map);
+
         // 打卡事件绑定
         $("#uploadBtn").click(function () {
             $("#uploadMaterialAlert").addClass("ax-window-show");
             $("#materialUploadBtn").click(function () {
-
                 viewMarkUpload();
             });
         });
 
+        // 查看附近绑定
+        $("#nearbyBtn").click(function () {
+            queryMarkNearby(2,map);
+        });
+
+        // 设置地图点击事件
+        map.addEventListener('click', function(e){
+            queryViewMarkList(e.latlng);
+        });
+
+        // 点击检索事件
+        $("#queryBtn").click(function () {
+            $("#maskLayer").css("z-index",999);
+            queryMarkNearby(1,map);
+        });
+
     });
+
+
+
+
+    // 查询标记附近景点图片
+    function queryMarkNearby(type,map) {
+        $("#maskLayer").css("z-index",999);
+        if(type===1){
+            var formData=new FormData();
+            var city=$("#header input[name=cityName]").val();
+            var beginTime=$("#header input[name=beginDate]").val();
+            var endTime=$("#header input[name=endDate]").val();
+            if(typeof(beginTime)!==undefined&&beginTime.length>0){
+                formData.append("beginTime",beginTime.replaceAll("/","-")+" 00:00:00");
+            }
+            if(typeof(endTime)!==undefined&&endTime.length>0){
+                formData.append("endTime",endTime.replaceAll("/","-")+" 00:00:00");
+            }
+            if(city.length>0){
+                formData.append("city",city);
+            }
+            showRightList(formData);
+            post("/viewMark/queryViewMarkByArea",formData,function (res) {
+                $("#maskLayer").css("z-index",-999);
+                if(res.success){
+                    map.clearOverlays();
+                    console.log(res);
+                    var records=res.result.records;
+                    var lng=0;
+                    var lat=0;
+                    for(var i=0;i<records.length;i++){
+                        lng+=records[i].lng;
+                        lat+=records[i].lat;
+                        // 创建图标
+                        var icon = new BMapGL.Icon(records[i].viewImgUrl, new BMapGL.Size(80, 80));
+                        // 创建Marker标注，使用图标
+                        var marker = new BMapGL.Marker(new BMapGL.Point(records[i].lng,records[i].lat), {
+                            icon: icon
+                        });
+                        // 将标注添加到地图
+                        map.addOverlay(marker);
+                    }
+                    if(records.length>0){
+                        lng=lng/records.length;
+                        lat=lat/records.length;
+                        map.panTo(new BMapGL.Point(lng,lat));
+                    }
+
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            })
+        }else{
+            var geolocation = new BMapGL.Geolocation();
+            geolocation.getCurrentPosition(function(r){
+                if(this.getStatus() === BMAP_STATUS_SUCCESS){
+                    var geocoder = new BMapGL.Geocoder();
+                    geocoder.getLocation(new BMapGL.Point(r.point.lng, r.point.lat), function(result){
+                        if (result) {
+                            var addComp = result.addressComponents;
+                            var formData=new FormData();
+                            formData.append("city",addComp.city);
+                            showRightList(formData);
+                            post("/viewMark/queryViewMarkByArea",formData,function (res) {
+                                map.clearOverlays();
+
+                                $("#maskLayer").css("z-index",-999);
+                                if(res.success){
+                                    var records=res.result.records;
+                                    var lng=0;
+                                    var lat=0;
+                                    for(var i=0;i<records.length;i++){
+                                        lng+=records[i].lng;
+                                        lat+=records[i].lat;
+                                        // 创建图标
+                                        var icon = new BMapGL.Icon(records[i].viewImgUrl, new BMapGL.Size(80, 80));
+                                        // 创建Marker标注，使用图标
+                                        var marker = new BMapGL.Marker(new BMapGL.Point(records[i].lng,records[i].lat), {
+                                            icon: icon
+                                        });
+                                        // 将标注添加到地图
+                                        map.addOverlay(marker);
+                                    }
+                                    if(records.length>0){
+                                        lng=lng/records.length;
+                                        lat=lat/records.length;
+                                        map.panTo(new BMapGL.Point(lng,lat));
+                                    }
+                                }else{
+                                    toast("warning","操作失败",res.msg);
+                                }
+
+                            });
+                        }else{
+                            toast("warning","操作失败","地址解析失败")
+                        }
+                    });
+
+
+                }
+                else {
+                    toast("warning","操作失败","定位解析失败")
+                }
+            });
+        }
+    }
+
+    // 查询区域事件
+    function queryViewMarkList(point) {
+        $("#maskLayer").css("z-index",999);
+        var geoc = new BMapGL.Geocoder();
+        geoc.getLocation(point, function(rs){
+            var addComp = rs.addressComponents;
+            var formData=new FormData();
+            formData.append("city",addComp.city);
+            showRightList(formData);
+        })
+    }
+
+    // 展示右侧列表
+    function showRightList(formData) {
+        post("/viewMark/queryViewMarkByArea", formData, function (res) {
+            $("#maskLayer").css("z-index", -999);
+            if (res.success) {
+                $("#viewList").html("");
+                var records=res.result.records;
+                if(records.length<=0){
+                    $("#viewList").append('<div class="ax-empty">\n' +
+                        '                <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>\n' +
+                        '                <div class="ax-title">没有内容</div>\n' +
+                        '            </div>');
+                }
+
+                for (var i=0;i<records.length;i++){
+                    var address=records[i].province+records[i].city+records[i].district;
+                    $("#viewList").append('<div class="ax-item">\n' +
+                        '                    <a href="###" class="ax-avatar" style="background-image: url('+records[i].userImgUrl+')"></a>\n' +
+                        '                    <div class="ax-text">\n' +
+                        '                        <div class="ax-row01 ax-row">\n' +
+                        '                            <div class="ax-col"><a href="###" class="ax-name">'+records[i].userName+'</a></div><i class="ax-floor">'+(i+1)+'楼</i>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="ax-row02 viewComment">\n' +
+                        '                            <span>'+records[i].viewRemarks+'</span>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="ax-row04">\n' +
+                        '                            <a href="'+records[i].viewImgUrl+'" class="ax-xl"  data-fancybox="btmthumbs">' +
+                        '                               <img class="ax-avatar ax-xl" src="'+records[i].viewImgUrl+'" />\n' +
+                        '                               <div style="display: none">\n' +
+                        '                                   <p>'+records[i].viewRemarks+'</p>\n' +
+                        '                               </div>\n' +
+                        '                            </a>\n' +
+                        '                        </div>\n' +
+                        '                        <div class="ax-row03 ax-row">\n' +
+                        '                            <div class="ax-col"><span class="ax-time">'+records[i].fateDays+'天前</span></div>\n' +
+                        '                            <a href="###" class="ax-action ax-action-reply ax-ell ">\n' +
+                        '                                <i class="ax-iconfont ax-icon-pin"></i>' +address+
+                        '                            </a>\n' +
+                        '                        </div>\n' +
+                        '                    </div>\n' +
+                        '                </div>').append('<div class="ax-break-line"></div>');
+                }
+                $('[data-fancybox="btmthumbs"]').fancybox({
+                    baseClass: "btmthumbs",
+                    thumbs : {
+                        autoStart : true,
+                        axis      : 'x'
+                    },
+                    caption : function( instance, item ) {
+                        return $(this).find('div').html();
+                    }
+                });
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        });
+    }
+
 
     // 打卡上传事件
     function viewMarkUpload() {
@@ -208,12 +412,8 @@
 
         geolocation.getCurrentPosition(function(r){
             if(this.getStatus() === BMAP_STATUS_SUCCESS){
-                // var mk = new BMapGL.Marker(r.point);
-                // map.addOverlay(mk);
-                // map.panTo(r.point);
                 geocoder.getLocation(new BMapGL.Point(r.point.lng, r.point.lat), function(result){
                     if (result){
-                        console.log(r.point.lng, r.point.lat);
                         var addComp = result.addressComponents;
                         var formData=new FormData();
                         formData.append("province",addComp.province);
@@ -251,6 +451,18 @@
 
     // 初始化配置
     function init() {
+
+
+
+
+        $("div.viewComment").axEll({
+            textLength: "30",
+            foldText: "收起",
+            unfoldText: "全部",
+            btnClass: "ax-color-primary",
+        });
+
+
         $("input[name=viewImg]").change(function(){
             // 获取文件对象
             var f = $("input[name=viewImg]")[0].files[0];

@@ -101,6 +101,10 @@ public class ViewMark extends BaseEntity {
     @TableField(exist = false)
     private String userImgUrl;
 
+    @ApiModelProperty("发布天数间隔")
+    @TableField(exist = false)
+    private Integer fateDays;
+
 
 
 }
