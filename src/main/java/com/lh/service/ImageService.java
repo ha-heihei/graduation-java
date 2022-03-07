@@ -79,4 +79,11 @@ public interface ImageService {
     @PostMapping(value = "/materialFusion",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     CommonResult materialFusion(@RequestPart("imgUrlList")String imgUrlList,
                                 @RequestPart("backImgUrl")String backImgUrl);
+
+
+    @PostMapping(value = "/imgFrameMerge",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    CommonResult imgFrameMerge(@RequestPart("imgUrl")String imgUrl,
+                               @RequestPart("bold")Integer bold,
+                               @RequestPart("type")Integer type);
+
 }

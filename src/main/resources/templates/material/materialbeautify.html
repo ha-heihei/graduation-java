@@ -57,6 +57,7 @@
                     <li class="ax-grid-block ax-col-4 ax-item">图像增强</li>
                     <li class="ax-grid-block ax-col-4 ax-item">背景虚化</li>
                     <li class="ax-grid-block ax-col-4 ax-item">证件照</li>
+                    <li class="ax-grid-block ax-col-4 ax-item">相框合成</li>
                     <div class="ax-clear"></div>
                 </ul>
             </div>
@@ -166,6 +167,47 @@
                             </div>
                         </div>
                         <div class="ax-col ax-col-7"></div>
+                    </div>
+                </div>
+                <div id="frameMerge">
+                    <div class="ax-flex-row ax-padding">
+                        <div class="ax-flex-block-3 ax-align-center-center">
+                            <img src="" class="originMaterial" style="width: auto;height: 400px">
+                        </div>
+                        <div class="ax-flex-block-3 ax-align-center-center" style="">
+                            <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                        </div>
+                    </div>
+                    <div class="ax-break-xl"></div>
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-2">
+                            <div class="ax-flex-row">
+                                <div class="ax-form-label">边框厚度：</div>
+                                <div class="ax-form-con">
+                                    <div class="ax-form-input">
+                                        <input type="number" style="width: 100px" name="bold">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ax-col ax-col-6 ">
+                            <div class="ax-flex-row">
+                                <div class="ax-form-label">相框类型：</div>
+                                <div class="ax-form-con">
+                                    <div class="ax-form-input">
+                                        <select class="ax-select" name="type">
+                                            <option value="0">金纹</option>
+                                            <option value="1">原木纹</option>
+                                            <option value="2">大理石纹</option>
+                                            <option value="3">鹅卵石纹</option>
+                                        </select>
+                                        <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                                        <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ax-col ax-col-4"></div>
                     </div>
                 </div>
             </div>
@@ -300,6 +342,9 @@
 
                 // 证件照合成事件绑定
                 backFill();
+
+                // 相框合成
+                frameMerge();
 
 
                 // 重新配置
@@ -578,6 +623,64 @@
         });
     }
 
+    // 相框合成
+    function frameMerge() {
+        $("#frameMerge a.transform").click(function () {
+            var imgUrl=$("#frameMerge img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            clearMaerialInfo();
+            $("div#materialInfoAlert").addClass("ax-window-show");
+            $("div#materialInfoAlert #materialOKBtn").click(function () {
+                var materialName=$("#materialInfoAlert input[name=materialName]").val();
+                var remarks=$("#materialInfoAlert textarea[name=remarks]").val();
+                var bold=$("#frameMerge input[name=bold]").val();
+                var type=$("#frameMerge select[name=type]").val();
+                if(materialName.length<=0){
+                    toast("warning","操作失败","未填写素材名称");
+                    return;
+                }
+                if(remarks.length<=0){
+                    toast("warning","操作失败","未填写素材备注");
+                    return;
+                }
+                if(bold.length<=0){
+                    toast("warning","操作失败","边框厚度未填写")
+                }
+                $("#frameMerge a.transform i").text("正在转换").addClass("ax-waiting");
+                var formData=new FormData();
+                formData.append("materialName",materialName);
+                formData.append("remarks",remarks);
+                formData.append("userId",localStorage.getItem("userId"));
+                formData.append("imgUrl",imgUrl);
+                formData.append("bold",bold);
+                formData.append("type",type);
+                post("/material/imgFrameMerge",formData,function (res) {
+                    if(res.success){
+                        $("#frameMerge a.transform i").text("开始转换").removeClass("ax-waiting");
+                        toast("success","操作成功","新素材已入个人素材库");
+                        $("#frameMerge img.resultMaterial").attr("src",res.result);
+                    }else{
+                        toast("warning","操作失败",res.msg);
+                    }
+                });
+            });
+        });
+        // 素材下载绑定
+        $("#frameMerge a.download").click(function () {
+            var materialUrl=$("#frameMerge img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","素材未转换完成");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+    }
 
     // 清除名称、描述内容
     function clearMaerialInfo() {

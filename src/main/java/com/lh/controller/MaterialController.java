@@ -281,5 +281,25 @@ public class MaterialController {
         return materialService.materialFusion(material)?fusionResult:CommonResult.fail("素材合成失败");
     }
 
+    @ApiOperation("相框合成")
+    @PostMapping(value = "/imgFrameMerge")
+    public CommonResult imgFrameMerge(Material material,
+                                      @RequestParam("imgUrl")String imgUrl,
+                                      @RequestParam("bold")Integer bold,
+                                      @RequestParam("type")Integer type){
+        if(material==null||StringUtils.isBlank(material.getMaterialName())||
+                StringUtils.isBlank(material.getUserId())){
+            return CommonResult.fail("未包含用户ID，素材名称参数");
+        }
+        CommonResult mergeResult = imageService.imgFrameMerge(imgUrl, bold, type);
+        if(!mergeResult.getSuccess()){
+            return CommonResult.fail("相框合成失败");
+        }
+        JSONObject object = new JSONObject();
+        object.put("originUrl",mergeResult.getResult());
+        material.setMaterialUrls(object.toJSONString());
+        return materialService.insertMaterial(material)?mergeResult:CommonResult.fail("相框合成失败");
+    }
+
 }
 
