@@ -11,6 +11,7 @@ import com.lh.utils.OSSUtils;
 import com.lh.utils.RandomValidateCodeUtils;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,11 +65,12 @@ public class UserController {
 
     @ApiModelProperty("用户登陆")
     @PostMapping(value = "/login")
-    public CommonResult login(User user, HttpSession session){
+    public CommonResult login(User user, HttpSession session,
+                              @RequestParam(value = "fromDevice",required = false)String fromDevice){
         String code= (String) session.getAttribute(RandomValidateCodeUtils.RANDOMCODEKEY);
         if(user==null|| StringUtils.isBlank(user.getUserPwd())||StringUtils.isBlank(user.getUserName())){
             return CommonResult.fail("请输入用户名和密码");
-        }else if(code==null||user.getCode()==null||!code.equalsIgnoreCase(user.getCode())){
+        }else if(StringUtils.isBlank(fromDevice)&&(code==null||user.getCode()==null||!code.equalsIgnoreCase(user.getCode()))){
             return CommonResult.fail("验证码错误");
         }
         user=userService.checkLogin(user);
