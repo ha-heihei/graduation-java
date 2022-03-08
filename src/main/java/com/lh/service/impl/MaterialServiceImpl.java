@@ -53,6 +53,10 @@ public class MaterialServiceImpl extends ServiceImpl<MaterialMapper, Material> i
         materialUser.setMaterialId(material.getMaterialId());
         materialUser.setUserId(material.getUserId());
         materialUser.setMaterialName(material.getMaterialName());
+        if(StringUtils.isBlank(material.getMaterialName())){
+            material.setMaterialName("未命名");
+            materialUser.setMaterialName("未命名");
+        }
         if(StringUtils.isBlank(material.getRemarks())){
             materialUser.setRemarks("未描述");
         }else{
