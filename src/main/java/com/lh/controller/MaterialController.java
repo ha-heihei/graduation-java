@@ -156,9 +156,8 @@ public class MaterialController {
     public CommonResult backFill(Material material,
                                  @RequestParam("imgUrl")String imgUrl,
                                  @RequestParam("color")String color){
-        if(material==null||StringUtils.isBlank(material.getUserId())||
-                StringUtils.isBlank(material.getMaterialName())||StringUtils.isBlank(material.getRemarks())){
-            return CommonResult.fail("未传入用户ID、素材名称、素材备注");
+        if(material==null||StringUtils.isBlank(material.getUserId())){
+            return CommonResult.fail("未传入用户ID");
         }
         CommonResult bodySeg = imageService.bodySeg(imgUrl);
         if(!bodySeg.getSuccess()){
@@ -287,8 +286,7 @@ public class MaterialController {
                                       @RequestParam("imgUrl")String imgUrl,
                                       @RequestParam("bold")Integer bold,
                                       @RequestParam("type")Integer type){
-        if(material==null||StringUtils.isBlank(material.getMaterialName())||
-                StringUtils.isBlank(material.getUserId())){
+        if(material==null|| StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未包含用户ID，素材名称参数");
         }
         CommonResult mergeResult = imageService.imgFrameMerge(imgUrl, bold, type);

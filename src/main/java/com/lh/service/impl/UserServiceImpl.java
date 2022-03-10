@@ -54,6 +54,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         user.setCreateTime(LocalDateTime.now());
         user.setUserStatus(1);
+        if(Objects.isNull(user.getUserType())){
+            user.setUserType(1);
+        }
         user.setUserId(String.valueOf(System.currentTimeMillis()));
         if(StringUtils.isBlank(user.getUserPwd())){
             user.setUserPwd(user.getMobile());
