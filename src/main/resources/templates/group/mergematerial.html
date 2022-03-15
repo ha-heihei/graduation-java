@@ -36,6 +36,7 @@
             position: absolute;
             top: 300px;
             left: 200px;
+            cursor: move;
         }
 
         .set-img {
@@ -52,6 +53,17 @@
             width: 20px;
             cursor: pointer;
         }
+        .coor {
+            width: 10px;
+            height: 10px;
+            overflow: hidden;
+            cursor: se-resize;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            background-color: #09C;
+        }
+
     </style>
 </head>
 <body>
@@ -90,7 +102,7 @@
     <div class="ax-col ax-col-16 ax-border ax-shadow-border" style="height: 674px;">
         <div class="ax-flex-col">
             <div class="ax-flex-block-6 ax-align-center-center" id="backCanvas" style="background: #f5f5f5">
-                <img  id="backImg">
+                <img  id="backImg" draggable="false" ondragstart="return false;">
             </div>
             <div class="ax-break-line"></div>
             <div style="height: 60px">
@@ -332,16 +344,18 @@
                         var backImgWidth=$('#backImg').outerWidth(true);
                         var backImgHeight=$('#backImg').outerHeight(true);
                         if(realHeight>backImgHeight||realWidth>backImgWidth){
-                            toast("info","操作失败","素材大小超过背景图大小");
-                            return;
+                            toast("info","操作提示","素材大小超过背景图大小，请缩放后进行合成");
+                            // return;
                         }
 
                         var html = ['<div class="set-box">',
-                            '   <img src="' + imgUrl + '" class="set-img" draggable="false" ondragstart="return false;">',
+                            '   <img src="' + imgUrl + '" class="set-img" draggable="false" ondragstart="return false;" realWith="'+realWidth+'" realHeight="'+realHeight+'">',
                             '   <img src="/images/close-icon2.png" class="set-close">',
+                            '   <div class="coor"></div>',
                             '</div>'].join("");
 
                         $('#backCanvas').append(html);
+                        scaleJS($(".set-box").last()[0],$("#backCanvas")[0]);
                         myTouchjs($('.set-box').last());
                         this.onload=null;
                     };
@@ -443,13 +457,21 @@
                 if(t_x<0||t_y<0){
                     toast("info","操作提示","素材位置超出背景图");
                     isOK=false;
-                    return false;
+                    return;
                 }
+                var t_w=$(this).find("img.set-img").width();
+                var t_h=$(this).find("img.set-img").height();
+                var r_w=parseFloat($(this).find("img.set-img").attr("realWith"));
+                var r_h=parseFloat($(this).find("img.set-img").attr("realHeight"));
+                var scaleW=t_w / r_w;
+                var scaleH=t_h / r_h;
                 imgUrlList.push({
                     offsetX:Math.round(t_x),
                     offsetY:Math.round(t_y),
-                    imgUrl:$(this).find("img.set-img").attr("src")
-                })
+                    imgUrl:$(this).find("img.set-img").attr("src"),
+                    scaleW:scaleW.toFixed(2),
+                    scaleH:scaleH.toFixed(2),
+                });
             });
             if(isOK){
                 $("#transformMaterialAlert").addClass("ax-window-show");
@@ -485,6 +507,7 @@
                     });
                 });
             }
+
         });
     }
 
@@ -563,6 +586,63 @@
             return false;
         });
     }
+
+
+
+    // 缩放脚本
+    function scaleJS($target,$parent) {
+        $($parent).mousemove(function(e) {
+            if (!!this.move) {
+                var posix = !$parent.move_target ? {'x': 0, 'y': 0} : $parent.move_target.posix,
+                    callback = $parent.call_down || function() {
+                        // $(this.move_target).css({
+                        //     'top': e.pageY - posix.y,
+                        //     'left': e.pageX - posix.x
+                        // });
+                    };
+
+                callback.call(this, e, posix);
+            }
+        }).mouseup(function(e) {
+            if (!!this.move) {
+                var callback = $parent.call_up || function(){};
+                callback.call(this, e);
+                $.extend(this, {
+                    'move': false,
+                    'move_target': null,
+                    'call_down': false,
+                    'call_up': false
+                });
+            }
+        });
+
+        var $box = $($target).mousedown(function(e) {
+            var offset = $(this).offset();
+
+            this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
+            $.extend($parent, {'move': true, 'move_target': $target});
+        }).on('mousedown', ".coor", function(e) {
+            var posix = {
+                'w': $box.width(),
+                'h': $box.height(),
+                'x': e.pageX,
+                'y': e.pageY
+            };
+
+            $.extend($parent, {'move': true, 'call_down': function(e) {
+                    $box.find("img.set-img").css({
+                        'width': Math.max(30, e.pageX - posix.x + posix.w),
+                        'height': Math.max(30, e.pageY - posix.y + posix.h)
+                    });
+                    $box.css({
+                        'width': Math.max(30, e.pageX - posix.x + posix.w),
+                        'height': Math.max(30, e.pageY - posix.y + posix.h)
+                    });
+                }});
+            return false;
+        });
+    }
+
 </script>
 </body>
 </html>

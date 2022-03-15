@@ -14,8 +14,8 @@
             //初始化
             init: function ($targetObj) {
                 this.drag($targetObj);
-                this.scale($targetObj);
-                this.rotate($targetObj);
+                // this.scale($targetObj);
+                // this.rotate($targetObj);
                 return this;
             },
 

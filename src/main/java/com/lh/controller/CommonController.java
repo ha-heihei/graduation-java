@@ -104,4 +104,9 @@ public class CommonController {
     public String toViewMark(){
         return "material/viewmark";
     }
+
+    @RequestMapping(value = "/toTest")
+    public String toTest(){
+        return "test";
+    }
 }

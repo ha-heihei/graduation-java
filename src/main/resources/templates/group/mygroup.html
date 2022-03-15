@@ -586,31 +586,7 @@
             });
         });
 
-        //素材分页
-        var optionsPn = {
-            valueNames: [ 'add', 'country','click' ],
-            item: 'ax-info-block',
-            listClass:'travellist',
-            pagination: true,
-            page:3,
-        };
-        var travelListPn = new List('travelPn', optionsPn);
-        $('#travelNext').on('click', function(){
-            var list = $('#travelPage').find('li');
-            $.each(list, function(position, element){
-                if($(element).is('[class*="active"]')){
-                    $(list[position+1]).trigger('click');
-                }
-            })
-        });
-        $('#travelPrev').on('click', function(){
-            var list = $('#travelPage').find('li');
-            $.each(list, function(position, element){
-                if($(element).is('[class*="active"]')){
-                    $(list[position-1]).trigger('click');
-                }
-            })
-        });
+        materialPageConfig();
 
     });
 
@@ -802,7 +778,9 @@
                     })
                 });
             });
-        })
+        });
+        // 素材分页配置
+        materialPageConfig();
     }
 
 
@@ -979,6 +957,35 @@
         $form[0].submit();
         console.log($form.serialize());
         $iframe.remove();
+    }
+
+    // 素材分页
+    function materialPageConfig() {
+        //素材分页
+        var optionsPn = {
+            valueNames: [ 'add', 'country','click' ],
+            item: 'ax-info-block',
+            listClass:'travellist',
+            pagination: true,
+            page:3,
+        };
+        var travelListPn = new List('travelPn', optionsPn);
+        $('#travelNext').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position+1]).trigger('click');
+                }
+            })
+        });
+        $('#travelPrev').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position-1]).trigger('click');
+                }
+            })
+        });
     }
 
     

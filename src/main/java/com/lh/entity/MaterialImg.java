@@ -17,4 +17,7 @@ public class MaterialImg {
     private Integer offsetX;
     private Integer offsetY;
 
+    private Float scaleW;
+    private Float scaleH;
+
 }

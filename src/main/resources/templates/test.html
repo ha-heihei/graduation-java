@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>缩放测试</title>
+    <script type="text/javascript" src="/js/jquery-1.10.2.min.js"></script>
+    <style type="text/css">
+        .box {  cursor: move; position: absolute; top: 30px; left: 30px; background-color: #FFF; border: 1px solid #CCCCCC;  -webkit-box-shadow: 10px 10px 25px #ccc;-moz-box-shadow: 10px 10px 25px #ccc;box-shadow: 10px 10px 25px #ccc;}
+
+        .coor { width: 10px; height: 10px; overflow: hidden; cursor: se-resize; position: absolute; right: 0; bottom: 0; background-color: #09C; }
+        body { background-color: #F3F3F3; }
+    </style>
+</head>
+
+<body>
+<div class="box" style="width: 200px; height: 100px;">
+    <div class="coor"></div>
+</div>
+<div class="box" style="width: 200px; height: 200px;">
+    <img src="/images/head02.jpg">
+    <div class="coor"></div>
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(function() {
+        scaleJS($(".box")[0]);
+        scaleJS($(".box").last()[0]);
+        // $(document).mousemove(function(e) {
+        //     if (!!this.move) {
+        //         var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
+        //             callback = document.call_down || function() {
+        //                 $(this.move_target).css({
+        //                     'top': e.pageY - posix.y,
+        //                     'left': e.pageX - posix.x
+        //                 });
+        //             };
+        //
+        //         callback.call(this, e, posix);
+        //     }
+        // }).mouseup(function(e) {
+        //     if (!!this.move) {
+        //         var callback = document.call_up || function(){};
+        //         callback.call(this, e);
+        //         $.extend(this, {
+        //             'move': false,
+        //             'move_target': null,
+        //             'call_down': false,
+        //             'call_up': false
+        //         });
+        //     }
+        // });
+        //
+        // var $box = $('#box').mousedown(function(e) {
+        //     var offset = $(this).offset();
+        //
+        //     this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
+        //     $.extend(document, {'move': true, 'move_target': this});
+        // }).on('mousedown', '#coor', function(e) {
+        //     var posix = {
+        //         'w': $box.width(),
+        //         'h': $box.height(),
+        //         'x': e.pageX,
+        //         'y': e.pageY
+        //     };
+        //
+        //     $.extend(document, {'move': true, 'call_down': function(e) {
+        //             $box.css({
+        //                 'width': Math.max(30, e.pageX - posix.x + posix.w),
+        //                 'height': Math.max(30, e.pageY - posix.y + posix.h)
+        //             });
+        //         }});
+        //     return false;
+        // });
+    });
+
+    function scaleJS($target) {
+        $(document).mousemove(function(e) {
+            if (!!this.move) {
+                var posix = !document.move_target ? {'x': 0, 'y': 0} : document.move_target.posix,
+                    callback = document.call_down || function() {
+                        $(this.move_target).css({
+                            'top': e.pageY - posix.y,
+                            'left': e.pageX - posix.x
+                        });
+                    };
+
+                callback.call(this, e, posix);
+            }
+        }).mouseup(function(e) {
+            if (!!this.move) {
+                var callback = document.call_up || function(){};
+                callback.call(this, e);
+                $.extend(this, {
+                    'move': false,
+                    'move_target': null,
+                    'call_down': false,
+                    'call_up': false
+                });
+            }
+        });
+
+        var $box = $($target).mousedown(function(e) {
+            var offset = $(this).offset();
+
+            this.posix = {'x': e.pageX - offset.left, 'y': e.pageY - offset.top};
+            $.extend(document, {'move': true, 'move_target': $target});
+        }).on('mousedown', ".coor", function(e) {
+            var posix = {
+                'w': $box.width(),
+                'h': $box.height(),
+                'x': e.pageX,
+                'y': e.pageY
+            };
+
+            $.extend(document, {'move': true, 'call_down': function(e) {
+                $box.find("img").css({
+                    'width': Math.max(30, e.pageX - posix.x + posix.w),
+                    'height': Math.max(30, e.pageY - posix.y + posix.h)
+                });
+                $box.css({
+                        'width': Math.max(30, e.pageX - posix.x + posix.w),
+                        'height': Math.max(30, e.pageY - posix.y + posix.h)
+                    });
+                }});
+            return false;
+        });
+    }
+
+</script>
+</body>
+</html>

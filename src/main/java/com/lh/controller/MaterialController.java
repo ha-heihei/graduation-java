@@ -268,6 +268,10 @@ public class MaterialController {
             offset.add(materialImg.getOffsetX());
             offset.add(materialImg.getOffsetY());
             object.put("offset",offset);
+            ArrayList<Float> scale = new ArrayList<>();
+            scale.add(materialImg.getScaleW());
+            scale.add(materialImg.getScaleH());
+            object.put("scale",scale);
             images.add(object);
         }
         CommonResult fusionResult = imageService.materialFusion(images.toJSONString(), material.getBackImgUrl());
