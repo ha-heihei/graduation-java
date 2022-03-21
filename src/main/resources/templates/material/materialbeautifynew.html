@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>图像美化</title>
+</head>
+<body style="background: #f5f5f5">
+<div class="ax-row ax-padding ax-sm ">
+    <div class="ax-col ax-col-24 ax-margin-left ax-sm ax-border ax-shadow-border" style="height: 648px;background: #fff">
+        <div class="ax-tab">
+            <div class="ax-grid">
+                <ul class="ax-grid-inner ax-tab-nav ax-menu-tab" id="headTab">
+                    <li class="ax-grid-block ax-col-4 ax-item">人脸美颜</li>
+                    <li class="ax-grid-block ax-col-4 ax-item">图像锐化</li>
+                    <li class="ax-grid-block ax-col-4 ax-item">图像增强</li>
+                    <li class="ax-grid-block ax-col-4 ax-item">背景虚化</li>
+                    <li class="ax-grid-block ax-col-4 ax-item">证件照</li>
+                    <li class="ax-grid-block ax-col-4 ax-item">相框合成</li>
+                    <div class="ax-clear"></div>
+                </ul>
+            </div>
+            <div class="ax-tab-content ax-padding">
+                <div id="faceBeautify">
+                    <div class="ax-flex-row ax-padding">
+                        <div class="ax-flex-block-3 ax-align-center-center">
+                            <img src="" class="originMaterial" style="width: auto;height: 400px">
+                        </div>
+                        <div class="ax-flex-block-3 ax-align-center-center" style="">
+                            <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                        </div>
+                    </div>
+                    <div class="ax-break-xl"></div>
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-9"></div>
+                        <div class="ax-col ax-col-7 ">
+                            <input type="file" class="materialImg" name="materialImg" style="display: none">
+                            <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                            <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+<!--                            <input type="file" class="ax-btn ax-info ax-align-center-center selectImg"/>-->
+                            <a href="###" class="ax-btn ax-info ax-align-center-center selectImg"><i>选择图片</i></a>
+                        </div>
+                        <div class="ax-col ax-col-8"></div>
+                    </div>
+                </div>
+                <div id="contrastEnhance">
+                    <div class="ax-flex-row ax-padding">
+                        <div class="ax-flex-block-3 ax-align-center-center">
+                            <img src="" class="originMaterial" style="width: auto;height: 400px">
+                        </div>
+                        <div class="ax-flex-block-3 ax-align-center-center" style="">
+                            <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                        </div>
+                    </div>
+                    <div class="ax-break-xl"></div>
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-9"></div>
+                        <div class="ax-col ax-col-7 ">
+                            <input type="file" class="materialImg" name="materialImg" style="display: none">
+                            <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                            <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+                            <a href="###" class="ax-btn ax-info ax-align-center-center selectImg"><i>选择图片</i></a>
+                        </div>
+                        <div class="ax-col ax-col-8"></div>
+                    </div>
+                </div>
+                <div id="definitionEnhance">
+                    <div class="ax-flex-row ax-padding">
+                        <div class="ax-flex-block-3 ax-align-center-center">
+                            <img src="" class="originMaterial" style="width: auto;height: 400px">
+                        </div>
+                        <div class="ax-flex-block-3 ax-align-center-center" style="">
+                            <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                        </div>
+                    </div>
+                    <div class="ax-break-xl"></div>
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-9"></div>
+                        <div class="ax-col ax-col-7 ">
+                            <input type="file" class="materialImg" name="materialImg" style="display: none">
+                            <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                            <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+                            <a href="###" class="ax-btn ax-info ax-align-center-center selectImg"><i>选择图片</i></a>
+                        </div>
+                        <div class="ax-col ax-col-8"></div>
+                    </div>
+                </div>
+                <div id="backGaussianBlur">
+                    <div class="ax-flex-row ax-padding">
+                        <div class="ax-flex-block-3 ax-align-center-center">
+                            <img src="" class="originMaterial" style="width: auto;height: 400px">
+                        </div>
+                        <div class="ax-flex-block-3 ax-align-center-center" style="">
+                            <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                        </div>
+                    </div>
+                    <div class="ax-break-xl"></div>
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-9"></div>
+                        <div class="ax-col ax-col-7 ">
+                            <input type="file" class="materialImg" name="materialImg" style="display: none">
+                            <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                            <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+                            <a href="###" class="ax-btn ax-info ax-align-center-center selectImg"><i>选择图片</i></a>
+                        </div>
+                        <div class="ax-col ax-col-8"></div>
+                    </div>
+                </div>
+                <div id="IdPhoto">
+                    <div class="ax-flex-row ax-padding">
+                        <div class="ax-flex-block-3 ax-align-center-center">
+                            <img src="" class="originMaterial" style="width: auto;height: 400px">
+                        </div>
+                        <div class="ax-flex-block-3 ax-align-center-center" style="">
+                            <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                        </div>
+                    </div>
+                    <div class="ax-break-xl"></div>
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-6"></div>
+                        <div class="ax-col ax-col-18 ">
+                            <div class="ax-flex-row">
+                                <div class="ax-form-label">背景色：</div>
+                                <div class="ax-form-con">
+                                    <div class="ax-form-input" style="width: 600px">
+                                        <select class="ax-select" name="color">
+                                            <option value="r">红色</option>
+                                            <option value="w">白色</option>
+                                            <option value="b">蓝色</option>
+                                        </select>
+                                        <input type="file" class="materialImg" name="materialImg" style="display: none">
+                                        <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                                        <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+                                        <a href="###" class="ax-btn ax-info ax-align-center-center selectImg"><i>选择图片</i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ax-col ax-col-3"></div>
+                    </div>
+                </div>
+                <div id="frameMerge">
+                    <div class="ax-row">
+                        <div class="ax-col ax-col-6 ax-border ax-shadow-border" id="leftUI" style="height: 580px;overflow-y: auto">
+                            <div class="inner" id="materialList">
+<!--                                <div class="ax-grid ax-padding">-->
+<!--                                    <ul class="ax-grid-inner">-->
+<!--                                        <li class="ax-grid-block ax-col-24">-->
+<!--                                            <div class="ax-row ax-input-group">-->
+<!--                                                <span class="ax-title ax-btn">关键字</span>-->
+<!--                                                <div class="ax-flex-block">-->
+<!--                                                    <input class="keyword" placeholder="多词模糊筛选" type="text">-->
+<!--                                                    <span class="ax-pos-right"><a href="##" class="ax-iconfont ax-icon-close ax-val-none"></a></span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+
+<!--                                    </ul>-->
+<!--                                </div>-->
+
+                                <div class="travelList">
+                                    <div class="ax-info-block " style="background: #f3faff">
+                                        <div class="ax-item-block">
+                                            <div class="ax-row">
+                                                <a href="###" class="ax-img" style="background-image:url(https://dakeji.oss-cn-beijing.aliyuncs.com/images/2022-03-15/%E9%87%91%E7%BA%B9.jpg)"></a>
+                                                <div class="ax-col">
+                                                    <div class="ax-flex-col">
+                                                        <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">金纹相框</a></div>
+                                                        <div class="ax-des ax-ell-2-des ax-flex-block-2">24K纯金打造的相框，耀眼至极</div>
+                                                        <div class="ax-keywords ax-flex-block-2 ax-align-bottom-left">2022-01-01</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ax-break-line"></div>
+                                    </div>
+                                    <div class="ax-info-block ">
+                                        <div class="ax-item-block">
+                                            <div class="ax-row">
+                                                <a href="###" class="ax-img" style="background-image:url(https://dakeji.oss-cn-beijing.aliyuncs.com/images/2022-03-15/%E5%8E%9F%E6%9C%A8%E7%BA%B9.jpg)"></a>
+                                                <div class="ax-col">
+                                                    <div class="ax-flex-col">
+                                                        <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">原木纹相框</a></div>
+                                                        <div class="ax-des ax-ell-2-des ax-flex-block-2">千年原木纹相框，简洁朴素</div>
+                                                        <div class="ax-keywords ax-flex-block-2 ax-align-bottom-left">2022-01-01</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ax-break-line"></div>
+                                    </div>
+                                    <div class="ax-info-block ">
+                                        <div class="ax-item-block">
+                                            <div class="ax-row">
+                                                <a href="###" class="ax-img" style="background-image:url(https://dakeji.oss-cn-beijing.aliyuncs.com/images/2022-03-15/%E5%A4%A7%E7%90%86%E7%9F%B3%E7%BA%B9.jpg)"></a>
+                                                <div class="ax-col">
+                                                    <div class="ax-flex-col">
+                                                        <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">大理石纹相框</a></div>
+                                                        <div class="ax-des ax-ell-2-des ax-flex-block-2">原生大理石纹相框，厚重简约</div>
+                                                        <div class="ax-keywords ax-flex-block-2 ax-align-bottom-left">2022-01-01</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ax-break-line"></div>
+                                    </div>
+                                    <div class="ax-info-block ">
+                                        <div class="ax-item-block">
+                                            <div class="ax-row">
+                                                <a href="###" class="ax-img" style="background-image:url(https://dakeji.oss-cn-beijing.aliyuncs.com/images/2022-03-15/%E9%B9%85%E5%8D%B5%E7%9F%B3%E7%BA%B9.jpg)"></a>
+                                                <div class="ax-col">
+                                                    <div class="ax-flex-col">
+                                                        <div class="ax-title ax-flex-block-2"><a href="###" class="ax-ell-title">鹅卵石纹相框</a></div>
+                                                        <div class="ax-des ax-ell-2-des ax-flex-block-2">大海边的鹅卵石，温润如玉</div>
+                                                        <div class="ax-keywords ax-flex-block-2 ax-align-bottom-left">2022-01-01</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="ax-break-line"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="ax-col ax-col-18">
+                            <div class="ax-flex-row ax-padding">
+                                <div class="ax-flex-block-3 ax-align-center-center">
+                                    <img src="" class="originMaterial" style="width: auto;height: 400px">
+                                </div>
+                                <div class="ax-flex-block-3 ax-align-center-center" style="">
+                                    <img src="" class="resultMaterial" style="width: auto;height: 400px">
+                                </div>
+                            </div>
+                            <div class="ax-break-xl"></div>
+                            <div class="ax-row">
+                                <div class="ax-col ax-col-5">
+                                    <div class="ax-flex-row">
+                                        <div class="ax-form-label">边框厚度：</div>
+                                        <div class="ax-form-con">
+                                            <div class="ax-form-input">
+                                                <input type="number" style="width: 100px" name="bold">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ax-col ax-col-15 ">
+                                    <div class="ax-flex-row">
+                                        <div class="ax-form-label">相框类型：</div>
+                                        <div class="ax-form-con">
+                                            <div class="ax-form-input" style="width: 550px">
+                                                <select class="ax-select" name="type">
+                                                    <option value="0">金纹</option>
+                                                    <option value="1">原木纹</option>
+                                                    <option value="2">大理石纹</option>
+                                                    <option value="3">鹅卵石纹</option>
+                                                </select>
+                                                <input type="file" class="materialImg" name="materialImg" style="display: none">
+                                                <a href="###" class="ax-btn ax-primary ax-align-center-center transform"><i>开始转换</i></a>
+                                                <a href="###" class="ax-btn ax-success ax-align-center-center download"><i>素材下载</i></a>
+                                                <a href="###" class="ax-btn ax-info ax-align-center-center selectImg"><i>选择图片</i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ax-col ax-col-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!---------------------------------------------------------弹窗模版BEGIN-------------------------------------------------------------------->
+<!--素材名称、描述模版-->
+<div class="ax-window" data-mask="true"  id="materialInfoAlert">
+    <form>
+        <div class="ax-window-overlay"></div>
+        <div class="ax-window-contain">
+            <a href="###" class="ax-window-close"><i class="ax-iconfont ax-icon-close"></i></a>
+            <div class="ax-window-title">素材信息</div>
+            <div class="ax-break-line"></div>
+            <div class="ax-window-content">
+                <div class="ax-emulate">
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">素材名称：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input"><input name="materialName" placeholder="输入名称" type="text"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ax-break-line"></div>
+
+                    <div class="ax-form-group">
+                        <div class="ax-flex-row">
+                            <div class="ax-form-label">备注：</div>
+                            <div class="ax-form-con">
+                                <div class="ax-form-input">
+                                    <textarea name="remarks" cols="" rows="" placeholder="写评论"></textarea>
+                                    <span class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ax-break-line"></div>
+            <div class="ax-padding ax-window-operate">
+                <div class="ax-row">
+                    <div class="ax-col">
+                        <div class="ax-explain">填写素材信息</div>
+                    </div>
+                    <div class="ax-btns">
+                        <a href="###" class="ax-btn ax-text ax-ignore ax-window-close">取消</a>
+                        <a href="###" class="ax-btn ax-primary ax-window-close" id="materialOKBtn">确定</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!---------------------------------------------------------弹窗模版END------------------------------------------------------------------>
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript">
+    $(function () {
+
+        // 初始化配置
+        initConfig();
+
+        // 人脸美颜事件绑定
+        faceBeautify();
+
+        // 图像锐化事件绑定
+        contrastEnhance();
+
+        // 图像增强事件绑定
+        definitionEnhance();
+
+        // 背景虚化事件绑定
+        backGaussianBlur();
+
+        // 证件照合成事件绑定
+        backFill();
+
+        // 相框合成
+        frameMerge();
+
+    });
+
+    // 人脸美颜转换
+    function faceBeautify() {
+        $("#faceBeautify input[name=materialImg]").change(function(){
+            // 获取文件对象
+            var f = $("#faceBeautify input[name=materialImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#faceBeautify img.originMaterial").attr("src",url);
+        });
+
+        // 图片选择事件绑定
+        $("#faceBeautify a.selectImg").click(function () {
+            $("#faceBeautify input[name=materialImg]").click();
+        });
+
+        $("#faceBeautify a.transform").click(function () {
+            var imgUrl=$("#faceBeautify img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            $("#faceBeautify a.transform i").text("正在转换").addClass("ax-waiting");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#faceBeautify input[name=materialImg]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("materialImg",fileObj);
+            }else{
+                toast("info","操作提示","未选中图片");
+                return;
+            }
+            post("/material/faceBeautify",formData,function (res) {
+                if(res.success){
+                    $("#faceBeautify a.transform i").text("开始转换").removeClass("ax-waiting");
+                    toast("success","操作成功","转换成功");
+                    $("#faceBeautify img.resultMaterial").attr("src",res.result);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+
+        // 素材下载绑定
+        $("#faceBeautify a.download").click(function () {
+            var materialUrl=$("#faceBeautify img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","图片未进行转换");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+
+    }
+
+    // 图像锐化转换
+    function contrastEnhance() {
+        $("#contrastEnhance input[name=materialImg]").change(function(){
+            // 获取文件对象
+            var f = $("#contrastEnhance input[name=materialImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#contrastEnhance img.originMaterial").attr("src",url);
+        });
+
+        // 图片选择事件绑定
+        $("#contrastEnhance a.selectImg").click(function () {
+            $("#contrastEnhance input[name=materialImg]").click();
+        });
+
+        $("#contrastEnhance a.transform").click(function () {
+            var imgUrl=$("#contrastEnhance img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            $("#contrastEnhance a.transform i").text("正在转换").addClass("ax-waiting");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#contrastEnhance input[name=materialImg]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("materialImg",fileObj);
+            }else{
+                toast("info","操作提示","未选中图片");
+                return;
+            }
+            post("/material/contrastEnhance",formData,function (res) {
+                if(res.success){
+                    $("#contrastEnhance a.transform i").text("开始转换").removeClass("ax-waiting");
+                    toast("success","操作成功","转换成功");
+                    $("#contrastEnhance img.resultMaterial").attr("src",res.result);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+
+        // 素材下载绑定
+        $("#contrastEnhance a.download").click(function () {
+            var materialUrl=$("#contrastEnhance img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","图片未进行转换");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+    }
+
+    // 图像增强转换
+    function definitionEnhance() {
+
+        $("#definitionEnhance input[name=materialImg]").change(function(){
+            // 获取文件对象
+            var f = $("#definitionEnhance input[name=materialImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#definitionEnhance img.originMaterial").attr("src",url);
+        });
+
+        // 图片选择事件绑定
+        $("#definitionEnhance a.selectImg").click(function () {
+            $("#definitionEnhance input[name=materialImg]").click();
+        });
+
+        $("#definitionEnhance a.transform").click(function () {
+            var imgUrl=$("#definitionEnhance img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            $("#definitionEnhance a.transform i").text("正在转换").addClass("ax-waiting");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#definitionEnhance input[name=materialImg]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("materialImg",fileObj);
+            }else{
+                toast("info","操作提示","未选中图片");
+                return;
+            }
+            post("/material/definitionEnhance",formData,function (res) {
+                if(res.success){
+                    $("#definitionEnhance a.transform i").text("开始转换").removeClass("ax-waiting");
+                    toast("success","操作成功","转换成功");
+                    $("#definitionEnhance img.resultMaterial").attr("src",res.result);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+
+        // 素材下载绑定
+        $("#definitionEnhance a.download").click(function () {
+            var materialUrl=$("#definitionEnhance img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","图片未进行转换");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+    }
+
+
+    // 背景虚化转换
+    function backGaussianBlur() {
+
+        $("#backGaussianBlur input[name=materialImg]").change(function(){
+            // 获取文件对象
+            var f = $("#backGaussianBlur input[name=materialImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#backGaussianBlur img.originMaterial").attr("src",url);
+        });
+
+        // 图片选择事件绑定
+        $("#backGaussianBlur a.selectImg").click(function () {
+            $("#backGaussianBlur input[name=materialImg]").click();
+        });
+
+        $("#backGaussianBlur a.transform").click(function () {
+            var imgUrl=$("#backGaussianBlur img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            $("#backGaussianBlur a.transform i").text("正在转换").addClass("ax-waiting");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#backGaussianBlur input[name=materialImg]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("materialImg",fileObj);
+            }else{
+                toast("info","操作提示","未选中图片");
+                return;
+            }
+            post("/material/backGaussianBlur",formData,function (res) {
+                if(res.success){
+                    $("#backGaussianBlur a.transform i").text("开始转换").removeClass("ax-waiting");
+                    toast("success","操作成功","转换成功");
+                    $("#backGaussianBlur img.resultMaterial").attr("src",res.result);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+
+        // 素材下载绑定
+        $("#backGaussianBlur a.download").click(function () {
+            var materialUrl=$("#backGaussianBlur img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","图片未进行转换");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+    }
+
+    // 证件照转换
+    function backFill() {
+
+        $("#IdPhoto input[name=materialImg]").change(function(){
+            // 获取文件对象
+            var f = $("#IdPhoto input[name=materialImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#IdPhoto img.originMaterial").attr("src",url);
+        });
+
+        // 图片选择事件绑定
+        $("#IdPhoto a.selectImg").click(function () {
+            $("#IdPhoto input[name=materialImg]").click();
+        });
+
+        $("#IdPhoto a.transform").click(function () {
+            var imgUrl=$("#IdPhoto img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            $("#IdPhoto a.transform i").text("正在转换").addClass("ax-waiting");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#IdPhoto input[name=materialImg]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("materialImg",fileObj);
+            }else{
+                toast("info","操作提示","未选中图片");
+                return;
+            }
+            formData.append("color",$("#IdPhoto select[name=color]").val());
+            post("/material/backFill",formData,function (res) {
+                if(res.success){
+                    $("#IdPhoto a.transform i").text("开始转换").removeClass("ax-waiting");
+                    toast("success","操作成功","转换成功");
+                    $("#IdPhoto img.resultMaterial").attr("src",res.result);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+
+        // 素材下载绑定
+        $("#IdPhoto a.download").click(function () {
+            var materialUrl=$("#IdPhoto img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","图片未进行转换");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+    }
+
+    // 相框合成
+    function frameMerge() {
+
+        $("#frameMerge select[name=type]").change(function () {
+            var index=$(this).val();
+            $("#materialList div.travelList>div.ax-info-block").eq(index).css("background","#f3faff")
+                .siblings().css("background","#fff");
+        });
+
+        $("#frameMerge input[name=materialImg]").change(function(){
+            // 获取文件对象
+            var f = $("#frameMerge input[name=materialImg]")[0].files[0];
+            // 获取URL对象
+            var URL = window.URL || window.webkitURL;
+            // 获取url
+            var url = URL.createObjectURL(f);
+            $("#frameMerge img.originMaterial").attr("src",url);
+        });
+
+        // 图片选择事件绑定
+        $("#frameMerge a.selectImg").click(function () {
+            $("#frameMerge input[name=materialImg]").click();
+        });
+
+        $("#frameMerge a.transform").click(function () {
+            var imgUrl=$("#frameMerge img.originMaterial").attr("src");
+            if(imgUrl.length<=0){
+                toast("warning","操作失败","未选择图片");
+                return;
+            }
+            var bold=$("#frameMerge input[name=bold]").val();
+            var type=$("#frameMerge select[name=type]").val();
+            if(bold.length<=0){
+                toast("warning","操作失败","边框厚度未填写")
+            }
+            $("#frameMerge a.transform i").text("正在转换").addClass("ax-waiting");
+            var formData=new FormData();
+            formData.append("userId",localStorage.getItem("userId"));
+            var fileObj=$("#frameMerge input[name=materialImg]")[0].files[0];
+            if (typeof (fileObj) != "undefined" && fileObj.size > 0) {
+                formData.append("materialImg",fileObj);
+            }else{
+                toast("info","操作提示","未选中图片");
+                return;
+            }
+            formData.append("bold",bold);
+            formData.append("type",type);
+            post("/material/imgFrameMerge",formData,function (res) {
+                if(res.success){
+                    $("#frameMerge a.transform i").text("开始转换").removeClass("ax-waiting");
+                    toast("success","操作成功","转换成功");
+                    $("#frameMerge img.resultMaterial").attr("src",res.result);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+            });
+        });
+        // 素材下载绑定
+        $("#frameMerge a.download").click(function () {
+            var materialUrl=$("#frameMerge img.resultMaterial").attr("src");
+            if(materialUrl.length<=0){
+                toast("warning","操作失败","素材未转换完成");
+                return;
+            }
+            DownLoadFile({
+                url:"/material/downLoadMaterial",
+                data:{materialName:materialUrl}
+            })
+        });
+    }
+
+    // 清除名称、描述内容
+    function clearMaerialInfo() {
+        $("#materialInfoAlert input[name=materialName]").val("");
+        $("#materialInfoAlert textarea[name=remarks]").val("");
+    }
+
+    // 页面初始化配置
+    function initConfig() {
+        // 滚动条美化
+        $("#leftUI").axScroll();
+        // 设置Tab全局索引，根据索引找到对应的美化页面
+        // var globalTabIndex=0;
+        // $("#headTab li").each(function (i) {
+        //     $(this).click(function () {
+        //         globalTabIndex=i;
+        //     });
+        // });
+        // 素材列表配置
+        var options = {
+            valueNames: [ 'ax-ell-title','ax-des','ax-keywords' ],
+            item: 'ax-info-block',
+            listClass:'travelList',
+            fuzzySearch: {
+                searchClass:'keyword',
+                location: 0,
+                distance: 100,
+                threshold: 0.4,
+                multiSearch: true
+            }
+        };
+        var travelList = new List('materialList', options);
+        $('#materialList .ax-val-none').click(function() {
+            travelList.fuzzySearch();
+            return false;
+        });
+    }
+</script>
+</body>
+</html>

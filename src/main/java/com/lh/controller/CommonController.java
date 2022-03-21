@@ -109,4 +109,9 @@ public class CommonController {
     public String toTest(){
         return "test";
     }
+
+    @RequestMapping(value = "/toMaterialBeautifyNew")
+    public String toMaterialBeautifyNew(){
+        return "material/materialbeautifynew";
+    }
 }

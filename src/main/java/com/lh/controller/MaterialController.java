@@ -72,12 +72,22 @@ public class MaterialController {
 
     @ApiModelProperty("人脸美颜API，将美颜后的图像存入素材库")
     @PostMapping(value = "/faceBeautify")
-    public CommonResult faceBeautify(Material material, @RequestParam("imgUrl")String imgUrl){
+    public CommonResult faceBeautify(Material material,
+                                     @RequestParam(value = "imgUrl",required = false)String imgUrl,
+                                     @RequestPart(value = "materialImg",required = false)MultipartFile materialImg) throws IOException {
         if(material==null||StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未传入用户ID");
         }
+        if(StringUtils.isBlank(imgUrl)&&(materialImg==null||materialImg.isEmpty())){
+            return CommonResult.fail("未上传图片或URL");
+        }
+        if(materialImg!=null&&!materialImg.isEmpty()){
+            imgUrl=OSSUtils.uploadFile(materialImg.getInputStream());
+        }
         CommonResult commonResult = imageService.faceBeautify(imgUrl);
         if(commonResult==null||!commonResult.getSuccess()){
+            return commonResult;
+        }else if(materialImg!=null&&!materialImg.isEmpty()){
             return commonResult;
         }
         JSONObject object = new JSONObject();
@@ -98,12 +108,22 @@ public class MaterialController {
 
     @ApiModelProperty("图像增强API，同人脸美颜")
     @PostMapping(value = "/definitionEnhance")
-    public CommonResult definitionEnhance(Material material,@RequestParam("imgUrl")String imgUrl){
+    public CommonResult definitionEnhance(Material material,
+                                          @RequestParam(value = "imgUrl",required = false)String imgUrl,
+                                          @RequestPart(value = "materialImg",required = false)MultipartFile materialImg) throws IOException {
         if(material==null||StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未传入用户ID");
         }
+        if(StringUtils.isBlank(imgUrl)&&(materialImg==null||materialImg.isEmpty())){
+            return CommonResult.fail("未上传图片或URL");
+        }
+        if(materialImg!=null&&!materialImg.isEmpty()){
+            imgUrl=OSSUtils.uploadFile(materialImg.getInputStream());
+        }
         CommonResult commonResult = imageService.definitionEnhance(imgUrl);
         if(commonResult==null||!commonResult.getSuccess()){
+            return commonResult;
+        }else if(materialImg!=null&&!materialImg.isEmpty()){
             return commonResult;
         }
         JSONObject object = new JSONObject();
@@ -114,12 +134,22 @@ public class MaterialController {
 
     @ApiModelProperty("图像锐化API，同人脸美颜")
     @PostMapping(value = "/contrastEnhance")
-    public CommonResult contrastEnhance(Material material,@RequestParam("imgUrl")String imgUrl){
+    public CommonResult contrastEnhance(Material material,
+                                        @RequestParam(value = "imgUrl",required = false)String imgUrl,
+                                        @RequestPart(value = "materialImg",required = false)MultipartFile materialImg) throws IOException {
         if(material==null||StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未传入用户ID");
         }
+        if(StringUtils.isBlank(imgUrl)&&(materialImg==null||materialImg.isEmpty())){
+            return CommonResult.fail("未上传图片或URL");
+        }
+        if(materialImg!=null&&!materialImg.isEmpty()){
+            imgUrl=OSSUtils.uploadFile(materialImg.getInputStream());
+        }
         CommonResult commonResult = imageService.contrastEnhance(imgUrl);
         if(commonResult==null||!commonResult.getSuccess()){
+            return commonResult;
+        }else if(materialImg!=null&&!materialImg.isEmpty()){
             return commonResult;
         }
         JSONObject object = new JSONObject();
@@ -130,9 +160,17 @@ public class MaterialController {
 
     @ApiModelProperty("背景虚化API，同人脸美颜")
     @PostMapping(value = "/backGaussianBlur")
-    public CommonResult backGaussianBlur(Material material,@RequestParam("imgUrl")String imgUrl){
+    public CommonResult backGaussianBlur(Material material,
+                                         @RequestParam(value = "imgUrl",required = false)String imgUrl,
+                                         @RequestPart(value = "materialImg",required = false)MultipartFile materialImg) throws IOException {
         if(material==null||StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未传入用户ID");
+        }
+        if(StringUtils.isBlank(imgUrl)&&(materialImg==null||materialImg.isEmpty())){
+            return CommonResult.fail("未上传图片或URL");
+        }
+        if(materialImg!=null&&!materialImg.isEmpty()){
+            imgUrl=OSSUtils.uploadFile(materialImg.getInputStream());
         }
         CommonResult bodySeg = imageService.bodySeg(imgUrl);
         if(!bodySeg.getSuccess()){
@@ -144,6 +182,8 @@ public class MaterialController {
                 object.getString("foregroundUrl"));
         if(!result.getSuccess()){
             return CommonResult.fail("背景虚化失败");
+        }else if(materialImg!=null&&!materialImg.isEmpty()){
+            return result;
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("originUrl",result.getResult());
@@ -154,10 +194,17 @@ public class MaterialController {
     @ApiOperation(value = "证件照合成")
     @PostMapping(value = "/backFill")
     public CommonResult backFill(Material material,
-                                 @RequestParam("imgUrl")String imgUrl,
-                                 @RequestParam("color")String color){
+                                 @RequestParam(value = "imgUrl",required = false)String imgUrl,
+                                 @RequestParam("color")String color,
+                                 @RequestPart(value = "materialImg",required = false)MultipartFile materialImg) throws IOException {
         if(material==null||StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未传入用户ID");
+        }
+        if(StringUtils.isBlank(imgUrl)&&(materialImg==null||materialImg.isEmpty())){
+            return CommonResult.fail("未上传图片或URL");
+        }
+        if(materialImg!=null&&!materialImg.isEmpty()){
+            imgUrl=OSSUtils.uploadFile(materialImg.getInputStream());
         }
         CommonResult bodySeg = imageService.bodySeg(imgUrl);
         if(!bodySeg.getSuccess()){
@@ -169,6 +216,8 @@ public class MaterialController {
                 object.getString("maskUrl"), color);
         if(!result.getSuccess()){
             return CommonResult.fail("证件照合成失败");
+        }else if(materialImg!=null&&!materialImg.isEmpty()){
+            return result;
         }
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("originUrl",result.getResult());
@@ -287,21 +336,35 @@ public class MaterialController {
     @ApiOperation("相框合成")
     @PostMapping(value = "/imgFrameMerge")
     public CommonResult imgFrameMerge(Material material,
-                                      @RequestParam("imgUrl")String imgUrl,
+                                      @RequestParam(value = "imgUrl",required = false)String imgUrl,
                                       @RequestParam("bold")Integer bold,
-                                      @RequestParam("type")Integer type){
+                                      @RequestParam("type")Integer type,
+                                      @RequestPart(value = "materialImg",required = false)MultipartFile materialImg) throws IOException {
         if(material==null|| StringUtils.isBlank(material.getUserId())){
             return CommonResult.fail("未包含用户ID，素材名称参数");
         }
+        if(StringUtils.isBlank(imgUrl)&&(materialImg==null||materialImg.isEmpty())){
+            return CommonResult.fail("未上传图片或URL");
+        }
+        if(materialImg!=null&&!materialImg.isEmpty()){
+            imgUrl=OSSUtils.uploadFile(materialImg.getInputStream());
+        }
+
         CommonResult mergeResult = imageService.imgFrameMerge(imgUrl, bold, type);
         if(!mergeResult.getSuccess()){
             return CommonResult.fail("相框合成失败");
+        }else if(materialImg!=null&&!materialImg.isEmpty()){
+            return mergeResult;
         }
         JSONObject object = new JSONObject();
         object.put("originUrl",mergeResult.getResult());
         material.setMaterialUrls(object.toJSONString());
         return materialService.insertMaterial(material)?mergeResult:CommonResult.fail("相框合成失败");
     }
+
+
+
+
 
 }
 
