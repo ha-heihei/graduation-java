@@ -769,7 +769,7 @@
                     var formData=new FormData();
                     formData.append("groupId",reords[i].groupId);
                     formData.append("ids",[reords[i].materialId]);
-                    post("/material/deleteGroupMaterialsByIds",formData,function (res) {
+                    post("/group/deleteGroupMaterialsByIds",formData,function (res) {
                         if(res.success){
                             toast("success","操作成功",res.msg);
                         }else{
