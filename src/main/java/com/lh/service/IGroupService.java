@@ -37,6 +37,8 @@ public interface IGroupService extends IService<Group> {
 
     Page<GroupMaterial> queryGroupMaterials(GroupMaterial groupMaterial);
 
+    Page<GroupMaterial> queryGroupMaterialsNew(GroupMaterial groupMaterial);
+
     Page<GroupUser> queryGroupUserPageList(Group group);
 
     Page<Group> queryGroupInfoPageListByConditions(Group group);

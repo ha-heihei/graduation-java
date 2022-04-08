@@ -41,6 +41,10 @@ public interface GroupMapper extends BaseMapper<Group> {
     Page<GroupMaterial> queryGroupMaterials(Page<GroupMaterial> page,
                                             @Param("groupId")String groupId);
 
+    Page<GroupMaterial> queryGroupMaterialsNew(Page<GroupMaterial> page,
+                                            @Param("groupId")String groupId,
+                                               @Param("type")Integer type);
+
     Page<GroupUser> queryGroupUserPageList(Page<GroupUser> page,
                                            @Param("groupId")String groupId);
 

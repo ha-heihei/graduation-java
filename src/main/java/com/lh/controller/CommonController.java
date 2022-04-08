@@ -114,4 +114,9 @@ public class CommonController {
     public String toMaterialBeautifyNew(){
         return "material/materialbeautifynew";
     }
+
+    @RequestMapping(value = "/toMergeMaterialNew")
+    public String toMergeMaterialNew(){
+        return "group/mergematerialnew";
+    }
 }

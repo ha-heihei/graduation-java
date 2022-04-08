@@ -304,15 +304,22 @@ public class MaterialController {
         }
         JSONArray images = new JSONArray();
         for(MaterialImg materialImg:material.getImgUrlList()){
-            CommonResult bodySeg = imageService.bodySeg(materialImg.getImgUrl());
-            if(!bodySeg.getSuccess()){
-                return CommonResult.fail("背景分割失败");
+            JSONObject object;
+            if(StringUtils.isNotBlank(materialImg.getForegroundUrl())&&StringUtils.isNotBlank(materialImg.getMaskUrl())){
+                object=new JSONObject();
+                object.put("maskImg",materialImg.getMaskUrl());
+                object.put("foregroundImg",materialImg.getForegroundUrl());
+            }else{
+                CommonResult bodySeg = imageService.bodySeg(materialImg.getImgUrl());
+                if(!bodySeg.getSuccess()){
+                    return CommonResult.fail("背景分割失败");
+                }
+                object= new JSONObject((Map<String,Object>)bodySeg.getResult());
+                object.put("maskImg",object.get("maskUrl"));
+                object.put("foregroundImg",object.get("foregroundUrl"));
+                object.remove("maskUrl");
+                object.remove("foregroundUrl");
             }
-            JSONObject object= new JSONObject((Map<String,Object>)bodySeg.getResult());
-            object.put("maskImg",object.get("maskUrl"));
-            object.put("foregroundImg",object.get("foregroundUrl"));
-            object.remove("maskUrl");
-            object.remove("foregroundUrl");
             ArrayList<Integer> offset = new ArrayList<>();
             offset.add(materialImg.getOffsetX());
             offset.add(materialImg.getOffsetY());
@@ -323,14 +330,18 @@ public class MaterialController {
             object.put("scale",scale);
             images.add(object);
         }
-        CommonResult fusionResult = imageService.materialFusion(images.toJSONString(), material.getBackImgUrl());
-        if(!fusionResult.getSuccess()){
-            return CommonResult.fail("素材合成失败");
+        try {
+            CommonResult fusionResult = imageService.materialFusion(images.toJSONString(), material.getBackImgUrl());
+            if(!fusionResult.getSuccess()){
+                return CommonResult.fail("素材合成失败");
+            }
+            JSONObject materialUrls= new JSONObject();
+            materialUrls.put("originUrl",fusionResult.getResult());
+            material.setMaterialUrls(materialUrls.toJSONString());
+            return materialService.materialFusion(material)?fusionResult:CommonResult.fail("素材合成失败");
+        } catch (Exception e) {
+            return CommonResult.fail("素材合成失败-500");
         }
-        JSONObject materialUrls= new JSONObject();
-        materialUrls.put("originUrl",fusionResult.getResult());
-        material.setMaterialUrls(materialUrls.toJSONString());
-        return materialService.materialFusion(material)?fusionResult:CommonResult.fail("素材合成失败");
     }
 
     @ApiOperation("相框合成")

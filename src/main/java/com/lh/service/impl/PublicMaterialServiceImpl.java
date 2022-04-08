@@ -59,7 +59,7 @@ public class PublicMaterialServiceImpl extends ServiceImpl<PublicMaterialMapper,
         if(user.getUserType()!=2){
             List<String> materialIds = materialUserMapper.selectList(new QueryWrapper<MaterialUser>().eq("user_id", publicMaterial.getUserId()))
                     .stream().map(MaterialUser::getMaterialId).collect(Collectors.toList());
-            queryWrapper.notIn("pm.material_id",materialIds);
+            queryWrapper.notIn(materialIds.size() > 0,"pm.material_id",materialIds);
         }else{
             // 如果是采集员，则查询采集员自己上传的素材
             queryWrapper.eq("pm.user_id",publicMaterial.getUserId());
@@ -166,7 +166,7 @@ public class PublicMaterialServiceImpl extends ServiceImpl<PublicMaterialMapper,
         List<String> materialIds = materialUserMapper.selectList(new QueryWrapper<MaterialUser>().eq("user_id", material.getUserId()))
                 .stream().map(MaterialUser::getMaterialId).collect(Collectors.toList());
         materialIds.addAll(material.getIds());
-        queryWrapper.notIn("pm.material_id",materialIds);
+        queryWrapper.notIn(materialIds.size()>0,"pm.material_id",materialIds);
         queryWrapper.orderByDesc("(transform_num+download_num)*0.5+thumbs_num*0.3+search_num*0.2")
                 .orderByDesc("pm.create_time");
         return publicMaterialMapper.queryCollectorMaterialsPageList(new Page<>(material.getPage(), material.getLimit()),

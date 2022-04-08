@@ -137,6 +137,12 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, Group> implements
     }
 
     @Override
+    public Page<GroupMaterial> queryGroupMaterialsNew(GroupMaterial groupMaterial) {
+        return groupMapper.queryGroupMaterialsNew(new Page<>(groupMaterial.getPage(),groupMaterial.getLimit()),
+                groupMaterial.getGroupId(),1);
+    }
+
+    @Override
     public Page<GroupUser> queryGroupUserPageList(Group group) {
         return groupMapper.queryGroupUserPageList(new Page<>(group.getPage(),group.getLimit()),
                 group.getGroupId());

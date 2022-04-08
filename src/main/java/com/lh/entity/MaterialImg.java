@@ -1,5 +1,7 @@
 package com.lh.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +21,11 @@ public class MaterialImg {
 
     private Float scaleW;
     private Float scaleH;
+
+    @ApiModelProperty("前景图")
+    private String foregroundUrl;
+
+    @ApiModelProperty("二值图")
+    private String maskUrl;
 
 }

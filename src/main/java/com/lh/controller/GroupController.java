@@ -11,6 +11,7 @@ import com.lh.entity.GroupUser;
 import com.lh.entity.Material;
 import com.lh.service.IGroupService;
 import com.lh.service.IMaterialService;
+import com.lh.service.ImageService;
 import com.lh.utils.OSSUtils;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -42,6 +46,9 @@ public class GroupController {
 
     @Resource
     private IMaterialService materialService;
+
+    @Resource
+    private ImageService imageService;
 
     @ApiModelProperty("创建一个工作组，初始群组群主加入")
     @PostMapping(value = "/insertGroupInfo")
@@ -157,6 +164,29 @@ public class GroupController {
             return CommonResult.fail("未上传工作组ID");
         }
         return CommonResult.success(groupService.queryGroupMaterials(groupMaterial));
+    }
+
+    @ApiModelProperty("分页查询工作组内素材-新")
+    @PostMapping(value = "/queryGroupMaterialsNew")
+    public CommonResult queryGroupMaterialsNew(GroupMaterial groupMaterial){
+        if(groupMaterial==null||StringUtils.isBlank(groupMaterial.getGroupId())){
+            return CommonResult.fail("未上传工作组ID");
+        }
+        Page<GroupMaterial> materials = groupService.queryGroupMaterialsNew(groupMaterial);
+        for(GroupMaterial material:materials.getRecords()){
+            JSONObject object = (JSONObject) JSONObject.parse(material.getMaterialUrls());
+            String originUrl = object.getString("originUrl");
+            try {
+                CommonResult bodySeg = imageService.bodySeg(originUrl);
+                JSONObject result = new JSONObject((Map<String, Object>) bodySeg.getResult());
+                material.setMaterialUrls(result.toJSONString());
+            } catch (Exception e) {
+                object.put("foregroundUrl","");
+                object.put("maskUrl","");
+                material.setMaterialUrls(object.toJSONString());
+            }
+        }
+        return CommonResult.success(materials);
     }
 
     @ApiModelProperty("查询工作组内所有成员")

@@ -38,7 +38,8 @@
         select * from group_material gm join material m on m.material_id=gm.material_id
             join work_group wg on wg.group_id=gm.group_id
             join user u on u.user_id=gm.user_id
-            where gm.group_id=#{groupId} order by gm.create_time desc
+            where gm.group_id=#{groupId}
+            order by gm.create_time desc
     </select>
     <select id="queryGroupUserPageList" resultType="com.lh.entity.GroupUser">
         select * from
@@ -91,6 +92,13 @@
             join material m on gm.material_id=m.material_id
             join user u on u.user_id=gm.user_id
             ${ew.customSqlSegment}
+            order by gm.create_time desc
+    </select>
+    <select id="queryGroupMaterialsNew" resultType="com.lh.entity.GroupMaterial">
+        select * from group_material gm join material m on m.material_id=gm.material_id
+            join work_group wg on wg.group_id=gm.group_id
+            join user u on u.user_id=gm.user_id
+            where gm.group_id=#{groupId} and gm.group_material_type=1
             order by gm.create_time desc
     </select>
 
