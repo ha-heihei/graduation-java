@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="format-detection" content="email=no"/>
+    <meta name="wap-font-scale" content="no"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width"/>
+    <meta content="telephone=no" name="format-detection"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="http://at.alicdn.com/t/font_1551254_sk7y2quxfyq.css" rel="stylesheet" type="text/css"/>
+    <link href="https://src.axui.cn/v1.0/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css" >
+    <link href="/plugins/mobiscroll/css/mobiscroll.jquery.css" rel="stylesheet" type="text/css" >
+    <link href="/css/ax.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-response.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="/css/ax-admin01.css?v=1.1" rel="stylesheet" type="text/css">
+    <link href="https://src.axui.cn/v1.0/src/plugins/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
+    <link href="https://at.alicdn.com/t/font_1551254_rxrrzgz2kjc.css" rel="stylesheet" type="text/css" />
+    <title>素材分享</title>
+</head>
+<body>
+<div id="maskLayer" style="z-index: -999;background: rgba(0,0,0,.6);position: fixed;height: 100%;width: 100%" class="ax-align-center-center">
+    <span class="ax-loading" style="width:60px;height:60px;"><i></i></span>
+</div>
+<div class="ax-row ax-padding">
+    <div class="ax-col ax-col-4 ax-margin-right">
+        <div class="ax-form-group">
+            <div class="ax-flex-row">
+                <div class="ax-flex-block">
+                    <div class="ax-row ax-input-group">
+                        <div class="ax-flex-block">
+                            <select class="ax-select" id="groupList">
+                                <option value="">请选择工作组...</option>
+                            </select>
+                        </div>
+                        <span class="ax-gutter-sm" style="text-align: center"></span>
+                        <a href="###" class="ax-operate ax-btn ax-primary" id="memberCheckBtn">全选</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div id="memberList" style="overflow-y: auto" class="ax-comment">
+            <div class="ax-empty">
+                <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>
+                <div class="ax-title">没有内容</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="ax-col ax-col-14 ax-border ax-shadow-border" style="height: 645px">
+        <div class="" style="padding: 14px;">
+            <div class="ax-form-group">
+                <div class="ax-flex-row">
+                    <div class="ax-flex-block">
+                        <span class="ax-pos-left" style="width: 80px">分享主题：</span>
+                        <input name="subject" placeholder="输入分享主题" type="text">
+                        <span class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ax-break-md"></div>
+
+            <div>
+                <span class="">分享人：</span>
+                <label id="sharedList">
+                    无
+                </label>
+            </div>
+
+            <div class="ax-break-md"></div>
+
+            <div class="ax-form-group">
+                <div class="ax-flex-row">
+                    <div class="ax-flex-block">
+                        <span class="ax-pos-left" style="width: 64px">内容：</span>
+                        <textarea name="content" cols="" rows="" style="height: 480px" placeholder="输入内容"></textarea>
+                        <span class="ax-pos-right"><a href="###" class="ax-iconfont ax-icon-close ax-val-none"></a></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ax-align-center-center ax-padding ax-sm">
+                <a href="###" class="ax-btn ax-success ax-long" id="shareBtn">确认</a>
+            </div>
+
+        </div>
+    </div>
+    <div class="ax-col ax-col-6 ax-margin-left">
+        <div class="ax-padding ax-border ax-shadow-border">
+            <span class="ax-color-title" style="font-size: large">素材列表</span>
+            <a href="###" class="ax-operate ax-btn ax-sm ax-ad" id="materialCheckBtn" style="position: absolute;right: 12px;top: 14px">全选</a>
+            <div class="ax-break-line"></div>
+            <div class="inner" id="travelPn">
+                <div class="travellist" id="travelList">
+                    <div class="ax-empty">
+                        <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>
+                        <div class="ax-title">没有内容</div>
+                    </div>
+                </div>
+
+                <ul class="pagination ax-pagination" style="display: none" id="travelPage"></ul>
+                <div class="ax-pagination">
+                    <div class="ax-group">
+                        <a href="##" class="ax-prev" id="travelPrev"><</a><a href="##" class="ax-next" id="travelNext">></a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="/js/jquery-1.10.2.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/v1.0/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/plugins/mobiscroll/js/mobiscroll.jquery.min.js" type="text/javascript"></script>
+<script src="/js/ax.min.js" type="text/javascript"></script>
+<script src="https://src.axui.cn/v1.0/src/plugins/list/list.min.js" type="text/javascript"></script>
+<script src="/js/svgSprites.js" type="text/javascript"></script>
+<script type="text/javascript" src="https://src.axui.cn/v1.0/src/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="https://src.axui.cn/v1.0/src/plugins/sweetalert2/js/sweetalert2.min.js" type="text/javascript"></script>
+<script src="/js/utils.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script type="text/javascript">
+
+    let memberList=[];
+
+    let materialList=[];
+
+    let groupName="";
+
+    $(function () {
+        querySelfGroupPageListByConditions();
+
+        $("#groupList").change(function () {
+            var groupId=$(this).val();
+            if(groupId.length>0){
+                groupName=$(this).find("option:selected").text();
+                queryGroupUserPageList(groupId);
+                memberList=[];
+                materialList=[];
+            }else{
+                $("#memberList").html('<div class="ax-empty">\n' +
+                    '    <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>\n' +
+                    '    <div class="ax-title">没有内容</div>\n' +
+                    '</div>\n')
+            }
+        });
+
+        // 初始化配置
+        initConfig();
+
+        // 查询自己的素材
+        querySelfMaterialPageListByConditions();
+
+
+        // 人员全选按钮绑定
+        $("#memberCheckBtn").click(function () {
+            $("#memberList input[type=checkbox]").prop("checked",true);
+            memberList=[];
+            $("#memberList div.ax-my").each(function (i) {
+                memberList.push($(this).attr("email"))
+            });
+            updateSharedUser();
+        });
+
+        // 素材全选按钮绑定
+        $("#materialCheckBtn").click(function () {
+            $("#travelList input[type=checkbox]").prop("checked",true);
+            materialList=[];
+            $("#travelList div.ax-info-block").each(function (i) {
+                materialList.push($(this).attr("materialUrl"))
+            });
+        });
+
+        // 提交按钮绑定
+        $("#shareBtn").click(function () {
+            if(memberList.length<=0){
+                toast("info","操作提示","分享人员列表为空");
+                return;
+            }
+            if(materialList.length<=0){
+                toast("info","操作提示","分享素材列表为空");
+                return;
+            }
+            let subject=$("input[name=subject]").val();
+            let content=$("textarea[name=content]").val();
+            if(subject.trim().length<=0||content.trim().length<=0){
+                toast("info","操作提示","主题、内容不能为空");
+                return;
+            }
+            $("#maskLayer").css("z-index",999);
+            let formData=new FormData();
+            formData.append("subject",subject);
+            formData.append("content",content);
+            formData.append("userName",$(top.document).find("#userName").text());
+            formData.append("groupName",groupName);
+            formData.append("memberList",memberList);
+            formData.append("materialList",materialList);
+            post("/group/shareMaterialByMail",formData,function (res) {
+                if(res.success){
+                    toast("success","操作成功",res.msg);
+                }else{
+                    toast("warning","操作失败",res.msg);
+                }
+                $("#maskLayer").css("z-index",-999);
+            });
+        })
+
+    });
+
+    // 更新分享人
+    function updateSharedUser() {
+        $("#sharedList").html("");
+        for(let i=0;i<memberList.length;i++){
+            $("#sharedList").append('<span class="ax-tag ax-success">'+memberList[i]+'</span><span class="ax-gutter-xs"></span>')
+        }
+        if(memberList.length<=0){
+            $("#sharedList").html("无")
+        }
+    }
+
+    // 查询我加入的以及我创建的工作组
+    function querySelfGroupPageListByConditions() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/group/querySelfGroupPageListByConditions",formData,function (res) {
+            if(res.success){
+                var records=res.result.records;
+                for(let i=0;i<records.length;i++){
+                    $("#groupList").append('<option value="'+records[i].groupId+'">'+records[i].groupName+'</option>');
+                }
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        });
+    }
+
+    //显示工作组内用户列表
+    function queryGroupUserPageList(groupId) {
+        var formData=new FormData();
+        formData.append("groupId",groupId);
+        post("/group/queryGroupUserPageList",formData,function (res) {
+            if(res.success){
+                $("#memberList").html("");
+                var records=res.result.records;
+                if(records.length<=0){
+                    $("#memberList").html('<div class="ax-empty">\n' +
+                        '    <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>\n' +
+                        '    <div class="ax-title">没有内容</div>\n' +
+                        '</div>\n');
+                }
+                for(var i=0;i<records.length;i++){
+                    var btns="<a href='###' class='ax-btn ax-long ax-primary ax-xs'>添加成员</a>";
+                    $("#memberList").append("<div class='ax-item ax-my' userId='"+records[i].userId+"' email='"+records[i].email+"'>" +
+                        "                        <a href='###' class='ax-avatar' style='background-image: url("+records[i].userImgUrl+")'></a>" +
+                        "                        <div class='ax-text'>" +
+                        "                            <div class='ax-row01 ax-row'>" +
+                        "                                <div class='ax-col'>" +
+                        "                                    <a href='###' class='ax-name'>"+records[i].userName+"</a>" +
+                        "                                    <label class='ax-checkbox' style='width: 25px;height: 25px;margin-top: -10px'>"+
+                        "                                       <input name='' value='' type='checkbox' >"+
+                        "                                       <span></span>"+
+                        "                                    </label>"+
+                        "                                </div>" +
+                        "                            </div>" +
+                        "                            <div class='ax-break-xxs'></div>" +records[i].email+
+                        "                        </div>" +
+                        "                    </div>" +
+                        "                    <div class='ax-break-line'></div>");
+
+                }
+                $("#memberList input[type=checkbox]").each(function (i) {
+                    $(this).click(function () {
+                        let email=$("#memberList div.ax-my:eq("+i+")").attr("email");
+                        if($(this).is(":checked")){
+                            memberList.push(email);
+                        }else{
+                            memberList.splice(memberList.indexOf(email),1)
+                        }
+                        updateSharedUser();
+                    });
+                });
+
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        });
+    }
+
+    //查询我的素材
+    function querySelfMaterialPageListByConditions() {
+        var formData=new FormData();
+        formData.append("userId",localStorage.getItem("userId"));
+        post("/material/querySelfMaterialPageListByConditions",formData,function (res) {
+            if(res.success){
+                if(res.result.records.length<=0){
+                    $("div.travellist").html('<div class="ax-empty">\n' +
+                        '    <div class="ax-icon"><span class="ax-iconfont ax-icon-empty"></span></div>\n' +
+                        '    <div class="ax-title">没有内容</div>\n' +
+                        '</div>\n')
+                }else{
+                    showMaterialList(res);
+                }
+            }else{
+                toast("warning","操作失败",res.msg);
+            }
+        })
+    }
+
+    //展示素材列表
+    function showMaterialList(res) {
+        $("div.travellist").html("");
+        var reords=res.result.records;
+        for(var i=0;i<reords.length;i++){
+            var materialUrls=JSON.parse(reords[i].materialUrls);
+            $("div.travellist").append(" <div class='ax-info-block' materialId='"+reords[i].materialId+"' materialUrl='"+materialUrls.originUrl+"' materialName='"+reords[i].materialName+"' remarks='"+reords[i].remarks+"'>" +
+                "                        <div class='ax-row'>" +
+                "                            <div class='ax-col ax-col-8'>" +
+                "                                <a href='###' class='ax-avatar ax-xxl' style='background-image: url("+materialUrls.originUrl+")'></a>" +
+                "                            </div>" +
+                "                            <div class='ax-col ax-col-4'>" +
+                "                                <div class='ax-flex-block ax-color-title materialName ax-ell' style='font-size: x-large'>"+(reords[i].materialName.length===0?"未命名":reords[i].materialName)+"</div>" +
+                "                                <div class='ax-break-md'></div>" +
+                "                                <div class='ax-break-md'></div>" +
+                "                                <div class='ax-flex-block ax-des'>"+reords[i].remarks+"</div><br>"+
+                "                                <div class='ax-flex-block ax-color-info uploadUserInfo'>" +
+                reords[i].createTime.split(" ")[0]+
+                "                                </div>" +
+                "                                <div class='ax-break-md'></div>" +
+                "                            </div>" +
+                "                        <div class='ax-col ax-col-1'>" +
+                "                           <label class='ax-checkbox' style='width: 25px;height: 25px;margin-top: 30px;margin-left: 20px'>" +
+                "                               <input name='' value='' type='checkbox'><span></span>" +
+                "                           </label>"+
+                "                        </div>" +
+                "                        <div class='ax-break-md '></div>" +
+                "                        <div class='ax-break-line '></div>" +
+                "                        <div class='ax-break-md '></div>" +
+                "                    </div>");
+        }
+
+        $("#travelList input[type=checkbox]").each(function (i) {
+            $(this).click(function () {
+                let materialUrl=$("#travelList div.ax-info-block:eq("+i+")").attr("materialUrl");
+                if($(this).is(":checked")){
+                    materialList.push(materialUrl);
+                }else{
+                    materialList.splice(materialList.indexOf(materialUrl),1)
+                }
+            });
+        });
+
+        // 素材分页配置
+        initConfig();
+    }
+
+
+    // 素材分页
+    function initConfig() {
+        //素材分页
+        var optionsPn = {
+            valueNames: [ 'add', 'country','click' ],
+            item: 'ax-info-block',
+            listClass:'travellist',
+            pagination: true,
+            page:3,
+        };
+        var travelListPn = new List('travelPn', optionsPn);
+        $('#travelNext').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position+1]).trigger('click');
+                }
+            })
+        });
+        $('#travelPrev').on('click', function(){
+            var list = $('#travelPage').find('li');
+            $.each(list, function(position, element){
+                if($(element).is('[class*="active"]')){
+                    $(list[position-1]).trigger('click');
+                }
+            })
+        });
+    }
+</script>
+</body>
+</html>

@@ -12,14 +12,12 @@ import com.lh.entity.Material;
 import com.lh.service.IGroupService;
 import com.lh.service.IMaterialService;
 import com.lh.service.ImageService;
+import com.lh.utils.MailUtils;
 import com.lh.utils.OSSUtils;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -49,6 +47,9 @@ public class GroupController {
 
     @Resource
     private ImageService imageService;
+
+    @Resource
+    private MailUtils mailUtils;
 
     @ApiModelProperty("创建一个工作组，初始群组群主加入")
     @PostMapping(value = "/insertGroupInfo")
@@ -273,6 +274,33 @@ public class GroupController {
         return CommonResult.success(groupService.queryAllGroupMaterial(groupMaterial));
     }
 
+    @ApiOperation("素材分享发送邮件")
+    @PostMapping(value = "/shareMaterialByMail")
+    public CommonResult shareMaterialByMail(@RequestParam("memberList")List<String> memberList,
+                                            @RequestParam("materialList")List<String> materialList,
+                                            @RequestParam("subject")String subject,
+                                            @RequestParam("content")String content,
+                                            @RequestParam("userName")String userName,
+                                            @RequestParam("groupName")String groupName){
+
+        StringBuilder imgs= new StringBuilder();
+        for (String url : materialList) {
+            imgs.append("<img src='").append(url).append("'/><br/>");
+        }
+
+        content=String.format("<p>来自工作组-%s的群友-%s向您分享了%s张图片，请您查收</p><br>"+content+"<br>"+imgs,
+                groupName,userName,materialList.size());
+
+        try {
+            for(String email:memberList){
+                mailUtils.sendHtmlMail(email,subject,content);
+            }
+            return CommonResult.success("素材分享成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.fail("素材分享失败");
+        }
+    }
 
 
 }

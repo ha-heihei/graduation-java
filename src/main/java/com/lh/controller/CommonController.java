@@ -119,4 +119,9 @@ public class CommonController {
     public String toMergeMaterialNew(){
         return "group/mergematerialnew";
     }
+
+    @RequestMapping(value = "/toShareMaterial")
+    public String toShareMaterial(){
+        return "user/sharematerial";
+    }
 }
